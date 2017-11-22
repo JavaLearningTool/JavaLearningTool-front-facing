@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  form(action="/compile", method="post")
+    textarea(name="code", cols="30", rows="10")
+    <br>
+    input(type="submit", value="compile")
