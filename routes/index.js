@@ -11,7 +11,7 @@ router.post('/compile', function (req, res, next) {
       return;
     }
     console.log(body);
-    res.send(body);
+    res.send('<pre>' + body + '</pre>');
   });
 });
 
