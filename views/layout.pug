@@ -3,5 +3,21 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/codemirror.css')
+    link(rel='stylesheet', href='/stylesheets/monokai.css')
   body
     block content
+    script(src='/javascripts/codemirror.js')
+    script(src='/javascripts/clike.js')
+    script.
+      (function() {
+          CodeMirror.fromTextArea(document.getElementById("code_area"), {
+              lineNumbers: true,
+              mode: "text/x-java",
+              matchBrackets: true,
+              indentWithTabs: false,
+              tabSize: 4,
+              smartIndent: false,
+              autofocus: true,
+          });
+      })();
