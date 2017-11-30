@@ -8,18 +8,21 @@
     "build": "webpack -d --watch"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "morgan": "~1.8.1",
     "node-sass-middleware": "0.9.8",
+    "prop-types": "^15.6.0",
     "pug": "~2.0.0-beta11",
-    "request": "^2.83.0",
-    "serve-favicon": "~2.4.2",
     "react": "^16.2.0",
+    "react-axios": "^2.0.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "request": "^2.83.0",
+    "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",
