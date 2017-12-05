@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "sass": "node-sass --watch scss -o css",
     "build": "webpack -d --watch"
   },
   "dependencies": {
@@ -13,8 +12,8 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "mongoose": "^4.13.6",
     "morgan": "~1.8.1",
-    "node-sass-middleware": "0.9.8",
     "prop-types": "^15.6.0",
     "pug": "~2.0.0-beta11",
     "react": "^16.2.0",

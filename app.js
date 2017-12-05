@@ -4,10 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var sassMiddleware = require('node-sass-middleware');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+
+var mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost/JavaLearningTool", {
+  useMongoClient: true
+});
+mongoose.Promise = Promise;
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
 
 var app = express();
 

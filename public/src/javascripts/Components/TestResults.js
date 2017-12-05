@@ -32,14 +32,14 @@ class TestResults extends React.Component {
     }
 
     renderTestResult(item, index) {
-        let passString = (item.passed === 'true' ? "Passed" : "Failed");
-        return (
-            <div key={index}>
-                <h1>{(passString)}</h1>
-                <h1> Expected: {item.expected} </h1>
-                <h1> Actual: {item.actual} </h1>
-            </div>
-        );
+        let passed = (item.passed === 'true');
+        return <div className={"testResult " + ( passed ? 'success' : 'failure' )} key={index}>
+            <p className="passedLabel">
+              {passed ? "passed" : "failed"}
+            </p>
+            <p className="resultLabel"> Expected: {item.expected} </p>
+            <p className="resultLabel"> Actual: {item.actual} </p>
+          </div>;
     }
 
     componentWillReceiveProps(nextProps) {

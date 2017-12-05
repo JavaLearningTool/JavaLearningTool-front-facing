@@ -1,0 +1,22 @@
+.CodeMirror
+    border: black 1px solid
+
+.testResult
+    display: flex
+    width: 80%
+    padding: 5px
+    margin: 10px
+
+    &.failure
+        background-color: transparentize($color-failure, .9)
+    
+    &.success
+        background-color: transparentize($color-success, .9)
+    
+
+.passedLabel
+    padding-right: 30px
+    flex: 1
+
+.resultLabel
+    flex: 5

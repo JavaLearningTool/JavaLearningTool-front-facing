@@ -1,6 +1,11 @@
 extends layout
 
 block content
+
+  div.challengeDesc
+    h1= challenge.name
+    p= challenge.description
+
   form(action="/compile", method="post")
     include textEditor.pug
     <br>
