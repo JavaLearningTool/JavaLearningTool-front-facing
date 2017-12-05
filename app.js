@@ -1,3 +1,5 @@
+'use strict'
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,6 +11,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var mongoose = require("mongoose");
+var Category = require("./models/challenge_category.js");
+var Challenge = require("./models/challenge.js");
 
 mongoose.connect("mongodb://localhost/JavaLearningTool", {
   useMongoClient: true
@@ -16,6 +20,26 @@ mongoose.connect("mongodb://localhost/JavaLearningTool", {
 mongoose.Promise = Promise;
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
+
+Category.count({}, function(err, count) {
+  if (count == 0) {
+    let cat = Category({ title: "Basic Skills" });
+    cat.save();
+  }
+});
+
+Challenge.count({}, function(err, count) {
+  if (count == 0) {
+    let chall = Challenge({
+      name: "Hello World",
+      description: 'Print out "Hello World" with a new line at the end.',
+      difficulty: 1.0,
+      defaultText:
+        'public class Test {\n    public static void main(String[] args) {\n        // Print out "Hello World" here\n    }\n}'
+    });
+    chall.save();
+  }
+});
 
 var app = express();
 
