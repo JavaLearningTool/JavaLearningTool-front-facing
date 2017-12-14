@@ -9,15 +9,15 @@ var Challenge = require('../models/challenge.js');
 router.post('/compile', function (req, res, next) {
   console.log("SRC Code: " + req.body.code);
 
-  res.json([
-    { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" },
-    { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n" },
-    { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" }
-  ]);
+  // res.json([
+  //   { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" },
+  //   { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n" },
+  //   { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" }
+  // ]);
 
-  return;
+  // return;
 
-  request.post({url: 'http://localhost:8080', method: "POST", form: {src: req.body.code}}, function (error, response, body) {
+  request.post({url: 'http://localhost:8080', method: "POST", form: {src: req.body.code, challenge: req.body.challenge}}, function (error, response, body) {
     if (error) {
       console.log(error);
       return;
@@ -30,7 +30,17 @@ router.post('/compile', function (req, res, next) {
 router.get('/', function(req, res, next) {
 
   Challenge.findOne({}, function(err, challenge) {
-    res.render("index", { challenge, title: challenge.name });
+    console.log(challenge.testFile);
+    res.render("index", { 
+      challenge,
+      title: challenge.name,
+      codeBox: true,
+      scripts: [
+        'codemirror',
+        'clike',
+        'testResultsBundle'
+      ]
+    });
   });
 });
 
