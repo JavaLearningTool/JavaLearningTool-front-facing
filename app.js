@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var admin = require('./routes/admin');
 
 var mongoose = require("mongoose");
 var Category = require("./models/challenge_category.js");
@@ -25,6 +25,7 @@ Category.count({}, function(err, count) {
   if (count == 0) {
     let cat = Category({ title: "Basic Skills" });
     cat.save();
+    console.log('Adding Category');
   }
 });
 
@@ -35,9 +36,11 @@ Challenge.count({}, function(err, count) {
       description: 'Print out "Hello World" with a new line at the end.',
       difficulty: 1.0,
       defaultText:
-        'public class Test {\n    public static void main(String[] args) {\n        // Print out "Hello World" here\n    }\n}'
+        'public class Test {\n    public static void main(String[] args) {\n        // Print out "Hello World" here\n    }\n}',
+      testFile: 'HelloWorld'
     });
     chall.save();
+    console.log('Adding Challenge');
   }
 });
 
@@ -56,7 +59,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/prod')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
