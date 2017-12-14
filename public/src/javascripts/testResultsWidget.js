@@ -16,8 +16,8 @@ function compileCode() {
     let code = document.codeMirror.getValue();
     console.log("SRC Code: " + code);
     component.componentWillReceiveProps({display: true, resultState: {compiling: true, error: false}});
-
-    axios.post('/compile', {code})
+    console.log(window.challengePath);
+    axios.post('/compile', {code, challenge: window.challengePath})
     .then(function (res) {
         if (res.data.error) {
             console.log("Received error from compiler"); 

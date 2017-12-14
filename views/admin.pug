@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+    div.flex-container
+        div.category-container
+            h1 Categories
+            ul.categories
+            - for (let i = 0; i < categories.length; i++) {
+                li
+                    h3.category= categories[i].title
+            - }
+
+            div.btn Add Category
+            div.btn Add Challenge
+  
+        div.challenge-container
+            h1 Challenges
+            ul.challenges
+            - for (let i = 0; i < challenges.length; i++) {
+                li
+                    h3.category= challenges[i].name
+            - }

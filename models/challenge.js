@@ -6,7 +6,8 @@ var challengeSchema = new Schema({
     description: { type: String, required: true},
     category: [{ type: Schema.Types.ObjectId, ref: 'challenge_category' }],
     difficulty: {type: Number, min: 1, max: 5},
-    defaultText: String
+    defaultText: String,
+    testFile: {type: String, required: true}
 });
 
 module.exports = mongoose.model("challenge", challengeSchema);

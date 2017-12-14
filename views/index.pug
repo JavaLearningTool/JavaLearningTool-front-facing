@@ -6,9 +6,9 @@ block content
     h1= challenge.name
     p= challenge.description
 
-  form(action="/compile", method="post")
+  form()
     include textEditor.pug
     <br>
-    div(onclick="compileCode()")
+    div(class="button" onclick="compileCode()")
       | Run Test
   include testResults.pug

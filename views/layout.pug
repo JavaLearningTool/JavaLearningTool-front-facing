@@ -7,18 +7,27 @@ html
     link(rel='stylesheet', href='/stylesheets/monokai.css')
   body
     block content
-    script(src='/javascripts/codemirror.js')
-    script(src='/javascripts/clike.js')
-    script(src='/javascripts/testResultsBundle.js')
-    script.
-      (function() {
-          document.codeMirror = CodeMirror.fromTextArea(document.getElementById("code_area"), {
-              lineNumbers: true,
-              mode: "text/x-java",
-              matchBrackets: true,
-              indentWithTabs: false,
-              tabSize: 4,
-              smartIndent: false,
-              autofocus: true,
-          });
-      })();
+
+    - if (scripts) {
+      - for (let i = 0; i < scripts.length; i++) {
+        script(src='/javascripts/' + scripts[i] + '.js')
+      -}
+    -}
+
+    - if (codeBox) {
+      script.
+        (function() {
+            document.codeMirror = CodeMirror.fromTextArea(document.getElementById("code_area"), {
+                lineNumbers: true,
+                mode: "text/x-java",
+                matchBrackets: true,
+                indentWithTabs: false,
+                tabSize: 4,
+                smartIndent: false,
+                autofocus: true,
+            });
+
+            window.challengePath = "#{challenge.testFile}";
+            console.log(window.challengePath);
+        })();
+      - }
