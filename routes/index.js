@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var request = require('request');
+const express = require('express');
+const router = express.Router();
+const request = require('request');
 
-var Challenge = require('../models/challenge.js');
+const Challenge = require('../models/challenge.js');
 
 /* GET home page. */
 

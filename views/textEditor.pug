@@ -1,17 +1,1 @@
 textarea(id="code_area", name="code", cols="30", rows="10")= challenge.defaultText
-
-script.
-      (function() {
-          document.codeMirror = CodeMirror.fromTextArea(document.getElementById("code_area"), {
-              lineNumbers: true,
-              mode: "text/x-java",
-              matchBrackets: true,
-              indentWithTabs: false,
-              tabSize: 4,
-              smartIndent: false,
-              autofocus: true,
-          });
-
-          window.challengePath = "#{challenge.testFile}";
-          console.log(window.challengePath);
-      })();

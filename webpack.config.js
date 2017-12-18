@@ -1,18 +1,19 @@
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
-var SRC_DIR = path.resolve(__dirname, 'public/src');
-var BUILD_DIR = path.resolve(__dirname, 'public/prod');
+const SRC_DIR = path.resolve(__dirname, 'public/src');
+const BUILD_DIR = path.resolve(__dirname, 'public/prod');
 
-var config = {
-    entry: [
-        SRC_DIR + '/javascripts/testResultsWidget.js',
-        SRC_DIR + '/stylesheets/style.sass'
-    ],
+const config = {
+    entry: {
+        testResults: [SRC_DIR + '/javascripts/testResultsWidget.js', SRC_DIR + '/stylesheets/style.sass'],
+        admin: SRC_DIR + '/javascripts/admin.js'
+    },
     output: {
         path: BUILD_DIR + '/javascripts',
-        filename: 'testResultsBundle.js'
+        filename: '[name]Bundle.js'
     },
     module: {
         rules: [
@@ -38,7 +39,12 @@ var config = {
         new ExtractTextPlugin({
             filename:  '../stylesheets/style.css',
             allChunks: true
-        })
+        }),
+        /*new WebpackCleanupPlugin({
+            exclude: ['stylesheets/codemirror.css', 'stylesheets/eclipse.css', 'stylesheets/codemirror.css', 'stylesheets/monokai.css',
+                      'javascripts/clike.js', 'javascripts/codemirror.js'
+                     ],
+        })*/
         /*new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),

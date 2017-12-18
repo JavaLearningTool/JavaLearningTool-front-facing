@@ -16,7 +16,7 @@ router.get('/admin', function(req, res, next) {
                 categories,
                 challenges,
                 title: 'Admin',
-                scripts: []
+                scripts: ['adminBundle']
             });
         }
     }
@@ -32,15 +32,22 @@ router.get('/admin', function(req, res, next) {
     });
 });
 
-router.put('/admin/category/', function(req, res, next) {
+router.put('/admin/category', function(req, res, next) {
     let newCat = Category({
         title: req.body.category
     });
 
     newCat.save(function(err) {
         if (err) console.log(err);
-        res.redirect('/admin');
+        res.json({});
     });
 });
+
+router.delete('/admin/category', function(req, res, next) {
+    Category.findByIdAndRemove(req.body.categoryId, function(err) {
+        if (err) console.log(err);
+        res.json({});
+    });
+})
 
 module.exports = router;

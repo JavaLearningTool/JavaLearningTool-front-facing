@@ -9,9 +9,10 @@ block content
             - for (let i = 0; i < categories.length; i++) {
                 li
                     h3.category= categories[i].title
+                    span(class="categoryDelete" onClick="removeCategory(\"" + categories[i]._id  + "\")") x
             - }
 
-            div.btn Add Category
+            div(class="btn", onClick="addCategory()") Add Category
             div.btn Add Challenge
   
         div.challenge-container
