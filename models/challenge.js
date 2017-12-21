@@ -4,9 +4,9 @@ var Schema = mongoose.Schema;
 var challengeSchema = new Schema({
     name: { type: String, required: true, unique: true },
     description: { type: String, required: true},
-    category: [{ type: Schema.Types.ObjectId, ref: 'challenge_category' }],
+    categories: [{ type: Schema.Types.ObjectId, ref: 'challenge_category' }],
     difficulty: {type: Number, min: 1, max: 5},
-    defaultText: String,
+    defaultText: {type: String, required: true},
     testFile: {type: String, required: true}
 });
 

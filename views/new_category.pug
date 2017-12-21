@@ -1,0 +1,11 @@
+extends layout
+
+block content
+
+    div.flex-container
+        div.category-container
+            h1 New Category
+
+            form(class="pure-form pure-form-stacked")
+                input#name(type="text", name="name")
+                div(class="pure-button pure-button-success", onClick="putCategory()") Add

@@ -39,7 +39,7 @@ const config = {
         new ExtractTextPlugin({
             filename:  '../stylesheets/style.css',
             allChunks: true
-        }),
+        })
         /*new WebpackCleanupPlugin({
             exclude: ['stylesheets/codemirror.css', 'stylesheets/eclipse.css', 'stylesheets/codemirror.css', 'stylesheets/monokai.css',
                       'javascripts/clike.js', 'javascripts/codemirror.js'
