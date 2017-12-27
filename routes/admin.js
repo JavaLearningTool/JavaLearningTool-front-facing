@@ -1,8 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const request = require('request');
 
-var Challenge = require('../models/challenge.js');
-var Category = require('../models/challenge_category.js');
+const Challenge = require('../models/challenge.js');
+const Category = require('../models/challenge_category.js');
+
+function newLineToBreak(str) {
+    str = str.trim();
+    return str.replace(/\n/g, "<br>");
+}
 
 router.get('/admin', function(req, res, next) {
     
@@ -74,7 +80,7 @@ router.get('/admin/challenge/:id', function(req, res, next) {
 
         console.log("Challenge: " + challenge);
 
-        res.render('challenge', {
+        res.render('patch_challenge', {
             title: challenge.name,
             codeBox: true,
             scripts: [
@@ -111,33 +117,63 @@ router.put('/admin/category', function(req, res, next) {
     });
 });
 
-router.put('/admin/challenge', function(req, res, next) {
-    let newChall = Challenge({
-        name: req.body.name,
-        description: req.body.description,
-        categories: req.body.categories,
-        difficulty: req.body.difficulty,
-        defaultText: req.body.defaultText,
-        testFile: req.body.testFile
-    });
+router.post('/admin/challenge', function(req, res, next) {
+    
+    try {
+        let newChall = Challenge({
+            name: req.body.name,
+            description: newLineToBreak(req.body.description),
+            categories: req.body.categories,
+            difficulty: req.body.difficulty,
+            defaultText: req.body.defaultText,
+            testFile: req.body.testFile
+        });
 
-    newChall.save(function(err) {
-        if (err) console.log(err);
+        newChall.save(function(err) {
+            if (err) {
+                console.log(err);
+                res.redirect('/admin/new_challenge');
+                return;            
+            }
+            res.redirect('/admin');
+        });
+    } catch(err) {
+        console.log(err);
+        res.redirect('/admin/new_challenge');
+    }
+});
+
+router.patch('/admin/challenge/:challengeId', function(req, res, next) {
+    Challenge.findByIdAndUpdate(req.params.challengeId, {$set: req.body}, function(err) {
+        if (err) {
+            console.log(err);
+            res.json({error: true});
+        }
         res.json({});
     });
 });
 
 router.delete('/admin/category/:categoryId', function(req, res, next) {
-    console.log(req.params.categoryId)
-    Category.findById(req.params.categoryId, function(err) {
+    Category.findByIdAndRemove(req.params.categoryId, function(err) {
         if (err) {
             console.log(err);
             res.json({error: true});
         } else {
             // remove category from all challenges
-            Challenge.update({}, {$pull: {categories: req.params.categoryId}}, function() {
+            Challenge.update({}, {$pull: {categories: req.params.categoryId}}, {multi: true}, function(err) {
                 res.json({});
             });
+        }
+    });
+})
+
+router.delete('/admin/challenge/:challengeId', function(req, res, next) {
+    Challenge.findByIdAndRemove(req.params.challengeId, function(err) {
+        if (err) {
+            console.log(err);
+            res.json({error: true});
+        } else {
+            res.json({});
         }
     });
 })

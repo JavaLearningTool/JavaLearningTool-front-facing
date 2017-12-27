@@ -2,40 +2,24 @@ extends layout
 
 block content
 
-    div.flex-container
-        div.category-container
-            h1= challenge.name
+  div.challengeDesc
+    h1= challenge.name
+    span= "Categories: "
+    - for (let i = 0; i < challenge.categories.length; i++) { let title = "";
+        - for (let j = 0; j < categories.length; j++) { 
+            - if (challenge.categories[i].equals(categories[j]._id)) { title = categories[j].title; break; }
+        - }
+        a(class="listed-category" href="")
+            span= title
+    - }
+    <br>
+    - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenge'];
+    span= "Difficulty: " + diff[challenge.difficulty - 1]
+    p!= challenge.description
 
-            form(class="pure-form pure-form-stacked")
-                fieldset
-                    label(for="name") Name:
-                    input#name(type="text", name="name" value=challenge.name)
-                    label(for="test_file") Test file:
-                    input#test_file(type="text", name="test_file", value=challenge.testFile)
-                    label(for="description") Description:
-                    textarea#description(name="description", cols="30", rows="10")= challenge.description
-                    
-                    label(for="categories") Categories:
-                    div(class="pure-button-group" role="group")
-                        - for (let i = 0; i < categories.length; i++) { let category = categories[i]; let cls = "";
-                            - for (let j = 0; j < challenge.categories.length; j++) { 
-                                - if (challenge.categories[j].equals(category._id)) { cls = "pure-button-active" }
-                            - }
-                            div(class="pure-button " + cls onClick="categoryClick(\"" + category._id + "\", this)")= category.title
-                        - }
-                    
-                    script
-                        | window.categories = "#{challenge.categories}";
-                    
-                    label(for="difficulty") Difficulty: 
-                    select#difficulty(name="difficulty")
-                        option(value="1") Very easy
-                        option(value="2") Easy
-                        option(value="3") Intermediate
-                        option(value="4") Advanced
-                        option(value="5") Challenge
-
-                    label(for="code_area") Default Code:
-                    include textEditor.pug
-                    
-                    div(class="pure-button button-success", onClick="putChallenge()") Save Changes
+  form
+    include textEditor.pug
+    <br>
+    div(class="pure-button" onclick="compileCode()")
+      | Run Test
+  include testResults.pug

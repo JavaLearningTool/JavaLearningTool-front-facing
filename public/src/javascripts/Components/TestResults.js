@@ -33,12 +33,17 @@ class TestResults extends React.Component {
 
     renderTestResult(item, index) {
         let passed = (item.passed === 'true');
+        let timeout = (item.timeout === 'true');
         return <div className={"testResult " + ( passed ? 'success' : 'failure' )} key={index}>
             <p className="passedLabel">
               {passed ? "passed" : "failed"}
             </p>
             <p className="resultLabel"> Expected: {item.expected} </p>
             <p className="resultLabel"> Actual: {item.actual} </p>
+            <p className="resultLabel"> time: {item.time} ms</p>
+            <p className="resultLabel">
+              timed out: {timeout ? "true" : "false"}
+            </p>
           </div>;
     }
 

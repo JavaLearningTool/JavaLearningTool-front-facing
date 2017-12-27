@@ -23,26 +23,8 @@ window.addChallenge = function() {
 
 let categories = [];
 if (window.categories) {
-    categories = window.categories.split(" ");
+    categories = window.categories.split(",");
     console.log(categories);
-}
-
-window.putChallenge = function() {
-    let name = document.getElementById('name').value;
-    let description = document.getElementById('description').value;
-    let difficulty = document.getElementById('difficulty').value;
-    let defaultText = document.codeMirror.getValue();
-    let testFile = document.getElementById('test_file').value;
-
-    console.log(name, description, difficulty, defaultText, testFile);
-
-    axios.put('/admin/challenge', {name, description, categories, difficulty,
-        defaultText, testFile})
-    .then(function (res) {
-        window.location.href = "/admin";
-    }).catch(function (err) {
-        console.log(err);
-    });
 }
 
 window.categoryClick = function(id, butt) {
@@ -56,6 +38,7 @@ window.categoryClick = function(id, butt) {
         categories.push(id);
         butt.className += ' pure-button-active';
     }
+    console.log(categories);
 }
 
 window.removeCategory = function(id) {
@@ -63,6 +46,55 @@ window.removeCategory = function(id) {
     axios.delete('/admin/category/' + id)
     .then(function (res) {
         window.location.reload();
+    }).catch(function (err) {
+        console.log(err);
+    });
+}
+
+window.putChallenge = function() {
+    let name = document.getElementById('name').value;
+    let description = document.getElementById('description').value;
+    let difficulty = document.getElementById('difficulty').value;
+    let testFile = document.getElementById('test_file').value;
+    let defaultText = document.codeMirror.getValue();
+
+    console.log(description);
+    
+    console.log("Save: ", name, description, difficulty, defaultText, testFile);
+
+    axios.post('/admin/challenge', {name, description, categories, difficulty,
+        defaultText, testFile})
+    .then(function (res) {
+        window.location.href = "/admin";
+    }).catch(function (err) {
+        console.log(err);
+    });
+
+}
+
+window.patchChallenge = function(id) {
+    let name = document.getElementById('name').value;
+    let description = document.getElementById('description').value;
+    let difficulty = document.getElementById('difficulty').value;
+    let defaultText = document.codeMirror.getValue();
+    let testFile = document.getElementById('test_file').value;
+
+    console.log("Save: ", name, description, difficulty, defaultText, testFile);
+
+    axios.patch('/admin/challenge/' + id, {name, description, categories, difficulty,
+        defaultText, testFile})
+    .then(function (res) {
+        window.location.href = "/admin";
+    }).catch(function (err) {
+        console.log(err);
+    });
+}
+
+window.deleteChallenge = function(id) {
+    console.log(id);
+    axios.delete('/admin/challenge/' + id)
+    .then(function (res) {
+        window.location.href = '/admin';
     }).catch(function (err) {
         console.log(err);
     });

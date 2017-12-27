@@ -491,6 +491,9 @@ template {
 .pure-form {
   color: #777; }
 
+.listed-category {
+  padding-right: 4px; }
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -543,8 +546,13 @@ pre {
 .flex-container {
   display: flex; }
 
-.button-success {
+.button-success .button-danger {
   color: white;
     color-border-radius: 4px;
-    color-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    color-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
+
+.button-success {
   background-color: #1cb841; }
+
+.button-danger {
+  background-color: #ca3c3c; }

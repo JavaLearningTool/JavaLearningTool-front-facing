@@ -4,7 +4,7 @@ block content
 
   div.challengeDesc
     h1= challenge.name
-    p= challenge.description
+    p!= challenge.description
 
   form()
     include textEditor.pug
