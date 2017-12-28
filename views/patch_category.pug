@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+    div.flex-container
+        div.category-container
+            h1= category.title
+
+            form(class="pure-form pure-form-stacked")
+                fieldset
+                    label(for="title") Title:
+                    input#title(type="text", name="title" value=category.title)
+                    
+                    label(for="description") Description:
+                    textarea#description(name="description", cols="30", rows="10")= category.description
+                    
+                    div(class="pure-button button-success", onClick="patchCategory(\"" + category._id + "\")") Save Changes
+                    div(class="pure-button button-danger", onClick="removeCategory(\"" + category._id + "\")") Delete category

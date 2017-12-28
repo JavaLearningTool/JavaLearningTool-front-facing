@@ -5,16 +5,15 @@ block content
   div.challengeDesc
     h1= challenge.name
     span= "Categories: "
-    - for (let i = 0; i < challenge.categories.length; i++) { let title = "";
-        - for (let j = 0; j < categories.length; j++) { 
-            - if (challenge.categories[i].equals(categories[j]._id)) { title = categories[j].title; break; }
-        - }
-        a(class="listed-category" href="")
-            span= title
+    - for (let i = 0; i < challenge.categories.length; i++) {
+        a(class="listed-category" href="/search?categories=[\"" + challenge.categories[i]._id + "\"]")
+            span= challenge.categories[i].title
     - }
     <br>
-    - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenge'];
-    span= "Difficulty: " + diff[challenge.difficulty - 1]
+    - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
+    span= "Difficulty: "
+    a(class="listed-category" href="/search?difficulty=" + challenge.difficulty)
+      span= diff[challenge.difficulty - 1]
     p!= challenge.description
 
   form

@@ -9,9 +9,9 @@ block content
             div.category-list
                 ul.categories
                 - for (let i = 0; i < categories.length; i++) {
-                    li.categoryLI
-                        h3.category= categories[i].title
-                        div(class="categoryDelete" onClick="removeCategory(\"" + categories[i]._id  + "\")") x
+                    a(href="/admin/category/" + categories[i]._id)
+                        li.categoryLI
+                            h3.category= categories[i].title
                 - }
 
             div.button-container

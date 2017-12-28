@@ -1,8 +1,5 @@
 @import './_colors.sass'
 @import './normalize.css'
-@import './TestResult.sass'
-@import './admin.sass'
-@import './challenge.sass'
 
 body
     padding: 50px
@@ -55,6 +52,7 @@ pre
 
 .flex-container
 	display: flex
+	justify-content: space-between
 
 .button-success .button-danger
 	color: white
@@ -66,3 +64,19 @@ pre
 
 .button-danger
 	background-color: $button-danger
+
+.bold
+	font-weight: 700;
+
+.card
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2)
+	padding: 2px 16px
+	transition: .3s
+
+	&:hover
+		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .2)
+
+	&.non-hover &:hover
+
+	
+

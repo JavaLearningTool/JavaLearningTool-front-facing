@@ -6,6 +6,12 @@ block content
         div.category-container
             h1 New Category
 
-            form(class="pure-form pure-form-stacked")
-                input#name(type="text", name="name")
-                div(class="pure-button button-success", onClick="putCategory()") Add
+            form#categoryForm(class="pure-form pure-form-stacked")
+                fieldset
+                    label(for="title") Title:
+                    input#title(type="text", name="title")
+
+                    label(for="description") Description:
+                    textarea#description(name="description", cols="30", rows="10")
+
+                    div(class="pure-button button-success", onClick="putCategory()") Add

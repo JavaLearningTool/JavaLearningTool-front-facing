@@ -6,10 +6,20 @@ const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 const SRC_DIR = path.resolve(__dirname, 'public/src');
 const BUILD_DIR = path.resolve(__dirname, 'public/prod');
 
+const extractAdminCss = new ExtractTextPlugin({
+    filename:  '../stylesheets/adminStyle.css',
+    allChunks: true
+});
+const extractMainCss = new ExtractTextPlugin({
+    filename:  '../stylesheets/mainStyle.css',
+    allChunks: true
+});
+
 const config = {
     entry: {
-        testResults: [SRC_DIR + '/javascripts/testResultsWidget.js', SRC_DIR + '/stylesheets/style.sass'],
-        admin: SRC_DIR + '/javascripts/admin.js'
+        testResults: [SRC_DIR + '/javascripts/testResultsWidget.js', SRC_DIR + '/stylesheets/_mainBundle.sass'],
+        admin: [SRC_DIR + '/javascripts/admin.js', SRC_DIR + '/stylesheets/_adminBundle.sass'],
+        search: SRC_DIR + '/javascripts/search.js'
     },
     output: {
         path: BUILD_DIR + '/javascripts',
@@ -30,16 +40,18 @@ const config = {
                 ]
             },
             {
-                test: /\.sass/,
-                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
+                test: /_adminBundle\.sass/,
+                loader: extractAdminCss.extract(['css-loader', 'sass-loader']),
+            },
+            {
+                test: /_mainBundle\.sass/,
+                loader: extractMainCss.extract(['css-loader', 'sass-loader']),
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin({
-            filename:  '../stylesheets/style.css',
-            allChunks: true
-        })
+        extractAdminCss,
+        extractMainCss
         /*new WebpackCleanupPlugin({
             exclude: ['stylesheets/codemirror.css', 'stylesheets/eclipse.css', 'stylesheets/codemirror.css', 'stylesheets/monokai.css',
                       'javascripts/clike.js', 'javascripts/codemirror.js'

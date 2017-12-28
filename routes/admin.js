@@ -22,6 +22,9 @@ router.get('/admin', function(req, res, next) {
                 categories,
                 challenges,
                 title: 'Admin',
+                styles: [
+                    'adminStyle'
+                ],
                 scripts: ['adminBundle']
             });
         }
@@ -41,6 +44,9 @@ router.get('/admin', function(req, res, next) {
 router.get('/admin/new_category', function(req, res, next) {
     res.render("new_category", { 
         title: 'Admin',
+        styles: [
+            'adminStyle'
+        ],
         scripts: ['adminBundle']
     });
 });
@@ -50,6 +56,10 @@ router.get('/admin/new_challenge', function(req, res, next) {
         res.render("new_challenge", { 
             title: 'Admin',
             codeBox: true,
+            styles: [
+                'codemirror',
+                'adminStyle'
+            ],
             scripts: [
                 'adminBundle',
                 'codemirror',
@@ -58,6 +68,30 @@ router.get('/admin/new_challenge', function(req, res, next) {
             categories
         });
     });
+});
+
+router.get('/admin/category/:id', function(req, res, next) {
+    
+    Category.findOne({_id: req.params.id}, function(err, category) {
+        if (err) {
+            console.log(err);
+            next();
+            return;
+        }
+
+        res.render('patch_category', {
+            title: category.title,
+            styles: [
+                'adminStyle'
+            ],
+            scripts: [
+                'adminBundle',
+
+            ],
+            category
+        });
+    });
+
 });
 
 router.get('/admin/challenge/:id', function(req, res, next) {
@@ -83,6 +117,10 @@ router.get('/admin/challenge/:id', function(req, res, next) {
         res.render('patch_challenge', {
             title: challenge.name,
             codeBox: true,
+            styles: [
+                'codemirror',
+                'adminStyle'
+            ],
             scripts: [
                 'adminBundle',
                 'codemirror',
@@ -90,7 +128,7 @@ router.get('/admin/challenge/:id', function(req, res, next) {
             ],
             challenge,
             categories
-        })
+        });
     }
 
     Challenge.findOne({_id: req.params.id}, function(err, chall) {
@@ -108,7 +146,8 @@ router.get('/admin/challenge/:id', function(req, res, next) {
 
 router.put('/admin/category', function(req, res, next) {
     let newCat = Category({
-        title: req.body.category
+        title: req.body.title,
+        description: req.body.description
     });
 
     newCat.save(function(err) {
@@ -143,11 +182,24 @@ router.post('/admin/challenge', function(req, res, next) {
     }
 });
 
+
+router.patch('/admin/category/:categoryId', function(req, res, next) {
+    Category.findByIdAndUpdate(req.params.categoryId, {$set: req.body}, function(err) {
+        if (err) {
+            console.log(err);
+            res.json({error: true});
+            return;
+        }
+        res.json({});
+    });
+});
+
 router.patch('/admin/challenge/:challengeId', function(req, res, next) {
     Challenge.findByIdAndUpdate(req.params.challengeId, {$set: req.body}, function(err) {
         if (err) {
             console.log(err);
             res.json({error: true});
+            return;
         }
         res.json({});
     });

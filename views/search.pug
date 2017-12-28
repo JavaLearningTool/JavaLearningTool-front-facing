@@ -3,18 +3,13 @@ extends layout
 block content
 
     div.flex-container
-        div.category-container
-            h1 New Category
+        div.search-container
+            h1 Search Challenges
 
             form#categoryForm(class="pure-form pure-form-stacked")
                 fieldset
                     label(for="name") Name:
-                    input#name(type="text", name="name")
-                    label(for="testFile") Test file:
-                    input#test_file(type="text", name="testFile" placeholder="path name")
-
-                    label(for="description") Description:
-                    textarea#description(name="description", cols="30", rows="10")
+                    input#name(type="text", name="name" placeholder="any name")
                     
                     label Categories:
                     div(class="pure-button-group" role="group")
@@ -24,15 +19,11 @@ block content
                     
                     label(for="difficulty") Difficulty: 
                     select#difficulty(name="difficulty")
+                        option(value="0" selected="selected") Any
                         option(value="1") Very easy
                         option(value="2") Easy
                         option(value="3") Intermediate
                         option(value="4") Advanced
                         option(value="5") Challenging
-
-                    //- text editor wants a challenge object with a default text
-                    - let challenge = {}; challenge.defaultText = "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
-                    label(for="code_area") Default Code:
-                    include textEditor.pug
                     
-                    div(class="pure-button button-success", onClick="putChallenge()") Add
+                    div(class="pure-button button-success", onClick="runSearch()") Search

@@ -1,0 +1,11 @@
+extends layout
+include mixins
+
+block content
+
+    div(class="categories-container flex-container")
+        each cat in categories
+            +category(cat)
+
+    div(class="pure-button" onclick="/search") Search
+

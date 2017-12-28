@@ -444,57 +444,7 @@ template {
 
 [hidden] {
   display: none;
-}.CodeMirror {
-  border: black 1px solid; }
-
-.testResult {
-  display: flex;
-  width: 80%;
-  padding: 5px;
-  margin: 10px; }
-  .testResult.failure {
-    background-color: rgba(255, 0, 51, 0.1); }
-  .testResult.success {
-    background-color: rgba(75, 181, 67, 0.1); }
-
-.passedLabel {
-  padding-right: 30px;
-  flex: 1; }
-
-.resultLabel {
-  flex: 5; }
-
-.category-container {
-  flex: 1; }
-
-.challenge-container {
-  flex: 3; }
-
-.category-list {
-  display: block; }
-
-.categoryLI:hover .categoryDelete {
-  display: inline; }
-
-.button-container {
-  display: block; }
-
-.category {
-  display: inline; }
-
-.categoryDelete {
-  display: none;
-  cursor: pointer;
-  color: #ff0033;
-  margin-left: 5px; }
-
-.pure-form {
-  color: #777; }
-
-.listed-category {
-  padding-right: 4px; }
-
-body {
+}body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
@@ -544,7 +494,8 @@ pre {
   line-height: 18.5714px; }
 
 .flex-container {
-  display: flex; }
+  display: flex;
+  justify-content: space-between; }
 
 .button-success .button-danger {
   color: white;
@@ -556,3 +507,40 @@ pre {
 
 .button-danger {
   background-color: #ca3c3c; }
+
+.bold {
+  font-weight: 700; }
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 2px 16px;
+  transition: .3s; }
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); }
+
+.category-container {
+  flex: 1; }
+
+.challenge-container {
+  flex: 3; }
+
+.category-list {
+  display: block; }
+
+.categoryLI:hover .categoryDelete {
+  display: inline; }
+
+.button-container {
+  display: block; }
+
+.category {
+  display: inline; }
+
+.categoryDelete {
+  display: none;
+  cursor: pointer;
+  color: #ff0033;
+  margin-left: 5px; }
+
+.pure-form {
+  color: #777; }

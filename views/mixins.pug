@@ -1,0 +1,12 @@
+mixin challenge(challenge, onclick)
+    - let diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
+    div(class="card challenge-container" onclick=onclick)
+        h2= challenge.name
+        p= "Difficulty: " + diff[challenge.difficulty - 1]
+
+mixin category(category)
+    div(class="card category-container" onclick="window.location.href=\"/search?categories=[\\\"" + category._id + "\\\"]\"")
+        h2= category.title
+        p= category.description
+
+        

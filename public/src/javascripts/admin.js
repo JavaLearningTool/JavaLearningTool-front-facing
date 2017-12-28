@@ -1,15 +1,16 @@
 'use strict';
 
 import axios from 'axios';
+import categories from './categoryHandler';
 
 window.addCategory = function() {
     window.location.href = '/admin/new_category';
 }
 
 window.putCategory = function() {
-    let catName = document.getElementById('name').value;
-    console.log(catName);
-    axios.put('/admin/category', {category: catName})
+    let title = document.getElementById('title').value;
+    let description = document.getElementById('description').value;
+    axios.put('/admin/category', {title, description})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
@@ -21,31 +22,11 @@ window.addChallenge = function() {
     window.location.href = '/admin/new_challenge';
 }
 
-let categories = [];
-if (window.categories) {
-    categories = window.categories.split(",");
-    console.log(categories);
-}
-
-window.categoryClick = function(id, butt) {
-    console.log(id);
-
-    if (categories.includes(id)) { // button already clicked
-        categories.splice(categories.indexOf(id), 1);
-        butt.className = butt.className.replace(/pure-button-active/, '');
-        console.log("Kill");
-    } else { // button not already clicked
-        categories.push(id);
-        butt.className += ' pure-button-active';
-    }
-    console.log(categories);
-}
-
 window.removeCategory = function(id) {
     console.log(id);
     axios.delete('/admin/category/' + id)
     .then(function (res) {
-        window.location.reload();
+        window.location.href = '/admin';
     }).catch(function (err) {
         console.log(err);
     });
@@ -83,6 +64,18 @@ window.patchChallenge = function(id) {
 
     axios.patch('/admin/challenge/' + id, {name, description, categories, difficulty,
         defaultText, testFile})
+    .then(function (res) {
+        window.location.href = "/admin";
+    }).catch(function (err) {
+        console.log(err);
+    });
+}
+
+window.patchCategory = function(id) {
+    let title = document.getElementById('title').value;
+    let description = document.getElementById('description').value;
+
+    axios.patch('/admin/category/' + id, {title, description})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {

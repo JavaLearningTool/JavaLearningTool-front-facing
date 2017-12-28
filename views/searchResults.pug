@@ -1,0 +1,31 @@
+extends layout
+include mixins
+
+block content
+
+    div
+        div
+            span.bold= "Searching for "
+            - if (criteria.name) {
+                span.search-criteria-label= " Name: "
+                    a(href="/search?name=" + criteria.name)
+                        span(class="search-criteria listed-category")= criteria.name
+            - }
+            - let diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
+            - if (criteria.difficulty) {
+                span.search-criteria-label= " Difficulty: "
+                    a(href="/search?difficulty=" + criteria.difficulty)                
+                        span(class="search-criteria listed-category")= diff[criteria.difficulty - 1]
+            - }
+            - if (categories.length !== 0) {
+                span.search-criteria-label= " Categories: "
+                    each cat in categories
+                        a(href="/search?categories=[\"" + cat._id + "\"]")
+                            span(class="search-criteria listed-category")= cat.title
+            - }
+            - if (!criteria.name && !criteria.difficulty && categories.length === 0) {
+                span= "All"
+            - }
+        div
+            each chall in challenges
+                +challenge(chall, "window.location.href=\"/challenge/" + chall.testFile + "\"")
