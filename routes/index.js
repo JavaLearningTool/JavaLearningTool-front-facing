@@ -84,6 +84,7 @@ router.get('/challenge/:path', function(req, res, next) {
             scripts: [
                 'codemirror',
                 'clike',
+                'challengeBundle',                
                 'testResultsBundle'
             ]
         });

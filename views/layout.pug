@@ -9,7 +9,7 @@ html
     - }
   body
     block content
-
+    
     - if (scripts) {
       - for (let i = 0; i < scripts.length; i++) {
         script(src='/javascripts/' + scripts[i] + '.js')
@@ -29,7 +29,12 @@ html
                 autofocus: true,
             });
 
+            document.codeMirror.on('change', function() {
+              console.log("Test");
+            });
+
             window.challengePath = "#{challenge.testFile}";
             console.log("Path: " + window.challengePath);
+
         })();
-      - }
+    - }
