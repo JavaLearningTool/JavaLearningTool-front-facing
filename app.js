@@ -23,7 +23,7 @@ db.on("error", console.error.bind(console, "connection error:"));
 
 Category.count({}, function(err, count) {
   if (count == 0) {
-    let cat = Category({ title: "Basic Skills" });
+    let cat = Category({ title: "Basic Skills", description: "The basic skills any good programmer needs to know." });
     cat.save();
     console.log('Adding Category');
   }

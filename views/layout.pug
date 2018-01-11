@@ -3,6 +3,9 @@ html
   head
     title= title
     link(rel="stylesheet", href="https://unpkg.com/purecss@1.0.0/build/pure-min.css", integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w", crossorigin="anonymous")
+    - if (codeBox) {
+      link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.css")
+    - }
     - if (styles) {
       each val in styles
         link(rel='stylesheet', href='/stylesheets/' + val + '.css')
@@ -17,6 +20,10 @@ html
     -}
 
     - if (codeBox) {
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/edit/matchbrackets.min.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldcode.min.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/brace-fold.min.js")
       script.
         (function() {
             document.codeMirror = CodeMirror.fromTextArea(document.getElementById("code_area"), {
@@ -24,9 +31,14 @@ html
                 mode: "text/x-java",
                 matchBrackets: true,
                 indentWithTabs: false,
+                indentUnit: 4,
                 tabSize: 4,
-                smartIndent: false,
+                tabMode: "spaces",
+                smartIndent: true,
                 autofocus: true,
+                matchBrackets: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
 
             document.codeMirror.on('change', (cm) => {window.onCodeMirrorChange(cm);});
