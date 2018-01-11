@@ -2,23 +2,25 @@ extends layout
 
 block content
 
-  div.challengeDesc
-    h1= challenge.name
-    span= "Categories: "
-    - for (let i = 0; i < challenge.categories.length; i++) {
-        a(class="listed-category" href="/search?categories=[\"" + challenge.categories[i]._id + "\"]")
-            span= challenge.categories[i].title
-    - }
-    <br>
-    - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
-    span= "Difficulty: "
-    a(class="listed-category" href="/search?difficulty=" + challenge.difficulty)
-      span= diff[challenge.difficulty - 1]
-    p!= challenge.description
+    div.challengeDesc
+        h1= challenge.name
+        span= "Categories: "
+        - for (let i = 0; i < challenge.categories.length; i++) {
+            a(class="listed-category" href="/search?categories=[\"" + challenge.categories[i]._id + "\"]")
+                span= challenge.categories[i].title
+        - }
+        <br>
+        - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
+        span= "Difficulty: "
+        a(class="listed-category" href="/search?difficulty=" + challenge.difficulty)
+            span= diff[challenge.difficulty - 1]
+        p!= challenge.description
 
-  form
-    include textEditor.pug
-    <br>
-    div(class="pure-button" onclick="compileCode()")
-      | Run Test
-  include testResults.pug
+    form
+        include textEditor.pug
+        <br>
+        div.saving-container
+            p.saving= "Changes saved."
+        div(class="pure-button" onclick="compileCode()")
+            | Run Test
+    include testResults.pug
