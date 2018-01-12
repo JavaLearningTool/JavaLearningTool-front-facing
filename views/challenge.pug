@@ -16,11 +16,11 @@ block content
             span= diff[challenge.difficulty - 1]
         p!= challenge.description
 
-    form
+    div.code-mirror-container
         include textEditor.pug
-        <br>
         div.saving-container
-            p.saving= "Changes saved."
+            span.saving
+        <br>
         div(class="pure-button" onclick="compileCode()")
             | Run Test
     include testResults.pug

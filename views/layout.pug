@@ -40,9 +40,6 @@ html
                 foldGutter: true,
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
-
-            document.codeMirror.on('change', (cm) => {window.onCodeMirrorChange(cm);});
-
             window.challengePath = "#{challenge.testFile}";
             console.log("Path: " + window.challengePath);
 

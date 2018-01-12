@@ -550,6 +550,13 @@ pre {
 .listed-category {
   padding-right: 4px; }
 
+.saving-container {
+  display: flex;
+  justify-content: flex-end; }
+
+.code-mirror-container {
+  width: 80%; }
+
 .challenge-container {
   margin: 20px 50px;
   cursor: pointer; }
