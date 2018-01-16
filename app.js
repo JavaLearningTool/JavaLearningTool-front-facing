@@ -14,7 +14,7 @@ const mongoose = require("mongoose");
 const Category = require("./models/challenge_category.js");
 const Challenge = require("./models/challenge.js");
 
-mongoose.connect("mongodb://localhost/JavaLearningTool", {
+mongoose.connect("mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool", {
   useMongoClient: true
 });
 mongoose.Promise = Promise;

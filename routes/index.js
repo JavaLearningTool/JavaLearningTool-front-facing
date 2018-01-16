@@ -41,7 +41,7 @@ router.post('/compile', function (req, res, next) {
 
     // return;
 
-    request.post({url: 'http://localhost:8080', method: "POST", form: {src: req.body.code, challenge: req.body.challenge}}, function (error, response, body) {
+    request.post({url: 'http://' + process.env.COMPILER_ROUTE + ':8080', method: "POST", form: {src: req.body.code, challenge: req.body.challenge}}, function (error, response, body) {
         if (error) {
             console.log(error);
             res.json({error: errorMessage});
