@@ -11,8 +11,11 @@ function newLineToBreak(str) {
 }
 
 router.use(function(req, res, next) {
-    console.log("Admin: " + req.session.admin);
-    next();
+    if (req.session.admin) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
 });
 
 router.get('/admin', function(req, res, next) {
