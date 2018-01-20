@@ -30,6 +30,33 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/login/:fail?', function(req, res, next) {
+    res.render("login", {
+        title: "Login",
+        success: req.params.fail === undefined,
+        styles: ["mainStyle"],
+        scripts: [
+    ]
+    });
+});
+
+router.post("/login", function(req, res, next) {
+  if (process.env.USERNAME === undefined) {
+    console.log("WARNING!! USERNAME not defined");
+  }
+
+  if (process.env.PASSWORD === undefined) {
+    console.log("WARNING!! Password not defined");
+  }
+
+  if (req.body.username === (process.env.USERNAME || 'test') && req.body.password === (process.env.PASSWORD || 'pass')) {
+      req.session.admin = true;
+      res.redirect("/admin");
+  } else {
+      res.redirect("/login/failed");
+  }
+});
+
 router.post('/compile', function (req, res, next) {
     console.log("SRC Code: " + req.body.code);
 

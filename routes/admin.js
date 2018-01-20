@@ -10,6 +10,11 @@ function newLineToBreak(str) {
     return str.replace(/\n/g, "<br>");
 }
 
+router.use(function(req, res, next) {
+    console.log("Admin: " + req.session.admin);
+    next();
+});
+
 router.get('/admin', function(req, res, next) {
     
     let callbackCount = 0;

@@ -6,6 +6,8 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 const index = require('./routes/index');
 const admin = require('./routes/admin');
@@ -14,9 +16,17 @@ const mongoose = require("mongoose");
 const Category = require("./models/challenge_category.js");
 const Challenge = require("./models/challenge.js");
 
-mongoose.connect("mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool", {
-  useMongoClient: true
-});
+if (process.env.MONGO_ROUTE) {
+  mongoose.connect("mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool", {
+    useMongoClient: true
+  });
+} else {
+  mongoose.connect("mongodb://" + "localhost/JavaLearningTool", {
+    useMongoClient: true
+  });
+}
+
+
 mongoose.Promise = Promise;
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -45,6 +55,27 @@ Challenge.count({}, function(err, count) {
 });
 
 var app = express();
+
+// setup session cookies
+if (process.env.SESSION_SECRET === undefined) {
+  console.log("WARNING!! Session Secret is undefined.");
+}
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "Super spooky secret don't tell",
+    cookie: { maxAge: 1 * 24 * 60 * 60 }, // 1 day
+    /*
+    IMPORTANT: When https is in use set cookie.secure: true
+    */
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 1.5 * 24 * 60 * 60 // 1.5 day
+    })
+  })
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

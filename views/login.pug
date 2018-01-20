@@ -1,0 +1,19 @@
+extends layout
+include mixins
+
+block content
+
+    div(class="categories-container")
+
+        - if (!success) {
+            div.banner= "Login failed. Try again."
+        - }
+
+        form(class="pure-form pure-form-stacked" action="/login" method="POST")
+                fieldset
+                    label(for="username") Username:
+                    input#username(type="text", name="username")
+                    label(for="password") Password:
+                    input#password(type="password", name="password")
+                    input(type="Submit", value="Login")
+
