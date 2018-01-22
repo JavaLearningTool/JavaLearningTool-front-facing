@@ -64,7 +64,7 @@ if (process.env.SESSION_SECRET === undefined) {
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "Super spooky secret don't tell",
-    cookie: { maxAge: 1 * 24 * 60 * 60 }, // 1 day
+    cookie: { maxAge: (1 * 24 * 60 * 60 * 1000) }, // 1 day
     /*
     IMPORTANT: When https is in use set cookie.secure: true
     */
@@ -72,7 +72,7 @@ app.use(
     saveUninitialized: true,
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
-      ttl: 1.5 * 24 * 60 * 60 // 1.5 day
+      ttl: (1.5 * 24 * 60 * 60 * 1000) // 1.5 day
     })
   })
 );
