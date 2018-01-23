@@ -3,7 +3,8 @@
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
-const logger = require('morgan');
+const morgan = require('morgan');
+const logger = require('./logger.js')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require("express-session");
@@ -29,13 +30,13 @@ if (process.env.MONGO_ROUTE) {
 
 mongoose.Promise = Promise;
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+db.on("error", logger.error.bind(logger, "connection error:"));
 
 Category.count({}, function(err, count) {
   if (count == 0) {
     let cat = Category({ title: "Basic Skills", description: "The basic skills any good programmer needs to know." });
     cat.save();
-    console.log('Adding Category');
+    logger.info('Adding Category');
   }
 });
 
@@ -50,7 +51,7 @@ Challenge.count({}, function(err, count) {
       testFile: 'HelloWorld'
     });
     chall.save();
-    console.log('Adding Challenge');
+    logger.info('Adding Challenge');
   }
 });
 
@@ -58,7 +59,7 @@ var app = express();
 
 // setup session cookies
 if (process.env.SESSION_SECRET === undefined) {
-  console.log("WARNING!! Session Secret is undefined.");
+  logger.warn("WARNING!! Session Secret is undefined.");
 }
 
 app.use(
@@ -83,7 +84,7 @@ app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(morgan("dev", { stream: logger.stream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

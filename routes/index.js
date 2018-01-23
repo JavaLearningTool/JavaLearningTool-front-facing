@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 
+const logger = require("../logger.js");
+
 const Challenge = require('../models/challenge.js');
 const Category = require('../models/challenge_category.js');
 
@@ -13,7 +15,7 @@ router.get('/', function(req, res, next) {
     Category.find({}).limit(3).exec(function(err, categories) {
         
         if (err) {
-            console.log(err);
+            logger.error(err);
             res.json({error: errorMessage});
             return;
         }
@@ -42,11 +44,11 @@ router.get('/login/:fail?', function(req, res, next) {
 
 router.post("/login", function(req, res, next) {
   if (process.env.USERNAME === undefined) {
-    console.log("WARNING!! USERNAME not defined");
+    logger.warn("WARNING!! USERNAME not defined");
   }
 
   if (process.env.PASSWORD === undefined) {
-    console.log("WARNING!! Password not defined");
+    logger.warn("WARNING!! Password not defined");
   }
 
   if (req.body.username === (process.env.USERNAME || 'test') && req.body.password === (process.env.PASSWORD || 'pass')) {
@@ -58,7 +60,7 @@ router.post("/login", function(req, res, next) {
 });
 
 router.post('/compile', function (req, res, next) {
-    console.log("SRC Code: " + req.body.code);
+    logger.debug("SRC Code: " + req.body.code);
 
     // res.json([
     //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" },
@@ -70,16 +72,16 @@ router.post('/compile', function (req, res, next) {
 
     request.post({url: 'http://' + process.env.COMPILER_ROUTE + ':8080', method: "POST", form: {src: req.body.code, challenge: req.body.challenge}}, function (error, response, body) {
         if (error) {
-            console.log(error);
+            logger.error(error);
             res.json({error: errorMessage});
             return;
         }
-        console.log(body);
+        logger.debug(body);
         try {
             let parsed = JSON.parse(body);
             res.json(parsed);
         } catch(err) {
-            console.log(err);
+            logger.error(err);
             res.json({error: errorMessage});
         }
     });
@@ -90,7 +92,7 @@ router.get('/challenge/:path', function(req, res, next) {
     Challenge.findOne({testFile: req.params.path}).populate('categories').exec(function(err, challenge) {
 
         if (err) {
-            console.log(err);
+            logger.error(err);
             res.json({error: errorMessage});
             return;
         }
@@ -120,7 +122,7 @@ router.get('/challenge/:path', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next) {
-    console.log(req.query);
+    logger.debug(req.query);
 
     let name = req.query.name;
     let difficulty = req.query.difficulty;
@@ -166,7 +168,7 @@ router.get('/search', function(req, res, next) {
 
         Category.find({_id: criteria.categories}).exec(function(err, cats) {
             if (err) {
-                console.log(err);
+                logger.error(err);
                 res.json({error: errorMessage});
                 return;
             }
@@ -177,7 +179,7 @@ router.get('/search', function(req, res, next) {
         Challenge.find(criteria, {score: {$meta: "textScore"}}).limit(10).sort({score: {$meta:"textScore"}}).exec(function(err, challs) {
             
             if (err) {
-                console.log(err);
+                logger.error(err);
                 res.json({error: errorMessage});
                 return;
             }
@@ -193,7 +195,7 @@ router.get('/search', function(req, res, next) {
     Category.find({}, function(err, categories) {
 
         if (err) {
-            console.log(err);
+            logger.error(err);
             res.json({err: errorMessage});
             return;
         }

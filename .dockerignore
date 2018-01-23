@@ -18,3 +18,6 @@ node_modules
 .node_repl_history
 
 .vscode/
+
+# data base files
+data/
