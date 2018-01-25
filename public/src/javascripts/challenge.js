@@ -9,7 +9,6 @@ let changeSpan;
 
 window.onload = function() {
     changeSpan = document.getElementsByClassName('saving')[0];
-    console.log(changeSpan);
 
     setInterval(() => {
         if (shouldSave) {
@@ -44,3 +43,21 @@ window.onCodeMirrorLoad = (cm) => {
         cm.getDoc().setValue(savedText);
     }
 }
+
+let compileButton;
+
+window.codeCompilationStarted = () => {
+    console.log("Compile started");
+    if (compileButton === undefined) {
+        compileButton = document.getElementById("compile-button");
+    }
+
+    compileButton.className += " pure-button-disabled";
+};
+
+window.window.codeCompilationEnded = () => {
+    console.log("Compile ended");
+
+    compileButton.className = compileButton.className
+        .replace(/(?:^|\s)pure-button-disabled(?!\S)/g, "");
+};

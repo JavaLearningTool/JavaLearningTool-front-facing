@@ -13,6 +13,11 @@ let component = ReactDOM.render(
 );
 
 function compileCode() {
+
+    if (window.codeCompilationStarted) {
+        window.codeCompilationStarted();
+    }
+ 
     let code = document.codeMirror.getValue();
     console.log("SRC Code: " + code);
     component.componentWillReceiveProps({display: true, resultState: {compiling: true, error: false}});
@@ -26,7 +31,13 @@ function compileCode() {
             console.log("Received result from compiler");
             component.componentWillReceiveProps({display: true, resultState: {compiling: false, error: false, data: res.data}});            
         }
+        if (window.codeCompilationEnded) {
+          window.codeCompilationEnded();
+        }
     }).catch(function (err) {
+        if (window.codeCompilationEnded) {
+          window.codeCompilationEnded();
+        }
         component.componentWillReceiveProps({display: true, resultState: {compiling: false, error: "The request failed. Try again later."}});
         console.log(err);
     });
