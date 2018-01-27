@@ -34,10 +34,21 @@ class TestResults extends React.Component {
     renderTestResult(item, index) {
         let passed = (item.passed === 'true');
         let timeout = (item.timeout === 'true');
+
+        let input;
+
+        if (item.input === "") {
+            console.log("Empty input!");
+            input = <p className="resultLabel"> Input: None </p>
+        } else {
+            input = <p className="resultLabel"> Input: {item.input} </p>;            
+        }
+
         return <div className={"testResult " + (passed ? "success" : "failure")} key={index}>
             <p className="passedLabel">
               {passed ? "passed" : "failed"}
             </p>
+            {input}
             <p className="resultLabel">
               {" "}
               Expected: {this.replaceNewLines(item.expected)}{" "}
