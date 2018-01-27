@@ -5,7 +5,6 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('javalearningtool-front-facing:server');
 var http = require('http');
 
 /**
