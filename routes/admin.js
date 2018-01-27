@@ -84,7 +84,7 @@ router.get('/admin/category/:id', function(req, res, next) {
     
     Category.findOne({_id: req.params.id}, function(err, category) {
         if (err) {
-            logger.error(err);
+            logger.error("Error finding category with id: ", req.params.id, err);
             next();
             return;
         }
@@ -112,7 +112,7 @@ router.get('/admin/challenge/:id', function(req, res, next) {
     let callback = function(err) {
 
         if (err) {
-            logger.error(err);
+            logger.error("Error in /admin/challenge/:id route with challenge id: ", req.params.id, err);
             next();
             return;
         }
@@ -161,7 +161,12 @@ router.put('/admin/category', function(req, res, next) {
     });
 
     newCat.save(function(err) {
-        if (err) logger.error(err);
+        if (err) {
+            logger.error("Error saving new category", err);
+            res.json({error: "Request failed!"});
+            return;
+        }
+
         res.json({});
     });
 });
@@ -180,14 +185,14 @@ router.post('/admin/challenge', function(req, res, next) {
 
         newChall.save(function(err) {
             if (err) {
-                logger.error(err);
+                logger.error("Error in route /admin/challenge saving challenge. ", err);
                 res.redirect('/admin/new_challenge');
                 return;            
             }
             res.redirect('/admin');
         });
     } catch(err) {
-        logger.error(err);
+        logger.error("Error in route /admin/challenge. ", err);
         res.redirect('/admin/new_challenge');
     }
 });
@@ -196,7 +201,7 @@ router.post('/admin/challenge', function(req, res, next) {
 router.patch('/admin/category/:categoryId', function(req, res, next) {
     Category.findByIdAndUpdate(req.params.categoryId, {$set: req.body}, function(err) {
         if (err) {
-            logger.error(err);
+            logger.error("Error updating category with id: ", req.params.categoryId, err);
             res.json({error: true});
             return;
         }
@@ -207,7 +212,7 @@ router.patch('/admin/category/:categoryId', function(req, res, next) {
 router.patch('/admin/challenge/:challengeId', function(req, res, next) {
     Challenge.findByIdAndUpdate(req.params.challengeId, {$set: req.body}, function(err) {
         if (err) {
-            logger.error(err);
+            logger.error("Error updating challenge with id: ", req.params.challengeId, err);
             res.json({error: true});
             return;
         }
@@ -218,7 +223,7 @@ router.patch('/admin/challenge/:challengeId', function(req, res, next) {
 router.delete('/admin/category/:categoryId', function(req, res, next) {
     Category.findByIdAndRemove(req.params.categoryId, function(err) {
         if (err) {
-            logger.error(err);
+            logger.error("Error removing category with id: ", req.params.categoryId, err);
             res.json({error: true});
         } else {
             // remove category from all challenges
@@ -232,7 +237,7 @@ router.delete('/admin/category/:categoryId', function(req, res, next) {
 router.delete('/admin/challenge/:challengeId', function(req, res, next) {
     Challenge.findByIdAndRemove(req.params.challengeId, function(err) {
         if (err) {
-            logger.error(err);
+            logger.error("Error removing challenge with id: ", req.params.challengeId, err);
             res.json({error: true});
         } else {
             res.json({});

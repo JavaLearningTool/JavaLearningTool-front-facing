@@ -14,6 +14,7 @@ window.putCategory = function() {
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
+        console.log("Error putting category.")
         console.log(err);
     });
 }
@@ -23,11 +24,11 @@ window.addChallenge = function() {
 }
 
 window.removeCategory = function(id) {
-    console.log(id);
     axios.delete('/admin/category/' + id)
     .then(function (res) {
         window.location.href = '/admin';
     }).catch(function (err) {
+        console.log("Error removing category.")
         console.log(err);
     });
 }
@@ -39,15 +40,12 @@ window.putChallenge = function() {
     let testFile = document.getElementById('test_file').value;
     let defaultText = document.codeMirror.getValue();
 
-    console.log(description);
-    
-    console.log("Save: ", name, description, difficulty, defaultText, testFile);
-
     axios.post('/admin/challenge', {name, description, categories, difficulty,
         defaultText, testFile})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
+        console.log("Error putting challenge.")
         console.log(err);
     });
 
@@ -60,13 +58,12 @@ window.patchChallenge = function(id) {
     let defaultText = document.codeMirror.getValue();
     let testFile = document.getElementById('test_file').value;
 
-    console.log("Save: ", name, description, difficulty, defaultText, testFile);
-
     axios.patch('/admin/challenge/' + id, {name, description, categories, difficulty,
         defaultText, testFile})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
+        console.log("Error patching challenge.");
         console.log(err);
     });
 }
@@ -79,16 +76,17 @@ window.patchCategory = function(id) {
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
+        console.log("Error patching category.")
         console.log(err);
     });
 }
 
 window.deleteChallenge = function(id) {
-    console.log(id);
     axios.delete('/admin/challenge/' + id)
     .then(function (res) {
         window.location.href = '/admin';
     }).catch(function (err) {
+        console.log("Error deleting challenge.");
         console.log(err);
     });
 }

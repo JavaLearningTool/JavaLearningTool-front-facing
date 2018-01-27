@@ -47,7 +47,6 @@ window.onCodeMirrorLoad = (cm) => {
 let compileButton;
 
 window.codeCompilationStarted = () => {
-    console.log("Compile started");
     if (compileButton === undefined) {
         compileButton = document.getElementById("compile-button");
     }
@@ -56,8 +55,6 @@ window.codeCompilationStarted = () => {
 };
 
 window.window.codeCompilationEnded = () => {
-    console.log("Compile ended");
-
     compileButton.className = compileButton.className
         .replace(/(?:^|\s)pure-button-disabled(?!\S)/g, "");
 };

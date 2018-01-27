@@ -38,7 +38,6 @@ class TestResults extends React.Component {
         let input;
 
         if (item.input === "") {
-            console.log("Empty input!");
             input = <p className="resultLabel"> Input: None </p>
         } else {
             input = <p className="resultLabel"> Input: {item.input} </p>;            
