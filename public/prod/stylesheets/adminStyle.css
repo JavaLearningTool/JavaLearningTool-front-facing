@@ -508,6 +508,12 @@ pre {
 .button-danger {
   background-color: #ca3c3c; }
 
+.success {
+  color: #4BB543; }
+
+.failure {
+  color: #ff0033; }
+
 .bold {
   font-weight: 700; }
 

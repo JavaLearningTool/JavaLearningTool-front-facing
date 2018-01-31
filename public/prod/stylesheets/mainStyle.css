@@ -508,6 +508,12 @@ pre {
 .button-danger {
   background-color: #ca3c3c; }
 
+.success {
+  color: #4BB543; }
+
+.failure {
+  color: #ff0033; }
+
 .bold {
   font-weight: 700; }
 
@@ -536,22 +542,59 @@ pre {
 .CodeMirror {
   border: black 1px solid; }
 
-.testResult {
+.headerResultArea {
   display: flex;
-  width: 80%;
+  align-items: center;
+  justify-content: center; }
+
+.resultArea {
+  display: block; }
+
+.resultLabel {
+  flex: 1;
+  font-weight: 700;
+  padding: 0;
+  margin: 0; }
+
+.resultField {
   padding: 5px;
-  margin: 10px; }
+  flex: 12;
+  background: gainsboro;
+  margin-top: 3px; }
+
+.testResult {
+  width: 80%; }
   .testResult.failure {
     background-color: rgba(255, 0, 51, 0.1); }
   .testResult.success {
     background-color: rgba(75, 181, 67, 0.1); }
 
+.drop-down-container {
+  border: solid 1px #dbdbdb;
+  border-radius: 10px;
+  margin: 10px 0 0 0;
+  padding: 10px 30px 10px 30px;
+  cursor: pointer; }
+  .drop-down-container.dropped .drop-down-body {
+    max-height: 200px; }
+  .drop-down-container.dropped .drop-down-header {
+    margin: 10px 0 30px 0; }
+
+.drop-down-header {
+  padding: 0px 15px;
+  margin: 10px 0;
+  transition: 200ms margin linear; }
+
+.drop-down-body {
+  overflow-y: hidden;
+  transition: 200ms max-height linear;
+  max-height: 0px; }
+
 .passedLabel {
   padding-right: 30px;
-  flex: 1; }
-
-.resultLabel {
-  flex: 5; }
+  flex: 1;
+  font-size: 1.2em;
+  margin: 0; }
 
 .listed-category {
   padding-right: 4px; }

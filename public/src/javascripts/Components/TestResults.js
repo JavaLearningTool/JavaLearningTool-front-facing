@@ -9,6 +9,9 @@ class TestResults extends React.Component {
             display: this.props.display,
             resultState: {compiling: false, error: false, data: {compiling: false, error: false, data: "No data"}}
         };
+
+        // This binding is necessary to make `this` work in the callback
+        this.dropDownClicked = this.dropDownClicked.bind(this);
     }
 
     render() {
@@ -35,32 +38,75 @@ class TestResults extends React.Component {
         let passed = (item.passed === 'true');
         let timeout = (item.timeout === 'true');
 
-        let input;
-
+        let inputLabel;
         if (item.input === "") {
-            input = <p className="resultLabel"> Input: None </p>
+            inputLabel = <p className="resultLabel"> Input: None </p>
         } else {
-            input = <p className="resultLabel"> Input: {item.input} </p>;            
+            inputLabel = <p className="resultLabel"> Input: {item.input} </p>;            
         }
 
-        return <div className={"testResult " + (passed ? "success" : "failure")} key={index}>
-            <p className="passedLabel">
-              {passed ? "passed" : "failed"}
-            </p>
-            {input}
-            <p className="resultLabel">
-              {" "}
-              Expected: {this.replaceNewLines(item.expected)}{" "}
-            </p>
-            <p className="resultLabel">
-              {" "}
-              Actual: {this.replaceNewLines(item.actual)}{" "}
-            </p>
-            <p className="resultLabel"> time: {item.time} ms</p>
-            <p className="resultLabel">
-              timed out: {timeout ? "true" : "false"}
-            </p>
+        let body;
+        if (!timeout) {
+            body = <div className="drop-down-body ">
+                <div className="resultArea">
+                    <p className="resultLabel">Expected: </p>
+                    <p className="resultField">
+                        {this.replaceNewLines(item.expected)}
+                    </p>
+                </div>
+                <div className="resultArea">
+                    <p className="resultLabel">Actual: </p>
+                    <p className="resultField">
+                        {this.replaceNewLines(item.actual)}
+                    </p>
+                </div>
+                <p className="resultLabel"> time: {item.time} ms</p>
+              </div>;
+        } else {
+            body = <div className="drop-down-body ">
+                <p className="resultLabel"> Timeout! after {item.time} ms.</p>
+                <br/>
+                <div className="resultArea">
+                    <p className="resultLabel">Expected: </p>
+                    <p className="resultField">
+                        {this.replaceNewLines(item.expected)}
+                    </p>
+                </div>
+              </div>;
+        }
+
+        return <div className={"testResult drop-down-container " + (item.dropped ? "dropped" : "")} key={index} onClick={e => {
+              this.dropDownClicked(index);
+            }}>
+            <div className="drop-down-header">
+              <div className="headerResultArea">
+                <p
+                  className={
+                    "passedLabel " + (passed ? "success" : "failure")
+                  }
+                >
+                  {passed ? "You passed!" : "You failed."}
+                </p>
+                {inputLabel}
+              </div>
+            </div>
+            {body}
           </div>;
+    }
+
+    dropDownClicked(index) {
+        console.log(this.state.resultState.data[index]);
+        let copy = JSON.parse(JSON.stringify(this.state));
+        for (let i = 0; i < copy.resultState.data.length; i++) {
+            if (i != index) {
+                copy.resultState.data[i].dropped = false;
+            } else if (copy.resultState.data[i].dropped) {
+                copy.resultState.data[i].dropped = false;
+            } else {
+                copy.resultState.data[i].dropped = true;
+            }
+        }
+        this.setState(copy);
     }
 
     componentWillReceiveProps(nextProps) {

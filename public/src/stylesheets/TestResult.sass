@@ -1,11 +1,28 @@
 .CodeMirror
     border: black 1px solid
 
-.testResult
+.headerResultArea
     display: flex
-    width: 80%
+    align-items: center
+    justify-content: center
+
+.resultArea
+    display: block
+
+.resultLabel
+    flex: 1
+    font-weight: 700
+    padding: 0
+    margin: 0
+
+.resultField
     padding: 5px
-    margin: 10px
+    flex: 12
+    background: $result-shade
+    margin-top: 3px
+
+.testResult
+    width: 80%
 
     &.failure
         background-color: transparentize($color-failure, .9)
@@ -13,10 +30,32 @@
     &.success
         background-color: transparentize($color-success, .9)
     
+.drop-down-container
+    border: solid 1px $drop-down-border
+    border-radius: 10px
+    margin: 10px 0 0 0
+    padding: 10px 30px 10px 30px
+    cursor: pointer
+
+    &.dropped
+        .drop-down-body
+            max-height: 200px
+        
+        .drop-down-header
+            margin: 10px 0 30px 0
+
+.drop-down-header
+    padding: 0px 15px
+    margin: 10px 0
+    transition: 200ms margin linear    
+
+.drop-down-body
+    overflow-y: hidden
+    transition: 200ms max-height linear
+    max-height: 0px
 
 .passedLabel
     padding-right: 30px
     flex: 1
-
-.resultLabel
-    flex: 5
+    font-size: 1.2em
+    margin: 0
