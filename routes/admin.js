@@ -12,7 +12,7 @@ function newLineToBreak(str) {
     return str.replace(/\n/g, "<br>");
 }
 
-router.use(function(req, res, next) {
+router.use('/admin', function(req, res, next) {
     if (req.session.admin) {
         next();
     } else {
