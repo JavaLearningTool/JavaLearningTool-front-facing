@@ -29,3 +29,6 @@ block content
         div
             each chall in challenges
                 +challenge(chall, "window.location.href=\"/challenge/" + chall.testFile + "\"")
+            - if (challenges.length <= 0) {
+                p= "No results found."
+            - }
