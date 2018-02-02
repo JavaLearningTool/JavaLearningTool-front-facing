@@ -64,9 +64,9 @@ router.post('/compile', function (req, res, next) {
     logger.debug("SRC Code: " + req.body.code);
 
     // res.json([
-    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" },
-    //     { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n" },
-    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n" }
+    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" },
+    //     { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n", timeout:"true", time:"32", input:"1, 2, 3"  },
+    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" }
     // ]);
 
     // return;

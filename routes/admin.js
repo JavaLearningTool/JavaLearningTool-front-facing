@@ -28,14 +28,13 @@ router.get('/admin', function(req, res, next) {
     let callback = function() {
         callbackCount++;
         if (callbackCount >= 2) {
-            res.render("admin", { 
-                categories,
-                challenges,
-                title: 'Admin',
-                styles: [
-                    'adminStyle'
-                ],
-                scripts: ['adminBundle']
+            res.render("admin", {
+              categories,
+              challenges,
+              removeHeader: true,
+              title: "Admin",
+              styles: ["adminStyle"],
+              scripts: ["adminBundle"]
             });
         }
     }
@@ -52,30 +51,23 @@ router.get('/admin', function(req, res, next) {
 });
 
 router.get('/admin/new_category', function(req, res, next) {
-    res.render("new_category", { 
-        title: 'Admin',
-        styles: [
-            'adminStyle'
-        ],
-        scripts: ['adminBundle']
+    res.render("new_category", {
+      title: "Admin",
+      removeHeader: true,
+      styles: ["adminStyle"],
+      scripts: ["adminBundle"]
     });
 });
 
 router.get('/admin/new_challenge', function(req, res, next) {
     Category.find({}, function(err, categories) {
-        res.render("new_challenge", { 
-            title: 'Admin',
-            codeBox: true,
-            styles: [
-                'codemirror',
-                'adminStyle'
-            ],
-            scripts: [
-                'adminBundle',
-                'codemirror',
-                'clike'
-            ],
-            categories
+        res.render("new_challenge", {
+          title: "Admin",
+          codeBox: true,
+          removeHeader: true,
+          styles: ["codemirror", "adminStyle"],
+          scripts: ["adminBundle", "codemirror", "clike"],
+          categories
         });
     });
 });
@@ -89,16 +81,12 @@ router.get('/admin/category/:id', function(req, res, next) {
             return;
         }
 
-        res.render('patch_category', {
-            title: category.title,
-            styles: [
-                'adminStyle'
-            ],
-            scripts: [
-                'adminBundle',
-
-            ],
-            category
+        res.render("patch_category", {
+          title: category.title,
+          removeHeader: true,
+          styles: ["adminStyle"],
+          scripts: ["adminBundle"],
+          category
         });
     });
 
@@ -124,20 +112,14 @@ router.get('/admin/challenge/:id', function(req, res, next) {
 
         logger.debug("Challenge: " + challenge);
 
-        res.render('patch_challenge', {
-            title: challenge.name,
-            codeBox: true,
-            styles: [
-                'codemirror',
-                'adminStyle'
-            ],
-            scripts: [
-                'adminBundle',
-                'codemirror',
-                'clike'
-            ],
-            challenge,
-            categories
+        res.render("patch_challenge", {
+          title: challenge.name,
+          codeBox: true,
+          removeHeader: true,
+          styles: ["codemirror", "adminStyle"],
+          scripts: ["adminBundle", "codemirror", "clike"],
+          challenge,
+          categories
         });
     }
 

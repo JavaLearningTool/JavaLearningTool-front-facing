@@ -9,9 +9,8 @@ block content
             div.category-list
                 ul.categories
                 - for (let i = 0; i < categories.length; i++) {
-                    a(href="/admin/category/" + categories[i]._id)
-                        li.categoryLI
-                            h3.category= categories[i].title
+                    li.categoryLI
+                        a(href="/admin/category/" + categories[i]._id)= categories[i].title
                 - }
 
             div.button-container
@@ -22,7 +21,6 @@ block content
             h1 Challenges
             ul.challenges
             - for (let i = 0; i < challenges.length; i++) {
-                a(class="challenge-anchor" href="/admin/challenge/" + challenges[i]._id)
-                    li
-                        h3.category= challenges[i].name
+                li
+                    a(class="challenge-anchor" href="/admin/challenge/" + challenges[i]._id)= challenges[i].name
             - }

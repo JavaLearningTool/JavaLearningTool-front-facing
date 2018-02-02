@@ -2,13 +2,9 @@
 @import './normalize.css'
 
 body
-    padding: 50px
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
     box-sizing: border-box
     color: $font-default
-
-a
-    color: #00B7FF
 
 h1 
 	font-family: Geneva, Tahoma, Verdana, sans-serif
@@ -17,6 +13,10 @@ h1
 	font-variant: normal
 	font-weight: 500
 	line-height: 26.4px
+	color: $font-default
+
+h2
+	color: $font-default	
 
 h3 
 	font-family: Geneva, Tahoma, Verdana, sans-serif
@@ -25,6 +25,7 @@ h3
 	font-variant: normal
 	font-weight: 500
 	line-height: 15.4px
+	color: $font-default
 
 p 
 	font-family: Geneva, Tahoma, Verdana, sans-serif
@@ -33,6 +34,7 @@ p
 	font-variant: normal
 	font-weight: 400
 	line-height: 20px
+	color: $font-default
 
 blockquote 
 	font-family: Geneva, Tahoma, Verdana, sans-serif
@@ -41,6 +43,7 @@ blockquote
 	font-variant: normal
 	font-weight: 400
 	line-height: 30px
+	color: $font-default
 
 pre 
 	font-family: Geneva, Tahoma, Verdana, sans-serif
@@ -49,10 +52,35 @@ pre
 	font-variant: normal
 	font-weight: 400
 	line-height: 18.5714px
+	color: $font-default
+
+a
+    color: $anchor-default
+
+.header
+	background-color: $header-color
+	width: 100%
+	display: flex
+	align-items: center
+	justify-content: space-between
+
+.header-title
+	margin: 0
+	color: $header-title
+	font-weight: 1000
+	padding: 15px 30px
+	display: inline-block
+
+.header-button
+	margin-right: 30px
+	
 
 .flex-container
 	display: flex
 	justify-content: space-between
+
+.container
+	padding: 30px
 
 .button-success .button-danger
 	color: white
@@ -88,8 +116,7 @@ pre
 
 	&:hover
 		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .2)
-
-	&.non-hover &:hover
-
+		&.non-hover
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2)
 	
 
