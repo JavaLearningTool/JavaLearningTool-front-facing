@@ -8,6 +8,8 @@
 
 .resultArea
     display: block
+    &:first-child
+        margin-top: 20px
 
 .resultLabel
     flex: 1
@@ -20,6 +22,12 @@
     flex: 12
     background: $result-shade
     margin-top: 3px
+    max-height: 30px
+    overflow-y: auto
+
+pre.resultField
+    max-height: 100px
+    overflow-y: auto
 
 .testResult
     width: 80%
@@ -39,15 +47,12 @@
 
     &.dropped
         .drop-down-body
-            max-height: 200px
-        
-        .drop-down-header
-            margin: 10px 0 30px 0
+            max-height: 350px
+            overflow-y: auto
 
 .drop-down-header
     padding: 0px 15px
     margin: 10px 0
-    transition: 200ms margin linear    
 
 .drop-down-body
     overflow-y: hidden

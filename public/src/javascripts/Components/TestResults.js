@@ -35,8 +35,18 @@ class TestResults extends React.Component {
     }
 
     renderTestResult(item, index) {
-        let passed = (item.passed === 'true');
-        let timeout = (item.timeout === 'true');
+        let passed = item.passed === 'true';
+        let timeout = item.timeout === 'true';
+        let runtimeException = item.runtimeException === 'true';
+
+        let passFailLabel = "You passed!";
+        if (timeout) {
+            passFailLabel = "You timed out."
+        } else if (runtimeException) {
+            passFailLabel = "A runtime exception occurred."
+        } else if (!passed) {
+            passFailLabel = "You failed.";            
+        }
 
         let inputLabel;
         if (item.input === "") {
@@ -46,7 +56,7 @@ class TestResults extends React.Component {
         }
 
         let body;
-        if (!timeout) {
+        if (!timeout && !runtimeException) { // Passed or failed normally
             body = <div className="drop-down-body ">
                 <div className="resultArea">
                     <p className="resultLabel">Expected: </p>
@@ -62,9 +72,11 @@ class TestResults extends React.Component {
                 </div>
                 <p className="resultLabel"> time: {item.time} ms</p>
               </div>;
-        } else {
+        } else if (timeout) { // Timeout occurred
             body = <div className="drop-down-body ">
-                <p className="resultLabel"> Timeout! after {item.time} ms.</p>
+                <div className="resultArea">
+                    <p className="resultLabel"> Timeout! after {item.time} ms.</p>
+                </div>
                 <br/>
                 <div className="resultArea">
                     <p className="resultLabel">Expected: </p>
@@ -72,6 +84,22 @@ class TestResults extends React.Component {
                         {this.replaceNewLines(item.expected)}
                     </p>
                 </div>
+              </div>;
+        } else { // Runtime exception
+            body = <div className="drop-down-body ">
+                <div className="resultArea">
+                    <p className="resultLabel">Compiler Message: </p>
+                    <pre className="resultField">
+                        {item.exceptionMessage}
+                    </pre>
+                </div>
+                <div className="resultArea">
+                    <p className="resultLabel">Expected: </p>
+                    <p className="resultField">
+                        {this.replaceNewLines(item.expected)}
+                    </p>
+                </div>
+                <p className="resultLabel"> time: {item.time} ms</p>
               </div>;
         }
 
@@ -85,7 +113,7 @@ class TestResults extends React.Component {
                     "passedLabel " + (passed ? "success" : "failure")
                   }
                 >
-                  {passed ? "You passed!" : "You failed."}
+                  {passFailLabel}
                 </p>
                 {inputLabel}
               </div>
