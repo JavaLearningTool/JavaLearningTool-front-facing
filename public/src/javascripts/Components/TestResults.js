@@ -61,13 +61,13 @@ class TestResults extends React.Component {
                 <div className="resultArea">
                     <p className="resultLabel">Expected: </p>
                     <p className="resultField">
-                        {this.replaceNewLines(item.expected)}
+                        {this.replaceQuotes(this.replaceNewLines(item.expected))}
                     </p>
                 </div>
                 <div className="resultArea">
                     <p className="resultLabel">Actual: </p>
                     <p className="resultField">
-                        {this.replaceNewLines(item.actual)}
+                        {this.replaceQuotes(this.replaceNewLines(item.actual))}
                     </p>
                 </div>
                 <p className="resultLabel"> time: {item.time} ms</p>
@@ -81,7 +81,7 @@ class TestResults extends React.Component {
                 <div className="resultArea">
                     <p className="resultLabel">Expected: </p>
                     <p className="resultField">
-                        {this.replaceNewLines(item.expected)}
+                        {this.replaceQuotes(this.replaceNewLines(item.expected))}
                     </p>
                 </div>
               </div>;
@@ -90,13 +90,13 @@ class TestResults extends React.Component {
                 <div className="resultArea">
                     <p className="resultLabel">Compiler Message: </p>
                     <pre className="resultField">
-                        {item.exceptionMessage}
+                        {this.replaceQuotes(item.exceptionMessage)}
                     </pre>
                 </div>
                 <div className="resultArea">
                     <p className="resultLabel">Expected: </p>
                     <p className="resultField">
-                        {this.replaceNewLines(item.expected)}
+                        {this.replaceQuotes(this.replaceNewLines(item.expected))}
                     </p>
                 </div>
                 <p className="resultLabel"> time: {item.time} ms</p>
@@ -143,6 +143,10 @@ class TestResults extends React.Component {
 
     replaceNewLines(str) {
         return str.replace(/(\n)|(\\n)/g, "↩");
+    }
+
+    replaceQuotes(str) {
+        return str.replace(/&quot;/g, "'");        
     }
 }
 
