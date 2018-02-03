@@ -4,28 +4,23 @@ include mixins
 block content
 
     div(class="home-container")
-        div.section
+        div(class="section message-section")
             div(class="section-header")
                 h3(class="section-header-text")= "Messages"
             div.flex-container
-                div(class="card non-hover message")
-                    h2= "Welcome to Nova"
-                    p
-                        | Hello all, and welcome to Nova. This is a tool designed to help the students of CS 1331.
-                        | You can use the challenges on this website to test your Java knowledge, to learn more, and to
-                        | study before your tests! Nova is still under construction so if you have any feedback, please post it
-                        | in the Piazza thread.
-                div(class="card non-hover message")
-                    h2= "Professor suggested challenges"
-                    p= "These challenges are the most relevant to what we are covering in class currently. Try them out and see if you know what you're doing or have some catching up to do!"
-                    ul
-                        li
-                            a(href="/challenge/HelloWorld")= "Hello World"
-                        li
-                            a(href="/challenge/ArraySum")= "Array Sum"
+                each message in messages
+
+                    div(class="card non-hover message")
+                        h2= message.title
+                        div!= message.body
         div.section
             div(class="section-header")
                 h3(class="section-header-text")= "Category Quick Select"
-            div(class="categories-container flex-container")
-                each cat in categories
-                    +category(cat)
+            div
+                - for (let i = 0; i < Math.ceil(categories.length / 3); i++) {
+                    div(class="flex-container categories-container")
+                        - for (let j = 0; j < 3 && i * 3 + j < categories.length; j++) {
+                            div.category-quick-select
+                                +category(categories[i * 3 + j])
+                        - }
+                - }

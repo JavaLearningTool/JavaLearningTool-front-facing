@@ -447,7 +447,9 @@ template {
 }body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
-  color: #1d2229; }
+  background-color: #f7f9f9;
+  color: #1d2229;
+  min-width: 900px; }
 
 h1 {
   font-family: Geneva, Tahoma, Verdana, sans-serif;
@@ -526,8 +528,8 @@ a {
 
 .button-success .button-danger {
   color: white;
-    color-border-radius: 4px;
-    color-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
 
 .button-success {
   background-color: #2ecc71; }
@@ -553,17 +555,15 @@ a {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 2px 16px;
+  background-color: white;
   transition: .3s; }
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); }
     .card:hover.non-hover {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); }
 
-.category-container {
+.admin-container {
   flex: 1; }
-
-.challenge-container {
-  flex: 3; }
 
 .category-list {
   display: block; }
@@ -584,4 +584,4 @@ a {
   margin-left: 5px; }
 
 .pure-form {
-  color: #777; }
+  color: #777777; }

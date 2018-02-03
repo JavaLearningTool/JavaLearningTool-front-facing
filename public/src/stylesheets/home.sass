@@ -4,12 +4,16 @@
 
 .categories-container
     margin-bottom: 50px
+    
+    &:after
+        flex: auto
+        content: ""
 
 .category-container
-    width: 30%
     box-sizing: border-box
     padding: 15px 50px
     cursor: pointer
+    height: 100%
 
 .section-header
     text-transform: uppercase
@@ -20,11 +24,24 @@
 
 .section
     margin-bottom: 60px
+    .flex-container
+        align-items: stretch
 
+.message-section
     .flex-container
         align-items: flex-start
+        flex-wrap: wrap
 
 .message
     border-left: 4px solid $message-border
     box-sizing: border-box
     width: 46%
+    margin-bottom: 20px
+
+.category-quick-select
+    width: 30%
+    padding-right: 3%
+    box-sizing: border
+
+    &:nth-child(3n)
+        padding-right: 0

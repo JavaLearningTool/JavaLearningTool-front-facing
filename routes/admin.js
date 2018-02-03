@@ -6,6 +6,7 @@ const logger = require('../logger.js');
 
 const Challenge = require('../models/challenge.js');
 const Category = require('../models/challenge_category.js');
+const Message = require('../models/message.js');
 
 function newLineToBreak(str) {
     str = str.trim();
@@ -23,18 +24,19 @@ router.use('/admin', function(req, res, next) {
 router.get('/admin', function(req, res, next) {
     
     let callbackCount = 0;
-    let challenges, categories;
+    let challenges, categories, messages;
 
     let callback = function() {
         callbackCount++;
-        if (callbackCount >= 2) {
+        if (callbackCount >= 3) {
             res.render("admin", {
-              categories,
-              challenges,
-              removeHeader: true,
-              title: "Admin",
-              styles: ["adminStyle"],
-              scripts: ["adminBundle"]
+                categories,
+                challenges,
+                messages,
+                removeHeader: true,
+                title: "Admin",
+                styles: ["adminStyle"],
+                scripts: ["adminBundle"]
             });
         }
     }
@@ -47,6 +49,11 @@ router.get('/admin', function(req, res, next) {
     Category.find({}, function(err, cats) {
         categories = cats;
         callback();
+    });
+
+    Message.find({}, function(err, mess) {
+      messages = mess;
+      callback();
     });
 });
 
@@ -69,6 +76,15 @@ router.get('/admin/new_challenge', function(req, res, next) {
           scripts: ["adminBundle", "codemirror", "clike"],
           categories
         });
+    });
+});
+
+router.get("/admin/new_message", function(req, res, next) {
+    res.render("new_message", {
+        title: "Admin",
+        removeHeader: true,
+        styles: ["adminStyle"],
+        scripts: ["adminBundle"]
     });
 });
 
@@ -136,10 +152,31 @@ router.get('/admin/challenge/:id', function(req, res, next) {
     let callbackCount = 0;
 });
 
+router.get('/admin/message/:id', function(req, res, next) {
+    
+    Message.findOne({_id: req.params.id}, function(err, message) {
+        if (err) {
+            logger.error("Error finding message with id: ", req.params.id, err);
+            next();
+            return;
+        }
+
+        res.render("patch_message", {
+          title: message.title,
+          removeHeader: true,
+          styles: ["adminStyle"],
+          scripts: ["adminBundle"],
+          message
+        });
+    });
+
+});
+
 router.put('/admin/category', function(req, res, next) {
     let newCat = Category({
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        featured: req.body.featured
     });
 
     newCat.save(function(err) {
@@ -179,6 +216,22 @@ router.post('/admin/challenge', function(req, res, next) {
     }
 });
 
+router.put('/admin/message', function(req, res, next) {
+    let newMess = Message({
+        title: req.body.title,
+        body: req.body.body
+    });
+
+    newMess.save(function(err) {
+        if (err) {
+            logger.error("Error saving new message", err);
+            res.json({error: "Request failed!"});
+            return;
+        }
+
+        res.json({});
+    });
+});
 
 router.patch('/admin/category/:categoryId', function(req, res, next) {
     Category.findByIdAndUpdate(req.params.categoryId, {$set: req.body}, function(err) {
@@ -202,6 +255,17 @@ router.patch('/admin/challenge/:challengeId', function(req, res, next) {
     });
 });
 
+router.patch('/admin/message/:messageId', function(req, res, next) {
+    Message.findByIdAndUpdate(req.params.messageId, {$set: req.body}, function(err) {
+        if (err) {
+            logger.error("Error updating message with id: ", req.params.messageId, err);
+            res.json({error: true});
+            return;
+        }
+        res.json({});
+    });
+});
+
 router.delete('/admin/category/:categoryId', function(req, res, next) {
     Category.findByIdAndRemove(req.params.categoryId, function(err) {
         if (err) {
@@ -214,7 +278,7 @@ router.delete('/admin/category/:categoryId', function(req, res, next) {
             });
         }
     });
-})
+});
 
 router.delete('/admin/challenge/:challengeId', function(req, res, next) {
     Challenge.findByIdAndRemove(req.params.challengeId, function(err) {
@@ -225,6 +289,17 @@ router.delete('/admin/challenge/:challengeId', function(req, res, next) {
             res.json({});
         }
     });
-})
+});
+
+router.delete('/admin/message/:messageId', function(req, res, next) {
+    Message.findByIdAndRemove(req.params.messageId, function(err) {
+        if (err) {
+            logger.error("Error removing message with id: ", req.params.messageId, err);
+            res.json({error: true});
+        } else {
+            res.json({});
+        }
+    });
+});
 
 module.exports = router;

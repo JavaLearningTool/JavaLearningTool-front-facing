@@ -6,30 +6,51 @@ const logger = require("../logger.js");
 
 const Challenge = require('../models/challenge.js');
 const Category = require('../models/challenge_category.js');
+const Message = require("../models/message.js");
 
 const compilationErrorMessage = "Compilation failed. Try again later.";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     
-    Category.find({}).limit(3).exec(function(err, categories) {
+    let categories, messages;
+    let callbackCount = 0;
+
+    let callback = function() {
+        callbackCount++;
+        if (callbackCount >= 2) {
+            res.render("home", {
+                title: 'Home',
+                categories,
+                messages,
+                styles: ['mainStyle'],
+                scripts: []
+            });
+        }
+    }
+
+    Category.find({featured: true}).exec(function(err, cats) {
         
         if (err) {
-            logger.error("Error querying 3 categories in / route. ", err);
+            logger.error("Error querying featured categories in / route. ", err);
             next();
             // TODO render error page.
             return;
         }
 
-        res.render("home", {
-            title: 'Home',
-            categories,
-            styles: [
-                'mainStyle'
-            ],
-            scripts: [
-            ]
-        });
+        categories = cats;
+        callback();
+    });
+
+    Message.find({}).exec(function(err, mess) {
+        if (err) {
+            logger.error("Error querying messages in / route. ", err);
+            next();
+            return;
+        }
+
+        messages = mess;
+        callback();
     });
 });
 

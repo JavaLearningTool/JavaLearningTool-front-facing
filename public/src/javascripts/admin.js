@@ -10,17 +10,14 @@ window.addCategory = function() {
 window.putCategory = function() {
     let title = document.getElementById('title').value;
     let description = document.getElementById('description').value;
-    axios.put('/admin/category', {title, description})
+    let featured = document.getElementById("featured").checked;
+    axios.put('/admin/category', {title, description, featured})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
         console.log("Error putting category.")
         console.log(err);
     });
-}
-
-window.addChallenge = function() {
-    window.location.href = '/admin/new_challenge';
 }
 
 window.removeCategory = function(id) {
@@ -31,6 +28,24 @@ window.removeCategory = function(id) {
         console.log("Error removing category.")
         console.log(err);
     });
+}
+
+window.patchCategory = function(id) {
+    let title = document.getElementById('title').value;
+    let description = document.getElementById('description').value;
+    let featured = document.getElementById("featured").checked;
+
+    axios.patch('/admin/category/' + id, {title, description, featured})
+    .then(function (res) {
+        window.location.href = "/admin";
+    }).catch(function (err) {
+        console.log("Error patching category.")
+        console.log(err);
+    });
+}
+
+window.addChallenge = function() {
+    window.location.href = "/admin/new_challenge";
 }
 
 window.putChallenge = function() {
@@ -68,18 +83,6 @@ window.patchChallenge = function(id) {
     });
 }
 
-window.patchCategory = function(id) {
-    let title = document.getElementById('title').value;
-    let description = document.getElementById('description').value;
-
-    axios.patch('/admin/category/' + id, {title, description})
-    .then(function (res) {
-        window.location.href = "/admin";
-    }).catch(function (err) {
-        console.log("Error patching category.")
-        console.log(err);
-    });
-}
 
 window.deleteChallenge = function(id) {
     axios.delete('/admin/challenge/' + id)
@@ -90,3 +93,55 @@ window.deleteChallenge = function(id) {
         console.log(err);
     });
 }
+
+window.addMessage = function() {
+  window.location.href = "/admin/new_message";
+};
+
+window.putMessage = function() {
+  let title = document.getElementById("title").value;
+  let body = document.getElementById("body").value;
+
+  axios
+    .put("/admin/message", {
+      title,
+      body
+    })
+    .then(function(res) {
+      window.location.href = "/admin";
+    })
+    .catch(function(err) {
+      console.log("Error putting message.");
+      console.log(err);
+    });
+};
+
+window.patchMessage = function(id) {
+  let title = document.getElementById("title").value;
+  let body = document.getElementById("body").value;
+
+  axios
+    .patch("/admin/message/" + id, {
+      title,
+      body
+    })
+    .then(function(res) {
+      window.location.href = "/admin";
+    })
+    .catch(function(err) {
+      console.log("Error patching message.");
+      console.log(err);
+    });
+};
+
+window.removeMessage = function(id) {
+  axios
+    .delete("/admin/message/" + id)
+    .then(function(res) {
+      window.location.href = "/admin";
+    })
+    .catch(function(err) {
+      console.log("Error deleting message.");
+      console.log(err);
+    });
+};

@@ -14,5 +14,12 @@ block content
                     label(for="description") Description:
                     textarea#description(name="description", cols="30", rows="10")= category.description
                     
+                    - let checked = null;
+                    - if (category.featured) checked = true;  
+                    label(for="featured")
+                        input(id="featured" type="checkbox" checked=checked)
+                        .
+                            featured
+                    
                     div(class="pure-button button-success", onClick="patchCategory(\"" + category._id + "\")") Save Changes
                     div(class="pure-button button-danger", onClick="removeCategory(\"" + category._id + "\")") Delete category
