@@ -662,7 +662,8 @@ pre.resultField {
 .drop-down-body {
   overflow-y: hidden;
   transition: 200ms max-height linear;
-  max-height: 0px; }
+  max-height: 0px;
+  cursor: auto; }
 
 .passedLabel {
   padding-right: 30px;
