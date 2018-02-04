@@ -53,10 +53,11 @@ window.putChallenge = function() {
     let description = document.getElementById('description').value;
     let difficulty = document.getElementById('difficulty').value;
     let testFile = document.getElementById('test_file').value;
+    let className = document.getElementById("className").value;
     let defaultText = document.codeMirror.getValue();
 
     axios.post('/admin/challenge', {name, description, categories, difficulty,
-        defaultText, testFile})
+        defaultText, testFile, className})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {
@@ -71,10 +72,11 @@ window.patchChallenge = function(id) {
     let description = document.getElementById('description').value;
     let difficulty = document.getElementById('difficulty').value;
     let defaultText = document.codeMirror.getValue();
+    let className = document.getElementById("className").value;    
     let testFile = document.getElementById('test_file').value;
 
     axios.patch('/admin/challenge/' + id, {name, description, categories, difficulty,
-        defaultText, testFile})
+        defaultText, testFile, className})
     .then(function (res) {
         window.location.href = "/admin";
     }).catch(function (err) {

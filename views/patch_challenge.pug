@@ -12,6 +12,9 @@ block content
                     input#name(type="text", name="name" value=challenge.name)
                     label(for="test_file") Test file:
                     input#test_file(type="text", name="test_file", value=challenge.testFile)
+                    label(for="className") Class name:
+                    input#className(type="text", name="className" value=challenge.className)
+                    
                     label(for="description") Description:
                     textarea#description(name="description", cols="30", rows="10")= challenge.description
                     

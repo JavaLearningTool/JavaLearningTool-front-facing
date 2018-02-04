@@ -194,12 +194,13 @@ router.post('/admin/challenge', function(req, res, next) {
     
     try {
         let newChall = Challenge({
-            name: req.body.name,
-            description: newLineToBreak(req.body.description),
-            categories: req.body.categories,
-            difficulty: req.body.difficulty,
-            defaultText: req.body.defaultText,
-            testFile: req.body.testFile
+          name: req.body.name,
+          description: newLineToBreak(req.body.description),
+          categories: req.body.categories,
+          difficulty: req.body.difficulty,
+          defaultText: req.body.defaultText,
+          testFile: req.body.testFile,
+          className: req.body.className
         });
 
         newChall.save(function(err) {

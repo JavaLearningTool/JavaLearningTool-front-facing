@@ -8,6 +8,7 @@ var challengeSchema = new Schema({
     difficulty: {type: Number, min: 1, max: 5},
     defaultText: {type: String, required: true},
     testFile: {type: String, required: true},
+    className: {type: String, default: "Test"}
 });
 
 challengeSchema.index({name: 'text'});
