@@ -20,7 +20,7 @@ function compileCode() {
  
     let code = document.codeMirror.getValue();
     component.componentWillReceiveProps({display: true, resultState: {compiling: true, error: false}});
-    axios.post('/compile', {code, challenge: window.challengePath})
+    axios.post('/compile', {code, challenge: window.challengePath, className: window.className})
     .then(function (res) {
         if (res.data.error) {
             component.componentWillReceiveProps({display: true, resultState: {error: res.data.error}});

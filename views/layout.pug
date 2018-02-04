@@ -51,6 +51,7 @@ html
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
             window.challengePath = "#{challenge.testFile}";
+            window.className = "#{challenge.className}";
             console.log("Path: " + window.challengePath);
 
             window.onCodeMirrorLoad(document.codeMirror);
