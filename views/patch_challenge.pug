@@ -29,11 +29,11 @@ block content
                     
                     label(for="difficulty") Difficulty: 
                     select#difficulty(name="difficulty")
-                        option(value="1" selected=(challenge.difficulty === 0)) Very easy
-                        option(value="2" selected=(challenge.difficulty === 1)) Easy
-                        option(value="3" selected=(challenge.difficulty === 2)) Intermediate
-                        option(value="4" selected=(challenge.difficulty === 3)) Advanced
-                        option(value="5" selected=(challenge.difficulty === 4)) Challenging
+                        option(value="1" selected=(challenge.difficulty === 1)) Very easy
+                        option(value="2" selected=(challenge.difficulty === 2)) Easy
+                        option(value="3" selected=(challenge.difficulty === 3)) Intermediate
+                        option(value="4" selected=(challenge.difficulty === 4)) Advanced
+                        option(value="5" selected=(challenge.difficulty === 5)) Challenging
 
                     label(for="code_area") Default Code:
                     include textEditor.pug
