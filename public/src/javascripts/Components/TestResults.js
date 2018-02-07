@@ -58,7 +58,8 @@ class TestResults extends React.Component {
         if (testType === MESSAGE_RESULT_TYPE) {
             resultLabel = <p className="resultLabel"> {item.label} </p>
 
-            body = <div className="drop-down-body ">
+            if (!timeout && !runtimeException) { // Passed or failed normally
+                body = <div className="drop-down-body ">
                     <div className="resultArea">
                         <p className="resultLabel">Message: </p>
                         <p className="resultField">
@@ -67,6 +68,37 @@ class TestResults extends React.Component {
                     </div>
                     <p className="resultLabel"> time: {item.time} ms</p>
                 </div>;
+            } else if (timeout) { // Timeout occurred
+                body = <div className="drop-down-body ">
+                    <div className="resultArea">
+                        <p className="resultLabel">Message: </p>
+                        <p className="resultField">
+                            {this.replaceQuotes(this.replaceNewLines(item.message))}
+                        </p>
+                    </div>
+                    <div className="resultArea">
+                        <p className="resultLabel"> Timeout! after {item.time} ms.</p>
+                    </div>
+                    <br/>
+                </div>;
+            } else { // Runtime exception
+                body = <div className="drop-down-body ">
+                    <div className="resultArea">
+                        <p className="resultLabel">Message: </p>
+                        <p className="resultField">
+                            {this.replaceQuotes(this.replaceNewLines(item.message))}
+                        </p>
+                    </div>
+                    <div className="resultArea">
+                        <p className="resultLabel">Compiler Message: </p>
+                        <pre className="resultField">
+                            {this.replaceQuotes(item.exceptionMessage)}
+                        </pre>
+                    </div>
+                    <p className="resultLabel"> time: {item.time} ms</p>
+                </div>;
+            }
+
         } else {
             if (item.input === "") {
                 resultLabel = <p className="resultLabel"> Input: None </p>
