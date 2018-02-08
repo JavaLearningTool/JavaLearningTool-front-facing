@@ -100,14 +100,36 @@ window.addMessage = function() {
   window.location.href = "/admin/new_message";
 };
 
+function convertLinks(links) {
+    let retLinks = [];
+    links = links.split(";");
+    links.forEach(link => {
+        let temp = link.split(":");
+        if (temp.length != 2) {
+            console.log("Error parsing links.");
+            return [];
+        }
+        retLinks.push({
+            href: temp[1],
+            name: temp[0]
+        });
+    });
+
+    return retLinks;
+}
+
 window.putMessage = function() {
   let title = document.getElementById("title").value;
   let body = document.getElementById("body").value;
+  let links = document.getElementById("links").value;
+
+  links = convertLinks(links);
 
   axios
     .put("/admin/message", {
       title,
-      body
+      body,
+      links
     })
     .then(function(res) {
       window.location.href = "/admin";
@@ -121,11 +143,15 @@ window.putMessage = function() {
 window.patchMessage = function(id) {
   let title = document.getElementById("title").value;
   let body = document.getElementById("body").value;
+  let links = document.getElementById("links").value;
+
+  links = convertLinks(links);
 
   axios
     .patch("/admin/message/" + id, {
       title,
-      body
+      body,
+      links
     })
     .then(function(res) {
       window.location.href = "/admin";

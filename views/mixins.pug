@@ -9,4 +9,13 @@ mixin category(category)
         h2= category.title
         p= category.description
 
+mixin convertLinks(links)
+    - let ret = ""
+    - links.forEach(function(element, index) {
+        - ret += element.name + ":" + element.href;
+        - if (index < links.length - 1) {ret += ";";} 
+    - })
+    input#links(type="text", name="links" value=ret)
+
+
         

@@ -12,7 +12,12 @@ block content
 
                     div(class="card non-hover message")
                         h2= message.title
-                        div!= message.body
+                        div
+                            p= message.body
+                        ul
+                            each link in message.links
+                                li
+                                    a(href=link.href)= link.name
                 - if (messages.length === 0) {
                     div.fill-space
                         p= "No messages"

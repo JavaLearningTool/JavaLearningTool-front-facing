@@ -220,7 +220,8 @@ router.post('/admin/challenge', function(req, res, next) {
 router.put('/admin/message', function(req, res, next) {
     let newMess = Message({
         title: req.body.title,
-        body: req.body.body
+        body: req.body.body,
+        links: req.body.links
     });
 
     newMess.save(function(err) {
