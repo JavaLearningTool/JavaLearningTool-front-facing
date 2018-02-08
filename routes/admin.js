@@ -246,6 +246,8 @@ router.patch('/admin/category/:categoryId', function(req, res, next) {
 });
 
 router.patch('/admin/challenge/:challengeId', function(req, res, next) {
+    req.body.description = newLineToBreak(req.body.description);
+
     Challenge.findByIdAndUpdate(req.params.challengeId, {$set: req.body}, function(err) {
         if (err) {
             logger.error("Error updating challenge with id: ", req.params.challengeId, err);
