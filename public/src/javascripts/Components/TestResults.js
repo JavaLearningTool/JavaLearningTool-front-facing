@@ -4,6 +4,7 @@ import React from 'react';
 
 const MESSAGE_RESULT_TYPE = 'message';
 const COMPARATIVE_RESULT_TYPE = 'comparative';
+const COMPARATIVE_MESSAGE_RESULT_TYPE = 'comparative-message';
 
 class TestResults extends React.Component {
     constructor(props) {
@@ -99,7 +100,33 @@ class TestResults extends React.Component {
                 </div>;
             }
 
-        } else {
+        } else if (testType === COMPARATIVE_MESSAGE_RESULT_TYPE) {
+            resultLabel = <p className="resultLabel"> {item.label} </p>
+
+            if (!timeout && !runtimeException) { // Passed or failed normally
+                body = <div className="drop-down-body ">
+                    <div className="resultArea">
+                        <p className="resultLabel">Message: </p>
+                        <p className="resultField">
+                            {this.replaceQuotes(this.replaceNewLines(item.message))}
+                        </p>
+                    </div>
+                    <div className="resultArea">
+                        <p className="resultLabel">Expected: </p>
+                        <p className="resultField">
+                            {this.replaceQuotes(this.replaceNewLines(item.expected))}
+                        </p>
+                    </div>
+                    <div className="resultArea">
+                        <p className="resultLabel">Actual: </p>
+                        <p className="resultField">
+                            {this.replaceQuotes(this.replaceNewLines(item.actual))}
+                        </p>
+                    </div>
+                    <p className="resultLabel"> time: {item.time} ms</p>
+                </div>;
+            }
+        } else if (testType === COMPARATIVE_RESULT_TYPE){
             if (item.input === "") {
                 resultLabel = <p className="resultLabel"> Input: None </p>
             } else {
