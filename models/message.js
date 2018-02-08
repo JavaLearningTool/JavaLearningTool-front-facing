@@ -7,7 +7,8 @@ var messageSchema = new Schema({
     links: [{
         href: { type: String, required: true},
         name: { type: String, required: true},
-    }]
+    }],
+    visible: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("message_schema", messageSchema);

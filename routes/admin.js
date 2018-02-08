@@ -221,7 +221,8 @@ router.put('/admin/message', function(req, res, next) {
     let newMess = Message({
         title: req.body.title,
         body: req.body.body,
-        links: req.body.links
+        links: req.body.links,
+        visible: req.body.visible
     });
 
     newMess.save(function(err) {

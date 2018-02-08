@@ -17,6 +17,13 @@ block content
 
                     label(for="links") Links:
                     +convertLinks(message.links)
+
+                    - let checked = null;
+                    - if (message.visible) checked = true;  
+                    label(for="visible")
+                        input(id="visible" type="checkbox" checked=checked)
+                        .
+                            visible
                                                             
                     div(class="pure-button button-success", onClick="patchMessage(\"" + message._id + "\")") Save Changes
                     div(class="pure-button button-danger", onClick="removeMessage(\"" + message._id + "\")") Delete message

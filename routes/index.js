@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
         callback();
     });
 
-    Message.find({}).exec(function(err, mess) {
+    Message.find({visible: true}).exec(function(err, mess) {
         if (err) {
             logger.error("Error querying messages in / route. ", err);
             next();
