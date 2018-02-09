@@ -63,20 +63,20 @@ class TestResults extends React.Component {
                 body = <div className="drop-down-body ">
                     <div className="resultArea">
                         <p className="resultLabel">Message: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.message))}
-                        </p>
-                    </div>
+                        <pre className="resultField">
+                                {this.replaceQuotes(item.message)}
+                        </pre>
+                        </div>
                     <p className="resultLabel"> time: {item.time} ms</p>
                 </div>;
             } else if (timeout) { // Timeout occurred
                 body = <div className="drop-down-body ">
                     <div className="resultArea">
                         <p className="resultLabel">Message: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.message))}
-                        </p>
-                    </div>
+                        <pre className="resultField">
+                                {this.replaceQuotes(item.message)}
+                        </pre>
+                        </div>
                     <div className="resultArea">
                         <p className="resultLabel"> Timeout! after {item.time} ms.</p>
                     </div>
@@ -86,12 +86,12 @@ class TestResults extends React.Component {
                 body = <div className="drop-down-body ">
                     <div className="resultArea">
                         <p className="resultLabel">Message: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.message))}
-                        </p>
-                    </div>
+                        <pre className="resultField">
+                                {this.replaceQuotes(item.message)}
+                        </pre>
+                        </div>
                     <div className="resultArea">
-                        <p className="resultLabel">Compiler Message: </p>
+                        <p className="resultLabel">Compiler: </p>
                         <pre className="resultField">
                             {this.replaceQuotes(item.exceptionMessage)}
                         </pre>
@@ -107,10 +107,10 @@ class TestResults extends React.Component {
                 body = <div className="drop-down-body ">
                     <div className="resultArea">
                         <p className="resultLabel">Message: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.message))}
-                        </p>
-                    </div>
+                        <pre className="resultField">
+                                {this.replaceQuotes(item.message)}
+                        </pre>
+                        </div>
                     <div className="resultArea">
                         <p className="resultLabel">Expected: </p>
                         <p className="resultField">
@@ -165,7 +165,7 @@ class TestResults extends React.Component {
             } else { // Runtime exception
                 body = <div className="drop-down-body ">
                     <div className="resultArea">
-                        <p className="resultLabel">Compiler Message: </p>
+                        <p className="resultLabel">Compiler: </p>
                         <pre className="resultField">
                             {this.replaceQuotes(item.exceptionMessage)}
                         </pre>
