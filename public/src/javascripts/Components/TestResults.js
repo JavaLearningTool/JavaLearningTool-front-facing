@@ -11,7 +11,7 @@ class TestResults extends React.Component {
         super(props);
         this.state = {
             display: this.props.display,
-            resultState: {compiling: false, error: false, data: {compiling: false, error: false, data: "No data"}}
+            resultState: {compiling: false, error: false, data: {}}
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -210,6 +210,18 @@ class TestResults extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps.resultState.data);
+        if (nextProps.resultState.data) {
+            nextProps.resultState.data.sort((a, b) => {
+                if (a.passed == b.passed) {
+                    return 0;
+                } else if (a.passed === "true") {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
+        }
         this.setState(nextProps);
     }
 
