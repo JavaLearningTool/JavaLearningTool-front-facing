@@ -57,7 +57,7 @@ class TestResults extends React.Component {
         let body;
 
         if (testType === MESSAGE_RESULT_TYPE) {
-            resultLabel = <p className="resultLabel"> {item.label} </p>
+            resultLabel = <p className="resultLabel"> {this.replaceQuotes(item.label)} </p>
 
             if (!timeout && !runtimeException) { // Passed or failed normally
                 body = <div className="drop-down-body ">
@@ -101,7 +101,7 @@ class TestResults extends React.Component {
             }
 
         } else if (testType === COMPARATIVE_MESSAGE_RESULT_TYPE) {
-            resultLabel = <p className="resultLabel"> {item.label} </p>
+            resultLabel = <p className="resultLabel"> {this.replaceQuotes(item.label)} </p>
 
             if (!timeout && !runtimeException) { // Passed or failed normally
                 body = <div className="drop-down-body ">
@@ -130,7 +130,7 @@ class TestResults extends React.Component {
             if (item.input === "") {
                 resultLabel = <p className="resultLabel"> Input: None </p>
             } else {
-                resultLabel = <p className="resultLabel"> Input: {item.input} </p>;            
+                resultLabel = <p className="resultLabel"> Input: {this.replaceQuotes(item.input)} </p>;            
             }
 
             if (!timeout && !runtimeException) { // Passed or failed normally
