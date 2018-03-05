@@ -523,7 +523,7 @@ a {
   display: flex;
   justify-content: space-between; }
 
-.container {
+.padding-container {
   padding: 30px; }
 
 .button-success .button-danger {
@@ -557,6 +557,8 @@ a {
   padding: 2px 16px;
   background-color: white;
   transition: .3s; }
+  .card.flat {
+    box-shadow: 0 0 0 0 transparent; }
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); }
     .card:hover.non-hover {
@@ -564,7 +566,11 @@ a {
 
 .home-container {
   margin: 0 auto;
-  width: 80%; }
+  width: 80%;
+  padding: 30px 0; }
+
+.challenge-cont {
+  padding: 30px 30px; }
 
 .categories-container {
   margin-bottom: 50px; }
@@ -681,6 +687,12 @@ pre.resultField {
 
 .code-mirror-container {
   width: 80%; }
+
+.search-container {
+  padding: 30px 30px; }
+
+.search-results-container {
+  padding: 30px 30px; }
 
 .challenge-container {
   margin: 20px 50px;

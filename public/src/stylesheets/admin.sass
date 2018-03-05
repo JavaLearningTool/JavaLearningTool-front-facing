@@ -1,25 +1,92 @@
 .admin-container
-    flex: 1
+    width: 100%
+
+.sideBar
+    flex-grow: 0
+    height: 100vh
+    min-width: 20vw
+    background-color: $admin-sideBar
+    color: $admin-sideBar-color
+
+    ul
+        margin: 0
+        list-style: none
+        padding: 10px 0px
+
+        li
+            padding: 5px 30px
+            cursor: pointer
+
+            &:hover
+                background-color: $admin-sideBar-hover
+
+            h3
+                color: $admin-sideBar-color
+
+.main
+    flex-grow: 1
 
 .category-list
-    display: block
+    padding: 30px 50px
 
-.categoryLI
-    &:hover
-        .categoryDelete
-            display: inline
+    a
+        text-decoration: none
+        color: $font-default
 
-.button-container
-    display: block
+.admin-categories
+    list-style: none
+    padding: 0
 
-.category
-    display: inline
+    li
+        a
+            text-decoration: none
+            color: $font-default
 
-.categoryDelete
-    display: none
-    cursor: pointer
-    color: $color_failure
-    margin-left: 5px
+.new-admin-card
+    padding: 30px
+    width: 100%
+    border-left: 4px solid $message-border
+    box-sizing: border-box
+    
+    h2
+        margin: 0
 
-.pure-form
-    color: $font-light
+.admin-table
+    padding: 0
+
+.admin-row
+    padding: 30px
+    margin: 10px 0
+    display: flex
+    align-items: center
+    position: relative
+    width: 100%
+    background-color: $card-color
+    box-sizing: border-box
+
+    &.admin-message
+        align-content: space-between
+        flex-wrap: wrap
+
+    .title, .message-title
+        font-weight: bold
+
+    .title, .featured, .admin-hidden, .message-title
+        flex-grow: 0
+        width: 15%
+        margin: 0 20px
+
+    .message-title, .admin-hidden
+        flex-grow: 1
+        position: relative
+        box-sizing: border-box
+        margin: 0
+
+    .admin-hidden
+        text-align: right
+
+    .message
+        width: 100%
+
+    .description
+        flex-grow: 1

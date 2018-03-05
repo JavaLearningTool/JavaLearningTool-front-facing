@@ -36,7 +36,8 @@ router.get('/admin', function(req, res, next) {
                 removeHeader: true,
                 title: "Admin",
                 styles: ["adminStyle"],
-                scripts: ["adminBundle"]
+                scripts: ["adminBundle"],
+                forwardLocals: true
             });
         }
     }

@@ -1,32 +1,39 @@
 doctype html
 html
-  head
-    title= title
-    link(rel="stylesheet", href="https://unpkg.com/purecss@1.0.0/build/pure-min.css", integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w", crossorigin="anonymous")
-    - if (codeBox) {
-      link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.css")
-    - }
-    - if (styles) {
-      each val in styles
-        link(rel='stylesheet', href='/stylesheets/' + val + '.css')
-    - }
-  body
-    - if (!removeHeader) {
-      div.header
-        a(href="/")
-          h1.header-title= "Nova"
-        - if (!removeSearch) {
-          div(class="pure-button header-button" onclick="window.location.href=\"/search\"") Search
+    head
+        title= title
+        link(rel="stylesheet", href="https://unpkg.com/purecss@1.0.0/build/pure-min.css", integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w", crossorigin="anonymous")
+        - if (codeBox) {
+            link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.css")
         - }
-    - }
+        - if (styles) {
+            each val in styles
+                link(rel='stylesheet', href='/stylesheets/' + val + '.css')
+        - }
+    body
+        - if (!removeHeader) {
+            div.header
+                a(href="/")
+                h1.header-title= "Nova"
+                - if (!removeSearch) {
+                    div(class="pure-button header-button" onclick="window.location.href=\"/search\"") Search
+                - }
+        - }
 
     div.container
-      block content
+        block content
+
+    - if (forwardLocals) {
+        script.
+            window.adminMessages = !{JSON.stringify(messages)};
+            window.adminChallenges = !{JSON.stringify(challenges)};
+            window.adminCategories = !{JSON.stringify(categories)};
+    - }
     
     - if (scripts) {
-      - for (let i = 0; i < scripts.length; i++) {
-        script(src='/javascripts/' + scripts[i] + '.js')
-      -}
+        - for (let i = 0; i < scripts.length; i++) {
+            script(src='/javascripts/' + scripts[i] + '.js')
+        -}
     -}
 
     - if (codeBox) {

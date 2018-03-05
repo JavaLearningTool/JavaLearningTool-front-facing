@@ -2,39 +2,40 @@ extends layout
 
 block content
 
-    div.flex-container
-        div.category-container
-            h1 New Category
+    div.padding-container
+        div.flex-container
+            div.category-container
+                h1 New Category
 
-            form#categoryForm(class="pure-form pure-form-stacked")
-                fieldset
-                    label(for="name") Name:
-                    input#name(type="text", name="name")
-                    label(for="testFile") Test file:
-                    input#test_file(type="text", name="testFile" placeholder="path name")
-                    label(for="className") Class name:
-                    input#className(type="text", name="className" value="Test")
+                form#categoryForm(class="pure-form pure-form-stacked")
+                    fieldset
+                        label(for="name") Name:
+                        input#name(type="text", name="name")
+                        label(for="testFile") Test file:
+                        input#test_file(type="text", name="testFile" placeholder="path name")
+                        label(for="className") Class name:
+                        input#className(type="text", name="className" value="Test")
 
-                    label(for="description") Description:
-                    textarea#description(name="description", cols="30", rows="10")
-                    
-                    label Categories:
-                    div(class="pure-button-group" role="group")
-                        - for (let i = 0; i < categories.length; i++) { let category = categories[i];
-                            div(class="pure-button" onClick="categoryClick(\"" + category._id + "\", this)")= category.title
-                        - }
-                    
-                    label(for="difficulty") Difficulty: 
-                    select#difficulty(name="difficulty")
-                        option(value="1") Very easy
-                        option(value="2") Easy
-                        option(value="3") Intermediate
-                        option(value="4") Advanced
-                        option(value="5") Challenging
+                        label(for="description") Description:
+                        textarea#description(name="description", cols="30", rows="10")
+                        
+                        label Categories:
+                        div(class="pure-button-group" role="group")
+                            - for (let i = 0; i < categories.length; i++) { let category = categories[i];
+                                div(class="pure-button" onClick="categoryClick(\"" + category._id + "\", this)")= category.title
+                            - }
+                        
+                        label(for="difficulty") Difficulty: 
+                        select#difficulty(name="difficulty")
+                            option(value="1") Very easy
+                            option(value="2") Easy
+                            option(value="3") Intermediate
+                            option(value="4") Advanced
+                            option(value="5") Challenging
 
-                    //- text editor wants a challenge object with a default text
-                    - let challenge = {}; challenge.defaultText = "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
-                    label(for="code_area") Default Code:
-                    include textEditor.pug
-                    
-                    div(class="pure-button button-success", onClick="putChallenge()") Add
+                        //- text editor wants a challenge object with a default text
+                        - let challenge = {}; challenge.defaultText = "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
+                        label(for="code_area") Default Code:
+                        include textEditor.pug
+                        
+                        div(class="pure-button button-success", onClick="putChallenge()") Add

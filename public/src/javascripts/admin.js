@@ -2,6 +2,18 @@
 
 import axios from 'axios';
 import categories from './categoryHandler';
+import Admin from './Components/AdminMain';
+import React from "react";
+import ReactDOM from 'react-dom';
+
+const adminDiv = document.getElementById("admin");
+if (adminDiv) {
+    let component = ReactDOM.render(
+      <Admin messages={window.adminMessages} categories={window.adminCategories} challenges={window.adminChallenges} />,
+      adminDiv
+    );
+}
+
 
 window.addCategory = function() {
     window.location.href = '/admin/new_category';

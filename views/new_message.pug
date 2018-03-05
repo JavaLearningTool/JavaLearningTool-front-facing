@@ -2,24 +2,25 @@ extends layout
 
 block content
 
-    div.flex-container
-        div.category-container
-            h1 New Message
+    div.padding-container
+        div.flex-container
+            div.category-container
+                h1 New Message
 
-            form#categoryForm(class="pure-form pure-form-stacked")
-                fieldset
-                    label(for="title") Title:
-                    input#title(type="text", name="title")
+                form#categoryForm(class="pure-form pure-form-stacked")
+                    fieldset
+                        label(for="title") Title:
+                        input#title(type="text", name="title")
 
-                    label(for="body") Body:
-                    textarea#body(name="body", cols="30", rows="10")
+                        label(for="body") Body:
+                        textarea#body(name="body", cols="30", rows="10")
 
-                    label(for="links") Links:
-                    input#links(type="text", name="links")
- 
-                    label(for="visible")
-                        input(id="visible" type="checkbox")
-                        .
-                            visible
+                        label(for="links") Links:
+                        input#links(type="text", name="links")
+    
+                        label(for="visible")
+                            input(id="visible" type="checkbox")
+                            .
+                                visible
 
-                    div(class="pure-button button-success" onClick="putMessage()") Add
+                        div(class="pure-button button-success" onClick="putMessage()") Add

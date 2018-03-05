@@ -2,25 +2,26 @@ extends layout
 
 block content
 
-    div.challengeDesc
-        h1= challenge.name
-        span= "Categories: "
-        - for (let i = 0; i < challenge.categories.length; i++) {
-            a(class="listed-category" href="/search?categories=[\"" + challenge.categories[i]._id + "\"]")
-                span= challenge.categories[i].title
-        - }
-        <br>
-        - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
-        span= "Difficulty: "
-        a(class="listed-category" href="/search?difficulty=" + challenge.difficulty)
-            span= diff[challenge.difficulty - 1]
-        p!= challenge.description
+    div.challenge-cont
+        div.challengeDesc
+            h1= challenge.name
+            span= "Categories: "
+            - for (let i = 0; i < challenge.categories.length; i++) {
+                a(class="listed-category" href="/search?categories=[\"" + challenge.categories[i]._id + "\"]")
+                    span= challenge.categories[i].title
+            - }
+            <br>
+            - diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
+            span= "Difficulty: "
+            a(class="listed-category" href="/search?difficulty=" + challenge.difficulty)
+                span= diff[challenge.difficulty - 1]
+            p!= challenge.description
 
-    div.code-mirror-container
-        include textEditor.pug
-        div.saving-container
-            span.saving
-        <br>
-        div(id="compile-button" class="pure-button" onclick="compileCode()")
-            | Run Test
-    include testResults.pug
+        div.code-mirror-container
+            include textEditor.pug
+            div.saving-container
+                span.saving
+            <br>
+            div(id="compile-button" class="pure-button" onclick="compileCode()")
+                | Run Test
+        include testResults.pug

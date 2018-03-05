@@ -2,20 +2,21 @@ extends layout
 
 block content
 
-    div.flex-container
-        div.category-container
-            h1 New Category
+    div.padding-container
+        div.flex-container
+            div.category-container
+                h1 New Category
 
-            form#categoryForm(class="pure-form pure-form-stacked")
-                fieldset
-                    label(for="title") Title:
-                    input#title(type="text", name="title")
+                form#categoryForm(class="pure-form pure-form-stacked")
+                    fieldset
+                        label(for="title") Title:
+                        input#title(type="text", name="title")
 
-                    label(for="description") Description:
-                    textarea#description(name="description", cols="30", rows="10")
+                        label(for="description") Description:
+                        textarea#description(name="description", cols="30", rows="10")
 
-                    <label for="featured">
-                        <input id="featured" type="checkbox"> featured
-                    </label>
+                        <label for="featured">
+                            <input id="featured" type="checkbox"> featured
+                        </label>
 
-                    div(class="pure-button button-success" onClick="putCategory()") Add
+                        div(class="pure-button button-success" onClick="putCategory()") Add
