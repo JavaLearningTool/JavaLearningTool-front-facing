@@ -84,13 +84,13 @@ router.post("/login", function(req, res, next) {
 router.post('/compile', function (req, res, next) {
     logger.debug("SRC Code: " + req.body.code);
 
-    res.json([
-        { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" },
-        { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n", timeout:"true", time:"32", input:"1, 2, 3"  },
-        { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" }
-    ]);
+    // res.json([
+    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" },
+    //     { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n", timeout:"true", time:"32", input:"1, 2, 3"  },
+    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" }
+    // ]);
 
-    return;
+    // return;
 
     request.post({url: 'http://' + process.env.COMPILER_ROUTE + ':8080', method: "POST", form: {src: req.body.code, challenge: req.body.challenge, className: req.body.className}}, function (error, response, body) {
         if (error) {
