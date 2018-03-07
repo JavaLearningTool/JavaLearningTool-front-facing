@@ -580,7 +580,7 @@ a {
     .sideBar ul li {
       padding: 5px 30px;
       cursor: pointer; }
-      .sideBar ul li:hover {
+      .sideBar ul li.active, .sideBar ul li:hover {
         background-color: #34495e; }
       .sideBar ul li h3 {
         color: #ecf0f1; }
@@ -641,3 +641,20 @@ a {
     width: 100%; }
   .admin-row .description {
     flex-grow: 1; }
+
+.criteria-menu {
+  margin: 20px 0; }
+
+.criteria-dropdown .header {
+  background: #2c3e50;
+  color: white; }
+
+.criteria-dropdown .pure-menu-children {
+  background: white;
+  border: 1px solid #bdc3c7; }
+
+.category-dropdown-item {
+  padding: 7px 30px;
+  cursor: pointer; }
+  .category-dropdown-item:hover {
+    background: #ecf0f1; }

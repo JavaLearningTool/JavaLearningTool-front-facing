@@ -12,8 +12,9 @@ class Admin extends React.Component {
             categories: props.categories,
             challenges: props.challenges,
             messages: props.messages,
-            stateShown: 1
+            stateShown: props.selected
         };
+        console.log(window.categories);
     }
 
     render() {
@@ -22,20 +23,20 @@ class Admin extends React.Component {
             <div className="sideBar">
               <h1 className="header-title">Nova</h1>
               <ul>
-                <li onClick={() => this.onClick("Category")}>
+                <li className={this.state.stateShown === 1 ? "active" : ""} onClick={() => this.onClick("Category")}>
                   <h3>Categories</h3>
                 </li>
-                <li onClick={() => this.onClick("Challenges")}>
+                <li className={this.state.stateShown === 2 ? "active" : ""} onClick={() => this.onClick("Challenges")}>
                   <h3>Challenges</h3>
                 </li>
-                <li onClick={() => this.onClick("Messages")}>
+                <li className={this.state.stateShown === 3 ? "active" : ""} onClick={() => this.onClick("Messages")}>
                   <h3>Messages</h3>
                 </li>
               </ul>
             </div>
             <div className="main">
               <Category categories={this.state.categories} shown={this.state.stateShown === 1} />
-              <Challenge challenges={this.state.challenges} shown={this.state.stateShown === 2} />
+              <Challenge challenges={this.state.challenges} categories={this.state.categories} shown={this.state.stateShown === 2} />
               <Message messages={this.state.messages} shown={this.state.stateShown === 3} />
             </div>
           </div>;

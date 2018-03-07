@@ -13,7 +13,8 @@ function newLineToBreak(str) {
     return str.replace(/\n/g, "<br>");
 }
 
-router.use('/admin', function(req, res, next) {
+router.use('/admin/:selected?', function(req, res, next) {
+    console.log("Heeeyyy");
     if (req.session.admin) {
         next();
     } else {
@@ -21,7 +22,7 @@ router.use('/admin', function(req, res, next) {
     }
 });
 
-router.get('/admin', function(req, res, next) {
+router.get('/admin(/tab/:selected)?', function(req, res, next) {
     
     let callbackCount = 0;
     let challenges, categories, messages;

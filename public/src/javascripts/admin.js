@@ -8,12 +8,22 @@ import ReactDOM from 'react-dom';
 
 const adminDiv = document.getElementById("admin");
 if (adminDiv) {
+
+    const hrefParts = window.location.href.split("/");
+    const selected = hrefParts[hrefParts.length - 1];
+    let selectedNum = 1;
+
+    if (selected === "Challenges") {
+        selectedNum = 2;
+    } else if (selected === "Messages") {
+        selectedNum = 3;
+    }
+
     let component = ReactDOM.render(
-      <Admin messages={window.adminMessages} categories={window.adminCategories} challenges={window.adminChallenges} />,
+      <Admin messages={window.adminMessages} categories={window.adminCategories} challenges={window.adminChallenges} selected={selectedNum} />,
       adminDiv
     );
 }
-
 
 window.addCategory = function() {
     window.location.href = '/admin/new_category';
@@ -71,7 +81,7 @@ window.putChallenge = function() {
     axios.post('/admin/challenge', {name, description, categories, difficulty,
         defaultText, testFile, className})
         .then(function (res) {
-            window.location.href = "/admin";
+            window.location.href = "/admin/tab/Challenges";
         }).catch(function (err) {
             console.log("Error putting challenge.")
             console.log(err);
@@ -90,7 +100,7 @@ window.putChallenge = function() {
         axios.patch('/admin/challenge/' + id, {name, description, categories, difficulty,
             defaultText, testFile, className})
             .then(function (res) {
-                window.location.href = "/admin";
+                window.location.href = "/admin/tab/Challenges";
             }).catch(function (err) {
                 console.log("Error patching challenge.");
                 console.log(err);
@@ -101,7 +111,7 @@ window.putChallenge = function() {
         window.deleteChallenge = function(id) {
             axios.delete('/admin/challenge/' + id)
             .then(function (res) {
-                window.location.href = '/admin';
+                window.location.href = '/admin/tab/Challenges';
             }).catch(function (err) {
                 console.log("Error deleting challenge.");
                 console.log(err);
@@ -146,7 +156,7 @@ window.putChallenge = function() {
                 visible
               })
               .then(function(res) {
-                window.location.href = "/admin";
+                window.location.href = "/admin/tab/Messages";
               })
               .catch(function(err) {
                 console.log("Error putting message.");
@@ -170,7 +180,7 @@ window.putChallenge = function() {
                 visible
               })
               .then(function(res) {
-                window.location.href = "/admin";
+                window.location.href = "/admin/tab/Messages";
               })
               .catch(function(err) {
                 console.log("Error patching message.");
@@ -182,7 +192,7 @@ window.putChallenge = function() {
             axios
             .delete("/admin/message/" + id)
             .then(function(res) {
-                window.location.href = "/admin";
+                window.location.href = "/admin/tab/Messages";
             })
             .catch(function(err) {
                 console.log("Error deleting message.");

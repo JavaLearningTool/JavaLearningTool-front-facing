@@ -17,7 +17,7 @@
             padding: 5px 30px
             cursor: pointer
 
-            &:hover
+            &.active, &:hover
                 background-color: $admin-sideBar-hover
 
             h3
@@ -90,3 +90,22 @@
 
     .description
         flex-grow: 1
+
+.criteria-menu
+    margin: 20px 0
+
+.criteria-dropdown
+    .header
+        background: $midnightblue
+        color: white
+
+    .pure-menu-children
+        background: white
+        border: 1px solid $drop-down-border
+
+.category-dropdown-item
+    padding: 7px 30px
+    cursor: pointer
+
+    &:hover
+        background: $clouds
