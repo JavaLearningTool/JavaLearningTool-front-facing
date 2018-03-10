@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-import React from 'react';
+import React from "react";
 
-const MESSAGE_RESULT_TYPE = 'message';
-const COMPARATIVE_RESULT_TYPE = 'comparative';
-const COMPARATIVE_MESSAGE_RESULT_TYPE = 'comparative-message';
+const MESSAGE_RESULT_TYPE = "message";
+const COMPARATIVE_RESULT_TYPE = "comparative";
+const COMPARATIVE_MESSAGE_RESULT_TYPE = "comparative-message";
 
 class TestResults extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             display: this.props.display,
-            resultState: {compiling: false, error: false, data: {}}
+            resultState: { compiling: false, error: false, data: {} }
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -20,178 +20,95 @@ class TestResults extends React.Component {
 
     render() {
         if (!this.state.display) {
-            return (<h1></h1>);
+            return <h1 />;
         } else if (this.state.resultState.compiling) {
-            return (<h1>Compiling ...</h1>);
+            return <h1>Compiling ...</h1>;
         } else if (this.state.resultState.error) {
-            return (<pre>{this.state.resultState.error}</pre>);
+            return <pre>{this.state.resultState.error}</pre>;
         } else {
             let items = [];
             this.state.resultState.data.forEach((element, index) => {
                 items.push(this.renderTestResult(element, index));
             });
-            return (
-                <div>
-                { items }
-                </div>
-            );
+            return <div>{items}</div>;
         }
     }
 
     renderTestResult(item, index) {
-        let testType = item.testType;
+        let parts = [];
+
+        if (item.parts !== undefined) {
+            item.parts.forEach((part, partIndex) => {
+                let label = this.replaceQuotes(
+                    this.replaceNewLines(part.label)
+                );
+                let message = this.replaceQuotes(part.message);
+                if (part.multiLine === "false") {
+                    message = this.replaceNewLines(message);
+                }
+
+                parts.push(
+                    <div className="resultArea" key={"resultArea" + partIndex}>
+                        <p className="resultLabel"> {label} </p>
+                        <pre className="resultField">{message}</pre>
+                    </div>
+                );
+            });
+        }
+
         let passed = item.passed === "true";
         let timeout = item.timeout === "true";
         let runtimeException = item.runtimeException === "true";
-
         let passFailLabel = "You passed!";
         if (timeout) {
-            passFailLabel = "You timed out."
+            passFailLabel = "You timed out.";
         } else if (runtimeException) {
-            passFailLabel = "A runtime exception occurred."
+            passFailLabel = "A runtime exception occurred.";
         } else if (!passed) {
-            passFailLabel = "You failed.";            
+            passFailLabel = "You failed.";
         }
 
-        let resultLabel;
-        let body;
+        let infoLabel = (
+            <p className="resultLabel">
+                {" "}
+                {this.replaceNewLines(this.replaceQuotes(item.info))}{" "}
+            </p>
+        );
 
-        if (testType === MESSAGE_RESULT_TYPE) {
-            resultLabel = <p className="resultLabel"> {this.replaceQuotes(item.label)} </p>
+        let body = (
+            <div className="drop-down-body">
+                {parts}
+                <p className="resultLabel"> time: {item.time} ms</p>
+            </div>
+        );
 
-            if (!timeout && !runtimeException) { // Passed or failed normally
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel">Message: </p>
-                        <pre className="resultField">
-                                {this.replaceQuotes(item.message)}
-                        </pre>
-                        </div>
-                    <p className="resultLabel"> time: {item.time} ms</p>
-                </div>;
-            } else if (timeout) { // Timeout occurred
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel">Message: </p>
-                        <pre className="resultField">
-                                {this.replaceQuotes(item.message)}
-                        </pre>
-                        </div>
-                    <div className="resultArea">
-                        <p className="resultLabel"> Timeout! after {item.time} ms.</p>
-                    </div>
-                    <br/>
-                </div>;
-            } else { // Runtime exception
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel">Message: </p>
-                        <pre className="resultField">
-                                {this.replaceQuotes(item.message)}
-                        </pre>
-                        </div>
-                    <div className="resultArea">
-                        <p className="resultLabel">Compiler: </p>
-                        <pre className="resultField">
-                            {this.replaceQuotes(item.exceptionMessage)}
-                        </pre>
-                    </div>
-                    <p className="resultLabel"> time: {item.time} ms</p>
-                </div>;
-            }
-
-        } else if (testType === COMPARATIVE_MESSAGE_RESULT_TYPE) {
-            resultLabel = <p className="resultLabel"> {this.replaceQuotes(item.label)} </p>
-
-            if (!timeout && !runtimeException) { // Passed or failed normally
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel">Message: </p>
-                        <pre className="resultField">
-                                {this.replaceQuotes(item.message)}
-                        </pre>
-                        </div>
-                    <div className="resultArea">
-                        <p className="resultLabel">Expected: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.expected))}
-                        </p>
-                    </div>
-                    <div className="resultArea">
-                        <p className="resultLabel">Actual: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.actual))}
-                        </p>
-                    </div>
-                    <p className="resultLabel"> time: {item.time} ms</p>
-                </div>;
-            }
-        } else if (testType === COMPARATIVE_RESULT_TYPE){
-            if (item.input === "") {
-                resultLabel = <p className="resultLabel"> Input: None </p>
-            } else {
-                resultLabel = <p className="resultLabel"> Input: {this.replaceQuotes(item.input)} </p>;            
-            }
-
-            if (!timeout && !runtimeException) { // Passed or failed normally
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel">Expected: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.expected))}
-                        </p>
-                    </div>
-                    <div className="resultArea">
-                        <p className="resultLabel">Actual: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.actual))}
-                        </p>
-                    </div>
-                    <p className="resultLabel"> time: {item.time} ms</p>
-                </div>;
-            } else if (timeout) { // Timeout occurred
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel"> Timeout! after {item.time} ms.</p>
-                    </div>
-                    <br/>
-                    <div className="resultArea">
-                        <p className="resultLabel">Expected: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.expected))}
-                        </p>
-                    </div>
-                </div>;
-            } else { // Runtime exception
-                body = <div className="drop-down-body ">
-                    <div className="resultArea">
-                        <p className="resultLabel">Compiler: </p>
-                        <pre className="resultField">
-                            {this.replaceQuotes(item.exceptionMessage)}
-                        </pre>
-                    </div>
-                    <div className="resultArea">
-                        <p className="resultLabel">Expected: </p>
-                        <p className="resultField">
-                            {this.replaceQuotes(this.replaceNewLines(item.expected))}
-                        </p>
-                    </div>
-                    <p className="resultLabel"> time: {item.time} ms</p>
-                </div>;
-            }
-        }
-        
-        return <div className={"testResult drop-down-container " + (item.dropped ? "dropped" : "")} key={index} onClick={e => {this.dropDownClicked(index);}}>
+        return (
+            <div
+                className={
+                    "testResult drop-down-container " +
+                    (item.dropped ? "dropped" : "")
+                }
+                key={"result" + index}
+                onClick={e => {
+                    this.dropDownClicked(index);
+                }}
+            >
                 <div className="drop-down-header">
                     <div className="headerResultArea">
-                        <p className={"passedLabel " + (passed ? "success" : "failure")}>
+                        <p
+                            className={
+                                "passedLabel " +
+                                (passed ? "success" : "failure")
+                            }
+                        >
                             {passFailLabel}
                         </p>
-                        {resultLabel}
+                        {infoLabel}
                     </div>
                 </div>
                 {body}
-            </div>;
+            </div>
+        );
     }
 
     dropDownClicked(index) {
@@ -230,7 +147,7 @@ class TestResults extends React.Component {
     }
 
     replaceQuotes(str) {
-        return str.replace(/&quot;/g, "'");        
+        return str.replace(/&quot;/g, "'");
     }
 }
 
