@@ -14,7 +14,6 @@
     "cookie-parser": "~1.4.3",
     "express": "~4.15.2",
     "express-session": "^1.15.6",
-    "js-cookie": "^2.2.0",
     "mongoose": "^4.13.7",
     "morgan": "~1.8.1",
     "prop-types": "^15.6.0",
