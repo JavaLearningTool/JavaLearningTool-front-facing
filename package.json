@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "body-parser": "~1.17.1",
+    "cas-authentication": "0.0.8",
     "connect-mongo": "^2.0.1",
     "cookie-parser": "~1.4.3",
     "express": "~4.15.2",
