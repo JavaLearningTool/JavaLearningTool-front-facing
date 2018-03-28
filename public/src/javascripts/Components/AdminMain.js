@@ -18,44 +18,67 @@ class Admin extends React.Component {
     }
 
     render() {
-
-        return <div className="flex-container admin-container">
-            <div className="sideBar">
-              <h1 className="header-title">Nova</h1>
-              <ul>
-                <li className={this.state.stateShown === 1 ? "active" : ""} onClick={() => this.onClick("Category")}>
-                  <h3>Categories</h3>
-                </li>
-                <li className={this.state.stateShown === 2 ? "active" : ""} onClick={() => this.onClick("Challenges")}>
-                  <h3>Challenges</h3>
-                </li>
-                <li className={this.state.stateShown === 3 ? "active" : ""} onClick={() => this.onClick("Messages")}>
-                  <h3>Messages</h3>
-                </li>
-              </ul>
+        return (
+            <div className="flex-container admin-container">
+                <div className="sideBar">
+                    <h1 className="header-title">Nova</h1>
+                    <ul>
+                        <li
+                            className={
+                                this.state.stateShown === 1 ? "active" : ""
+                            }
+                            onClick={() => this.onClick("Category")}
+                        >
+                            <h3>Categories</h3>
+                        </li>
+                        <li
+                            className={
+                                this.state.stateShown === 2 ? "active" : ""
+                            }
+                            onClick={() => this.onClick("Challenges")}
+                        >
+                            <h3>Challenges</h3>
+                        </li>
+                        <li
+                            className={
+                                this.state.stateShown === 3 ? "active" : ""
+                            }
+                            onClick={() => this.onClick("Messages")}
+                        >
+                            <h3>Messages</h3>
+                        </li>
+                    </ul>
+                </div>
+                <div className="main">
+                    <Category
+                        categories={this.state.categories}
+                        shown={this.state.stateShown === 1}
+                    />
+                    <Challenge
+                        challenges={this.state.challenges}
+                        categories={this.state.categories}
+                        shown={this.state.stateShown === 2}
+                    />
+                    <Message
+                        messages={this.state.messages}
+                        shown={this.state.stateShown === 3}
+                    />
+                </div>
             </div>
-            <div className="main">
-              <Category categories={this.state.categories} shown={this.state.stateShown === 1} />
-              <Challenge challenges={this.state.challenges} categories={this.state.categories} shown={this.state.stateShown === 2} />
-              <Message messages={this.state.messages} shown={this.state.stateShown === 3} />
-            </div>
-          </div>;
+        );
     }
 
     onClick(which) {
-        if (which === "Category" && this.statestateShown !== 1) {
-            this.setState({stateShown: 1});
-        } else if (which === "Challenges" && this.statestateShown !== 2) {
+        if (which === "Category" && this.state.stateShown !== 1) {
+            this.setState({ stateShown: 1 });
+        } else if (which === "Challenges" && this.state.stateShown !== 2) {
             this.setState({ stateShown: 2 });
-        } else if (which === "Messages" && this.statestateShown !==3) {
+        } else if (which === "Messages" && this.state.stateShown !== 3) {
             this.setState({ stateShown: 3 });
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-    
-    }
-
+    componentWillReceiveProps(nextProps) {}
 }
 
 export default Admin;
