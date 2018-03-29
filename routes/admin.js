@@ -2,17 +2,30 @@ const express = require("express");
 const router = express.Router();
 const logger = require("../logger.js");
 const cas = require("../cas");
+const md = require("markdown-it")({
+    linkify: true,
+    typographer: true
+});
 
 const Challenge = require("../models/challenge.js");
 const Category = require("../models/challenge_category.js");
 const Message = require("../models/message.js");
 
 function newLineToBreak(str) {
-    str = str.trim();
     return str.replace(/\n/g, "<br>");
 }
 
+function breakToNewLine(str) {
+    return str.replace(/\<br\>/g, "\n");
+}
+
 router.use("/*", cas.bounce("/admin"), function(req, res, next) {
+    logger.debug(process.env.DEV);
+    if (process.env.DEV === "true") {
+        logger.warn("process.env.DEV is equal to true");
+        next();
+        return;
+    }
     if (req.session.admin) {
         next();
     } else {
@@ -132,6 +145,7 @@ router.get("/challenge/:id", function(req, res, next) {
             return;
         }
 
+        challenge.description = breakToNewLine(challenge.description);
         logger.debug("Challenge: " + challenge);
 
         res.render("patch_challenge", {
@@ -198,7 +212,8 @@ router.post("/challenge", function(req, res, next) {
     try {
         let newChall = Challenge({
             name: req.body.name,
-            description: newLineToBreak(req.body.description),
+            description: req.body.description,
+            descriptionHtml: md.render(req.body.description),
             categories: req.body.categories,
             difficulty: req.body.difficulty,
             defaultText: req.body.defaultText,
@@ -262,7 +277,7 @@ router.patch("/category/:categoryId", function(req, res, next) {
 });
 
 router.patch("/challenge/:challengeId", function(req, res, next) {
-    req.body.description = newLineToBreak(req.body.description);
+    req.body.descriptionHtml = md.render(req.body.description);
 
     Challenge.findByIdAndUpdate(
         req.params.challengeId,

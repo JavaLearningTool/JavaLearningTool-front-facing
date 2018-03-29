@@ -15,7 +15,7 @@ block content
             span= "Difficulty: "
             a(class="listed-category" href="/search?difficulty=" + challenge.difficulty)
                 span= diff[challenge.difficulty - 1]
-            p!= challenge.description
+            div!= challenge.descriptionHtml
 
         div.code-mirror-container
             include textEditor.pug

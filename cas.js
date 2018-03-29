@@ -5,7 +5,7 @@ module.exports.sessionCasName = SESSION_CAS_NAME;
 
 module.exports.bounce = function(redirect) {
     return (req, res, next) => {
-        if (process.env.dev === "true") {
+        if (process.env.DEV === "true") {
             logger.warn("DEV set to true.");
             next();
             return;

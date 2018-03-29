@@ -16,6 +16,7 @@
     "dotenv": "^5.0.1",
     "express": "~4.15.2",
     "express-session": "^1.15.6",
+    "markdown-it": "^8.4.1",
     "mongoose": "^4.13.7",
     "morgan": "~1.8.1",
     "prop-types": "^15.6.0",

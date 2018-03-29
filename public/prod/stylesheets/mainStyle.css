@@ -490,15 +490,6 @@ blockquote {
   line-height: 30px;
   color: #1d2229; }
 
-pre {
-  font-family: Geneva, Tahoma, Verdana, sans-serif;
-  font-size: 13px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 18.5714px;
-  color: #1d2229; }
-
 a {
   color: #00B7FF; }
 
@@ -687,6 +678,37 @@ pre.resultField {
 
 .code-mirror-container {
   width: 80%; }
+
+.challengeDesc {
+  max-width: 80%; }
+  .challengeDesc div pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px; }
+  .challengeDesc div code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px; }
+  .challengeDesc div code, .challengeDesc div pre {
+    font-size: 1em;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace; }
+  .challengeDesc div pre code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0; }
 
 .search-container {
   padding: 30px 30px; }
