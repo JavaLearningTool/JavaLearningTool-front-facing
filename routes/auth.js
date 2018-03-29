@@ -8,6 +8,8 @@ const sessionCasName = require("../cas").sessionCasName;
 const parseXML = require("xml2js").parseString;
 const XMLprocessors = require("xml2js/lib/processors");
 
+const admins = process.env.ADMIN_IDS.split(",");
+
 function getServiceString(protocol, host, redirect) {
     let service = protocol + "://" + host + "/auth/authenticate";
     if (redirect !== undefined) {
@@ -35,8 +37,11 @@ router.get("/authenticate/:redirect?", function(req, res, next) {
             res.json("Failed to authenticate");
             return;
         }
+
         req.session[sessionCasName] = user;
-        console.log(user);
+        if (admins.indexOf(user) >= 0) {
+            req.session.admin = true;
+        }
 
         res.redirect(
             "/" + (req.params.redirect === undefined ? "" : req.params.redirect)
@@ -71,7 +76,6 @@ router.get("/authenticate/:redirect?", function(req, res, next) {
                     ]
                 },
                 function(err, result) {
-                    console.log(err, result);
                     if (err) {
                         return authCallback(
                             new Error("Response from CAS server was bad.")

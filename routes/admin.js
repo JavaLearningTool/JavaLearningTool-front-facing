@@ -13,13 +13,11 @@ function newLineToBreak(str) {
 }
 
 router.use("/*", cas.bounce("/admin"), function(req, res, next) {
-    // if (req.session.admin) {
-    //     next();
-    // } else {
-    //     res.redirect("../auth/login");
-    // }
-    logger.debug("Check log in");
-    next();
+    if (req.session.admin) {
+        next();
+    } else {
+        res.json({ error: "access denied" });
+    }
 });
 
 function routeMain(req, res, next) {
