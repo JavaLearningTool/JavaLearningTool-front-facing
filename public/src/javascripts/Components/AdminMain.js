@@ -12,9 +12,13 @@ class Admin extends React.Component {
             categories: props.categories,
             challenges: props.challenges,
             messages: props.messages,
-            stateShown: props.selected
+            stateShown: props.selected,
+            changeTab: props.changeTab
         };
-        console.log(window.categories);
+    }
+
+    changeTabState(nextSelected) {
+        this.setState({ stateShown: nextSelected });
     }
 
     render() {
@@ -69,13 +73,8 @@ class Admin extends React.Component {
     }
 
     onClick(which) {
-        if (which === "Category" && this.state.stateShown !== 1) {
-            this.setState({ stateShown: 1 });
-        } else if (which === "Challenges" && this.state.stateShown !== 2) {
-            this.setState({ stateShown: 2 });
-        } else if (which === "Messages" && this.state.stateShown !== 3) {
-            this.setState({ stateShown: 3 });
-        }
+        history.pushState(null, "", "/admin/tab/" + which);
+        this.state.changeTab();
     }
 
     componentWillReceiveProps(nextProps) {}
