@@ -1,12 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const request = require("request");
-var CASAuthentication = require("cas-authentication");
-var cas = new CASAuthentication({
-    cas_url: "https://login.gatech.edu/cas/login",
-    service_url: "https://login.gatech.edu/cas/serviceValidate"
-});
 const logger = require("../logger.js");
+const cas = require("../cas");
 
 const Challenge = require("../models/challenge.js");
 const Category = require("../models/challenge_category.js");
@@ -17,13 +12,13 @@ function newLineToBreak(str) {
     return str.replace(/\n/g, "<br>");
 }
 
-router.use("/*", cas.bounce, function(req, res, next) {
+router.use("/*", cas.bounce("/admin"), function(req, res, next) {
     // if (req.session.admin) {
     //     next();
     // } else {
     //     res.redirect("../auth/login");
     // }
-    console.log("Check log in");
+    logger.debug("Check log in");
     next();
 });
 
