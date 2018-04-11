@@ -30,10 +30,7 @@ router.get("/", function(req, res, next) {
 
     Category.find({ featured: true }).exec(function(err, cats) {
         if (err) {
-            logger.error(
-                "Error querying featured categories in / route. ",
-                err
-            );
+            logger.error("Error querying featured categories in / route. ", err);
             next();
             // TODO render error page.
             return;
@@ -78,10 +75,7 @@ router.post("/compile", function(req, res, next) {
         },
         function(error, response, body) {
             if (error) {
-                logger.error(
-                    "Error communicating with compiler route. ",
-                    error
-                );
+                logger.error("Error communicating with compiler route. ", error);
                 res.json({ error: compilationErrorMessage });
                 return;
             }
@@ -90,11 +84,7 @@ router.post("/compile", function(req, res, next) {
                 let parsed = JSON.parse(body);
                 res.json(parsed);
             } catch (err) {
-                logger.error(
-                    "Error parsing json from compiler. Json: ",
-                    body,
-                    err
-                );
+                logger.error("Error parsing json from compiler. Json: ", body, err);
                 res.json({ error: compilationErrorMessage });
             }
         }
@@ -106,11 +96,7 @@ router.get("/challenge/:path", function(req, res, next) {
         .populate("categories")
         .exec(function(err, challenge) {
             if (err) {
-                logger.error(
-                    "Error finding challenge at path: ",
-                    req.params.path,
-                    err
-                );
+                logger.error("Error finding challenge at path: ", req.params.path, err);
                 next();
                 // TODO Error page here
                 return;
@@ -126,12 +112,7 @@ router.get("/challenge/:path", function(req, res, next) {
                 title: challenge.name,
                 codeBox: true,
                 styles: ["codemirror", "mainStyle"],
-                scripts: [
-                    "codemirror",
-                    "clike",
-                    "challengeBundle",
-                    "testResultsBundle"
-                ]
+                scripts: ["codemirror", "clike", "challengeBundle", "testResultsBundle"]
             });
         });
 });
@@ -189,10 +170,7 @@ router.get("/search", function(req, res, next) {
 
         Category.find({ _id: criteria.categories }).exec(function(err, cats) {
             if (err) {
-                logger.error(
-                    "Error querying database for category in /search route. ",
-                    err
-                );
+                logger.error("Error querying database for category in /search route. ", err);
                 // TODO error page here
                 next();
                 return;
@@ -206,10 +184,7 @@ router.get("/search", function(req, res, next) {
             .sort({ score: { $meta: "textScore" } })
             .exec(function(err, challs) {
                 if (err) {
-                    logger.error(
-                        "Error querying database for challenge in /search route. ",
-                        err
-                    );
+                    logger.error("Error querying database for challenge in /search route. ", err);
                     // TODO error page here
                     next();
                     return;
@@ -224,10 +199,7 @@ router.get("/search", function(req, res, next) {
 router.get("/search", function(req, res, next) {
     Category.find({}, function(err, categories) {
         if (err) {
-            logger.error(
-                "Error in /search route querying for all categories. ",
-                err
-            );
+            logger.error("Error in /search route querying for all categories. ", err);
             next();
             // TODO error page here
             return;

@@ -709,6 +709,8 @@ pre.resultField {
     white-space: pre-wrap;
     background-color: transparent;
     border-radius: 0; }
+  .challengeDesc div ul li {
+    margin: 6px 0; }
 
 .search-container {
   padding: 30px 30px; }

@@ -6,8 +6,7 @@
         "start": "node ./bin/www",
         "start:dev": "nodemon ./bin/www",
         "build": "webpack -d --watch",
-        "javadocs":
-            "javadoc -d ./public/javadocs ../JavaLearningTool-challenges/shared/*.java"
+        "javadocs": "javadoc -d ./public/javadocs ../JavaLearningTool-challenges/shared/*.java"
     },
     "dependencies": {
         "axios": "^0.17.1",
