@@ -22,11 +22,7 @@ function getServiceString(protocol, host, redirect) {
 }
 
 router.get("/login/:redirect?", function(req, res, next) {
-    let service = getServiceString(
-        req.protocol,
-        req.get("host"),
-        req.params.redirect
-    );
+    let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
 
     res.redirect("https://login.gatech.edu/cas/login?service=" + service);
 });
@@ -43,16 +39,10 @@ router.get("/authenticate/:redirect?", function(req, res, next) {
             req.session.admin = true;
         }
 
-        res.redirect(
-            "/" + (req.params.redirect === undefined ? "" : req.params.redirect)
-        );
+        res.redirect("/" + (req.params.redirect === undefined ? "" : req.params.redirect));
     };
 
-    let service = getServiceString(
-        req.protocol,
-        req.get("host"),
-        req.params.redirect
-    );
+    let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
 
     request.get(
         {
@@ -70,46 +60,27 @@ router.get("/authenticate/:redirect?", function(req, res, next) {
                     trim: true,
                     normalize: true,
                     explicitArray: false,
-                    tagNameProcessors: [
-                        XMLprocessors.normalize,
-                        XMLprocessors.stripPrefix
-                    ]
+                    tagNameProcessors: [XMLprocessors.normalize, XMLprocessors.stripPrefix]
                 },
                 function(err, result) {
                     if (err) {
-                        return authCallback(
-                            new Error("Response from CAS server was bad.")
-                        );
+                        return authCallback(new Error("Response from CAS server was bad."));
                     }
                     try {
-                        var failure =
-                            result.serviceresponse.authenticationfailure;
+                        var failure = result.serviceresponse.authenticationfailure;
                         if (failure) {
                             return authCallback(
-                                new Error(
-                                    "CAS authentication failed (" +
-                                        failure.$.code +
-                                        ")."
-                                )
+                                new Error("CAS authentication failed (" + failure.$.code + ").")
                             );
                         }
-                        var success =
-                            result.serviceresponse.authenticationsuccess;
+                        var success = result.serviceresponse.authenticationsuccess;
                         if (success) {
-                            return authCallback(
-                                null,
-                                success.user,
-                                success.attributes
-                            );
+                            return authCallback(null, success.user, success.attributes);
                         } else {
-                            return authCallback(
-                                new Error("CAS authentication failed.")
-                            );
+                            return authCallback(new Error("CAS authentication failed."));
                         }
                     } catch (err) {
-                        return authCallback(
-                            new Error("CAS authentication failed.")
-                        );
+                        return authCallback(new Error("CAS authentication failed."));
                     }
                 }
             );

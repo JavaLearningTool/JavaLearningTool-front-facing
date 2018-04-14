@@ -1,6 +1,9 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
+/**
+ * Create schema for Challenges
+ */
 var challengeSchema = new Schema({
     name: { type: String, required: true, unique: true },
     description: { type: String, required: true },
@@ -12,6 +15,7 @@ var challengeSchema = new Schema({
     className: { type: String, default: "Test" }
 });
 
+// Index the name so it can be searched for
 challengeSchema.index({ name: "text" });
 
 module.exports = mongoose.model("challenge", challengeSchema);
