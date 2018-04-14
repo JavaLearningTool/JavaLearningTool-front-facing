@@ -49,7 +49,7 @@ challengeCatSchema.statics.findWithIds = function(ids, cb) {
  *
  * @param {function} cb callback function when results are received
  */
-challengeCatSchema.statics.findWithId = function(cb) {
+challengeCatSchema.statics.findFeatured = function(cb) {
     return this.find({ featured: true }, cb);
 };
 
