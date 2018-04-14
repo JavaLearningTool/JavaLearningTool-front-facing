@@ -2,10 +2,6 @@ const express = require("express");
 const router = express.Router();
 const logger = require("../logger.js");
 const cas = require("../cas");
-const md = require("markdown-it")({
-    linkify: true,
-    typographer: true
-});
 
 const Challenge = require("../models/challenge.js");
 const Category = require("../models/challenge_category.js");
@@ -53,17 +49,17 @@ function routeMain(req, res, next) {
         }
     };
 
-    Challenge.find({}, function(err, challs) {
+    Challenge.findAll(function(err, challs) {
         challenges = challs;
         callback();
     });
 
-    Category.find({}, function(err, cats) {
+    Category.findAll(function(err, cats) {
         categories = cats;
         callback();
     });
 
-    Message.find({}, function(err, mess) {
+    Message.findAll(function(err, mess) {
         messages = mess;
         callback();
     });
@@ -82,7 +78,7 @@ router.get("/new_category", function(req, res, next) {
 });
 
 router.get("/new_challenge", function(req, res, next) {
-    Category.find({}, function(err, categories) {
+    Category.findAll(function(err, categories) {
         res.render("new_challenge", {
             title: "Admin",
             codeBox: true,
@@ -104,13 +100,9 @@ router.get("/new_message", function(req, res, next) {
 });
 
 router.get("/category/:id", function(req, res, next) {
-    Category.findOne({ _id: req.params.id }, function(err, category) {
+    Category.findWithId(req.params.id, function(err, category) {
         if (err) {
-            logger.error(
-                "Error finding category with id: ",
-                req.params.id,
-                err
-            );
+            logger.error("Error finding category with id: ", req.params.id, err);
             next();
             return;
         }
@@ -159,12 +151,12 @@ router.get("/challenge/:id", function(req, res, next) {
         });
     };
 
-    Challenge.findOne({ _id: req.params.id }, function(err, chall) {
+    Challenge.findWithId(req.params.id, function(err, chall) {
         challenge = chall;
         callback(err);
     });
 
-    Category.find({}, function(err, cats) {
+    Category.findAll(function(err, cats) {
         categories = cats;
         callback(err);
     });
@@ -173,7 +165,7 @@ router.get("/challenge/:id", function(req, res, next) {
 });
 
 router.get("/message/:id", function(req, res, next) {
-    Message.findOne({ _id: req.params.id }, function(err, message) {
+    Message.findWithId(req.params.id, function(err, message) {
         if (err) {
             logger.error("Error finding message with id: ", req.params.id, err);
             next();
@@ -191,13 +183,7 @@ router.get("/message/:id", function(req, res, next) {
 });
 
 router.put("/category", function(req, res, next) {
-    let newCat = Category({
-        title: req.body.title,
-        description: req.body.description,
-        featured: req.body.featured
-    });
-
-    newCat.save(function(err) {
+    Category.newCategory(req.body.title, req.body.description, req.body.featured, function(err) {
         if (err) {
             logger.error("Error saving new category", err);
             res.json({ error: "Request failed!" });
@@ -210,28 +196,23 @@ router.put("/category", function(req, res, next) {
 
 router.post("/challenge", function(req, res, next) {
     try {
-        let newChall = Challenge({
-            name: req.body.name,
-            description: req.body.description,
-            descriptionHtml: md.render(req.body.description),
-            categories: req.body.categories,
-            difficulty: req.body.difficulty,
-            defaultText: req.body.defaultText,
-            testFile: req.body.testFile,
-            className: req.body.className
-        });
-
-        newChall.save(function(err) {
-            if (err) {
-                logger.error(
-                    "Error in route /admin/challenge saving challenge. ",
-                    err
-                );
-                res.json({ error: true });
-                return;
+        let newChall = Challenge.newChallenge(
+            req.body.name,
+            req.body.description,
+            req.body.categories,
+            req.body.difficulty,
+            req.body.defaultText,
+            req.body.testFile,
+            req.body.className,
+            function(err) {
+                if (err) {
+                    logger.error("Error in route /admin/challenge saving challenge. ", err);
+                    res.json({ error: true });
+                    return;
+                }
+                res.json({ error: false });
             }
-            res.json({ error: false });
-        });
+        );
     } catch (err) {
         logger.error("Error in route /admin/challenge. ", err);
         res.json({ error: true });
@@ -239,114 +220,71 @@ router.post("/challenge", function(req, res, next) {
 });
 
 router.put("/message", function(req, res, next) {
-    let newMess = Message({
-        title: req.body.title,
-        body: req.body.body,
-        links: req.body.links,
-        visible: req.body.visible
-    });
+    let newMess = Message.newMessage(
+        req.body.title,
+        req.body.body,
+        req.body.links,
+        req.body.visible,
+        function(err) {
+            if (err) {
+                logger.error("Error saving new message", err);
+                res.json({ error: "Request failed!" });
+                return;
+            }
 
-    newMess.save(function(err) {
+            res.json({});
+        }
+    );
+});
+
+router.patch("/category/:categoryId", function(req, res, next) {
+    Category.updateById(req.params.categoryId, req.body, function(err) {
         if (err) {
-            logger.error("Error saving new message", err);
-            res.json({ error: "Request failed!" });
+            logger.error("Error updating category with id: ", req.params.categoryId, err);
+            res.json({ error: true });
             return;
         }
-
         res.json({});
     });
 });
 
-router.patch("/category/:categoryId", function(req, res, next) {
-    Category.findByIdAndUpdate(
-        req.params.categoryId,
-        { $set: req.body },
-        function(err) {
-            if (err) {
-                logger.error(
-                    "Error updating category with id: ",
-                    req.params.categoryId,
-                    err
-                );
-                res.json({ error: true });
-                return;
-            }
-            res.json({});
-        }
-    );
-});
-
 router.patch("/challenge/:challengeId", function(req, res, next) {
-    req.body.descriptionHtml = md.render(req.body.description);
-
-    Challenge.findByIdAndUpdate(
-        req.params.challengeId,
-        { $set: req.body },
-        function(err) {
-            if (err) {
-                logger.error(
-                    "Error updating challenge with id: ",
-                    req.params.challengeId,
-                    err
-                );
-                res.json({ error: true });
-                return;
-            }
-            res.json({});
+    Challenge.updateById(req.params.challengeId, req.body, function(err) {
+        if (err) {
+            logger.error("Error updating challenge with id: ", req.params.challengeId, err);
+            res.json({ error: true });
+            return;
         }
-    );
+        res.json({});
+    });
 });
 
 router.patch("/message/:messageId", function(req, res, next) {
-    Message.findByIdAndUpdate(
-        req.params.messageId,
-        { $set: req.body },
-        function(err) {
-            if (err) {
-                logger.error(
-                    "Error updating message with id: ",
-                    req.params.messageId,
-                    err
-                );
-                res.json({ error: true });
-                return;
-            }
-            res.json({});
+    Message.updateById(req.params.messageId, req.body, function(err) {
+        if (err) {
+            logger.error("Error updating message with id: ", req.params.messageId, err);
+            res.json({ error: true });
+            return;
         }
-    );
+        res.json({});
+    });
 });
 
 router.delete("/category/:categoryId", function(req, res, next) {
-    Category.findByIdAndRemove(req.params.categoryId, function(err) {
+    Category.removeById(req.params.categoryId, function(err) {
         if (err) {
-            logger.error(
-                "Error removing category with id: ",
-                req.params.categoryId,
-                err
-            );
+            logger.error("Error removing category with id: ", req.params.categoryId, err);
             res.json({ error: true });
         } else {
-            // remove category from all challenges
-            Challenge.update(
-                {},
-                { $pull: { categories: req.params.categoryId } },
-                { multi: true },
-                function(err) {
-                    res.json({});
-                }
-            );
+            res.json({});
         }
     });
 });
 
 router.delete("/challenge/:challengeId", function(req, res, next) {
-    Challenge.findByIdAndRemove(req.params.challengeId, function(err) {
+    Challenge.removeById(req.params.challengeId, function(err) {
         if (err) {
-            logger.error(
-                "Error removing challenge with id: ",
-                req.params.challengeId,
-                err
-            );
+            logger.error("Error removing challenge with id: ", req.params.challengeId, err);
             res.json({ error: true });
         } else {
             res.json({});
@@ -355,13 +293,9 @@ router.delete("/challenge/:challengeId", function(req, res, next) {
 });
 
 router.delete("/message/:messageId", function(req, res, next) {
-    Message.findByIdAndRemove(req.params.messageId, function(err) {
+    Message.removeById(req.params.messageId, function(err) {
         if (err) {
-            logger.error(
-                "Error removing message with id: ",
-                req.params.messageId,
-                err
-            );
+            logger.error("Error removing message with id: ", req.params.messageId, err);
             res.json({ error: true });
         } else {
             res.json({});

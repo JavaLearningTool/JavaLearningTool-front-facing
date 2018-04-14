@@ -19,12 +19,9 @@ const Category = require("./models/challenge_category.js");
 const Challenge = require("./models/challenge.js");
 
 if (process.env.MONGO_ROUTE) {
-    mongoose.connect(
-        "mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool",
-        {
-            useMongoClient: true
-        }
-    );
+    mongoose.connect("mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool", {
+        useMongoClient: true
+    });
 } else {
     mongoose.connect("mongodb://" + "localhost/JavaLearningTool", {
         useMongoClient: true
@@ -110,6 +107,8 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+    logger.error("An error occurred: " + err);
+
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = process.env.LOGS === "dev" ? err : {};
