@@ -44,6 +44,19 @@ challengeSchema.statics.findWithId = function(id, cb) {
 };
 
 /**
+ * Queries the Challenge collection for challenges that match the criteria
+ *
+ * @param {Object} criteria the criteria to search by. This should contain an object with
+ *                 attributes of the Challenges as keys and values to search for as values
+ * @param {Number} limit The maximum number of Challenge documents to return. (default 20)
+ */
+challengeSchema.statics.findWithCriteria = function(criteria, limit = 20) {
+    return this.find(criteria, { score: { $meta: "textScore" } })
+        .limit(10)
+        .sort({ score: { $meta: "textScore" } });
+};
+
+/**
  * Updates the Document with the given id based on updateObj
  *
  * @param {Object} id
@@ -66,6 +79,16 @@ challengeSchema.statics.removeById = function(id, cb) {
     return this.findByIdAndRemove(id, cb);
 };
 
+/**
+ * Finds one document with the provided test file. Populates the categories
+ * field with the category documents instead of their ids.
+ *
+ * @param {Object} testFile the testFile of the searched for Challenge
+ * @param {function} cb callback function when results are received
+ */
+challengeSchema.statics.findWithTestFile = function(testFile, cb) {
+    return this.findOne({ testFile }, cb).populate("categories");
+};
 /**
  * Creates a new Challenge document and adds it to the database
  *

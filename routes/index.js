@@ -28,7 +28,7 @@ router.get("/", function(req, res, next) {
         }
     };
 
-    Category.find({ featured: true }).exec(function(err, cats) {
+    Category.findFeatured().exec(function(err, cats) {
         if (err) {
             logger.error("Error querying featured categories in / route. ", err);
             next();
@@ -40,7 +40,7 @@ router.get("/", function(req, res, next) {
         callback();
     });
 
-    Message.find({ visible: true }).exec(function(err, mess) {
+    Message.findVisible().exec(function(err, mess) {
         if (err) {
             logger.error("Error querying messages in / route. ", err);
             next();
@@ -92,29 +92,27 @@ router.post("/compile", function(req, res, next) {
 });
 
 router.get("/challenge/:path", function(req, res, next) {
-    Challenge.findOne({ testFile: req.params.path })
-        .populate("categories")
-        .exec(function(err, challenge) {
-            if (err) {
-                logger.error("Error finding challenge at path: ", req.params.path, err);
-                next();
-                // TODO Error page here
-                return;
-            }
+    Challenge.findWithTestFile(req.params.path).exec(function(err, challenge) {
+        if (err) {
+            logger.error("Error finding challenge at path: ", req.params.path, err);
+            next();
+            // TODO Error page here
+            return;
+        }
 
-            if (challenge === null) {
-                next();
-                return;
-            }
+        if (challenge === null) {
+            next();
+            return;
+        }
 
-            res.render("challenge", {
-                challenge,
-                title: challenge.name,
-                codeBox: true,
-                styles: ["codemirror", "mainStyle"],
-                scripts: ["codemirror", "clike", "challengeBundle", "testResultsBundle"]
-            });
+        res.render("challenge", {
+            challenge,
+            title: challenge.name,
+            codeBox: true,
+            styles: ["codemirror", "mainStyle"],
+            scripts: ["codemirror", "clike", "challengeBundle", "testResultsBundle"]
         });
+    });
 });
 
 router.get("/search", function(req, res, next) {
@@ -168,7 +166,7 @@ router.get("/search", function(req, res, next) {
             });
         };
 
-        Category.find({ _id: criteria.categories }).exec(function(err, cats) {
+        Category.findWithIds(criteria.categories).exec(function(err, cats) {
             if (err) {
                 logger.error("Error querying database for category in /search route. ", err);
                 // TODO error page here
@@ -179,25 +177,22 @@ router.get("/search", function(req, res, next) {
             callback();
         });
 
-        Challenge.find(criteria, { score: { $meta: "textScore" } })
-            .limit(10)
-            .sort({ score: { $meta: "textScore" } })
-            .exec(function(err, challs) {
-                if (err) {
-                    logger.error("Error querying database for challenge in /search route. ", err);
-                    // TODO error page here
-                    next();
-                    return;
-                }
+        Challenge.findWithCriteria(criteria).exec(function(err, challs) {
+            if (err) {
+                logger.error("Error querying database for challenge in /search route. ", err);
+                // TODO error page here
+                next();
+                return;
+            }
 
-                challenges = challs;
-                callback();
-            });
+            challenges = challs;
+            callback();
+        });
     }
 });
 
 router.get("/search", function(req, res, next) {
-    Category.find({}, function(err, categories) {
+    Category.findAll(function(err, categories) {
         if (err) {
             logger.error("Error in /search route querying for all categories. ", err);
             next();

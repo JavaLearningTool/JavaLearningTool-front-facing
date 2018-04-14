@@ -37,6 +37,15 @@ messageSchema.statics.findWithId = function(id, cb) {
 };
 
 /**
+ * Finds all visible Message documents
+ *
+ * @param {function} cb callback function when results are received
+ */
+messageSchema.statics.findVisible = function(id, cb) {
+    return this.find({ visible: true }, cb);
+};
+
+/**
  * Updates the Document with the given id based on updateObj
  *
  * @param {Object} id

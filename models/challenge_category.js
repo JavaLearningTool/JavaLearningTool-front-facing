@@ -27,11 +27,30 @@ challengeCatSchema.statics.findAll = function(cb) {
 /**
  * Finds one document with the provided id
  *
- * @param {Object} id the id of the searched for Message
+ * @param {Object} id the id of the searched for Challenge
  * @param {function} cb callback function when results are received
  */
 challengeCatSchema.statics.findWithId = function(id, cb) {
     return this.findOne({ _id: id }, cb);
+};
+
+/**
+ * Finds the documents with the ids passed in
+ *
+ * @param {Object[]} ids the ids of the searched for Challenges
+ * @param {function} cb callback function when results are received
+ */
+challengeCatSchema.statics.findWithIds = function(ids, cb) {
+    return this.find({ _id: ids }, cb);
+};
+
+/**
+ * Finds all featured Categories
+ *
+ * @param {function} cb callback function when results are received
+ */
+challengeCatSchema.statics.findWithId = function(cb) {
+    return this.find({ featured: true }, cb);
 };
 
 /**
