@@ -58,7 +58,7 @@ Challenge.count({}, function(err, count) {
     }
 });
 
-var app = express();
+const app = express();
 
 // setup session cookies
 if (process.env.SESSION_SECRET === undefined) {

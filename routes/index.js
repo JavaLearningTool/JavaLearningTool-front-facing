@@ -45,6 +45,7 @@ router.get("/", async function(req, res, next) {
 router.post("/compile", function(req, res, next) {
     logger.debug("SRC Code: " + req.body.code);
 
+    // Debug results for when testing on device that can't properly run the compiler
     // res.json([
     //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" },
     //     { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n", timeout:"true", time:"32", input:"1, 2, 3"  },
@@ -65,6 +66,7 @@ router.post("/compile", function(req, res, next) {
             }
         },
         function(error, response, body) {
+            // Callback function that handles results
             if (error) {
                 logger.error("Error communicating with compiler route. ", error);
                 res.json({ error: compilationErrorMessage });
