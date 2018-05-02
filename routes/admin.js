@@ -3,6 +3,7 @@ const router = express.Router();
 const logger = require("../logger.js");
 const cas = require("../cas");
 const request = require("request");
+const { execSync } = require("child_process");
 
 const Challenge = require("../models/challenge.js");
 const Category = require("../models/challenge_category.js");
@@ -70,6 +71,14 @@ router.get("/", routeMain);
 router.get("/tab/:selected", routeMain);
 
 router.post("/pull", function(req, res, next) {
+    try {
+        execSync("bash ./scripts/pull.sh");
+    } catch (err) {
+        logger.error("Error pulling", err);
+        res.json({ error: err });
+        return;
+    }
+
     request.post(
         {
             url: "http://" + process.env.COMPILER_ROUTE + ":8080/pull",
