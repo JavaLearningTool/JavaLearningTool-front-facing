@@ -43,6 +43,18 @@ if (adminDiv) {
     window.onpopstate = pickTab;
 }
 
+window.pull = function() {
+    axios
+        .post("/admin/pull")
+        .then(function(res) {
+            console.log("Pulled");
+        })
+        .catch(function(err) {
+            console.log("Error Pulling.");
+            console.log(err);
+        });
+};
+
 window.addCategory = function() {
     window.location.href = "/admin/new_category";
 };

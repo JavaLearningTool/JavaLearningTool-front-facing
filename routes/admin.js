@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const logger = require("../logger.js");
 const cas = require("../cas");
+const request = require("request");
 
 const Challenge = require("../models/challenge.js");
 const Category = require("../models/challenge_category.js");
@@ -67,6 +68,26 @@ function routeMain(req, res, next) {
 
 router.get("/", routeMain);
 router.get("/tab/:selected", routeMain);
+
+router.post("/pull", function(req, res, next) {
+    request.post(
+        {
+            url: "http://" + process.env.COMPILER_ROUTE + ":8080/pull",
+            method: "POST"
+        },
+        function(error, response, body) {
+            // Callback function that handles results
+            if (error || body.error) {
+                error = error || body.error;
+                logger.error("Error communicating with compiler route. ", error);
+                res.json({ error: true });
+                return;
+            }
+
+            res.json({ error: false });
+        }
+    );
+});
 
 router.get("/new_category", function(req, res, next) {
     res.render("new_category", {

@@ -24,3 +24,5 @@ data/
 
 # node environment variables
 .env
+
+.directory

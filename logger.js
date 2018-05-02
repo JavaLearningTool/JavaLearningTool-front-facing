@@ -6,6 +6,7 @@ let transports = [];
 if (process.env.LOGS === "DEV") {
     transports.push(
         new winston.transports.Console({
+            level: "debug",
             handleExceptions: true,
             json: false,
             colorize: true
@@ -15,6 +16,7 @@ if (process.env.LOGS === "DEV") {
     transports.push(
         new winston.transports.File({
             filename: "./logs/all.log",
+            level: "debug",
             handleExceptions: true,
             json: true,
             maxsize: 5242880, //5MB

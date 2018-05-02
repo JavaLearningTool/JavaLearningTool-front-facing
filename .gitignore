@@ -64,3 +64,5 @@ data/
 
 # ignore environment vars files
 .env
+
+.directory

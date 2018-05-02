@@ -28,28 +28,29 @@ class Admin extends React.Component {
                     <h1 className="header-title">Nova</h1>
                     <ul>
                         <li
-                            className={
-                                this.state.stateShown === 1 ? "active" : ""
-                            }
+                            className={this.state.stateShown === 1 ? "active" : ""}
                             onClick={() => this.onClick("Category")}
                         >
                             <h3>Categories</h3>
                         </li>
                         <li
-                            className={
-                                this.state.stateShown === 2 ? "active" : ""
-                            }
+                            className={this.state.stateShown === 2 ? "active" : ""}
                             onClick={() => this.onClick("Challenges")}
                         >
                             <h3>Challenges</h3>
                         </li>
                         <li
-                            className={
-                                this.state.stateShown === 3 ? "active" : ""
-                            }
+                            className={this.state.stateShown === 3 ? "active" : ""}
                             onClick={() => this.onClick("Messages")}
                         >
                             <h3>Messages</h3>
+                        </li>
+                        <li
+                            onClick={() => {
+                                window.pull();
+                            }}
+                        >
+                            <h3>Pull</h3>
                         </li>
                     </ul>
                 </div>
@@ -63,10 +64,7 @@ class Admin extends React.Component {
                         categories={this.state.categories}
                         shown={this.state.stateShown === 2}
                     />
-                    <Message
-                        messages={this.state.messages}
-                        shown={this.state.stateShown === 3}
-                    />
+                    <Message messages={this.state.messages} shown={this.state.stateShown === 3} />
                 </div>
             </div>
         );
