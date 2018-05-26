@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const request = require("request");
+const cas = require("../util/cas");
+const userManager = require("../util/userManager");
 
 const logger = require("../logger.js");
 
@@ -42,8 +44,13 @@ router.get("/", async function(req, res, next) {
  *
  * Takes in user code, challenge name, and class name in the body of the post
  */
-router.post("/compile", function(req, res, next) {
+router.post("/compile", cas.checkLoggedIn("You have been logged out. Refresh page."), function(
+    req,
+    res,
+    next
+) {
     logger.debug("SRC Code: " + req.body.code);
+    logger.debug("User compiling: " + userManager.getUser(req.session));
 
     // Debug results for when testing on device that can't properly run the compiler
     // res.json([
@@ -84,6 +91,13 @@ router.post("/compile", function(req, res, next) {
             }
         }
     );
+});
+
+/**
+ * Assure that the user is logged in before accessing any challenges
+ */
+router.use("/challenge/:path", function(req, res, next) {
+    cas.bounce("/challenge/" + req.params.path)(req, res, next);
 });
 
 /**

@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const logger = require("../logger.js");
-const cas = require("../cas");
+const cas = require("../util/cas");
+const userManager = require("../util/userManager");
 const request = require("request");
 const { execSync } = require("child_process");
 
@@ -17,19 +18,15 @@ function breakToNewLine(str) {
     return str.replace(/\<br\>/g, "\n");
 }
 
-router.use("/*", cas.bounce("/admin"), function(req, res, next) {
-    logger.debug(process.env.DEV);
-    if (process.env.DEV === "true") {
-        logger.warn("process.env.DEV is equal to true");
-        next();
-        return;
-    }
-    if (req.session.admin) {
+router.get("/*", cas.bounce("/admin"), function(req, res, next) {
+    if (userManager.isAdmin(req.session)) {
         next();
     } else {
         res.json({ error: "access denied" });
     }
 });
+
+router.use("/*", cas.checkAdmin());
 
 function routeMain(req, res, next) {
     let callbackCount = 0;

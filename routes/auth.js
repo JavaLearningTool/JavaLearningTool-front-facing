@@ -4,7 +4,7 @@ const request = require("request");
 
 const logger = require("../logger.js");
 
-const sessionCasName = require("../cas").sessionCasName;
+const sessionCasName = require("../util/cas").sessionCasName;
 const parseXML = require("xml2js").parseString;
 const XMLprocessors = require("xml2js/lib/processors");
 
@@ -16,14 +16,18 @@ function getServiceString(protocol, host, redirect) {
         service += "/" + redirect;
     }
 
-    service = service.replace(/\//, "%2F");
-    service = service.replace(/:/, "%3A");
+    service = encodeURIComponent(service);
     return service;
 }
 
 router.get("/login/:redirect?", function(req, res, next) {
-    let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
+    if (process.env.DEV === "true") {
+        logger.warn("DEV set to true.");
+        res.redirect("/auth/authenticate/" + encodeURIComponent(req.params.redirect));
+        return;
+    }
 
+    let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
     res.redirect("https://login.gatech.edu/cas/login?service=" + service);
 });
 
@@ -43,6 +47,14 @@ router.get("/authenticate/:redirect?", function(req, res, next) {
     };
 
     let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
+
+    // If in development just log in as admin
+    if (process.env.DEV === "true") {
+        logger.warn("DEV set to true.");
+        req.session.admin = true;
+        authCallback(undefined, "testUser");
+        return;
+    }
 
     request.get(
         {
