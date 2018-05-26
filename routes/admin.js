@@ -7,6 +7,7 @@ const request = require("request");
 const { execSync } = require("child_process");
 
 const Challenge = require("../models/challenge.js");
+const Attempt = require("../models/challenge_attempt.js");
 const Category = require("../models/challenge_category.js");
 const Message = require("../models/message.js");
 
@@ -30,15 +31,16 @@ router.use("/*", cas.checkAdmin());
 
 function routeMain(req, res, next) {
     let callbackCount = 0;
-    let challenges, categories, messages;
+    let challenges, categories, messages, attempts;
 
     let callback = function() {
         callbackCount++;
-        if (callbackCount >= 3) {
+        if (callbackCount >= 4) {
             res.render("admin", {
                 categories,
                 challenges,
                 messages,
+                attempts,
                 removeHeader: true,
                 title: "Admin",
                 styles: ["adminStyle"],
@@ -60,6 +62,11 @@ function routeMain(req, res, next) {
 
     Message.findAll(function(err, mess) {
         messages = mess;
+        callback();
+    });
+
+    Attempt.findAll(function(err, att) {
+        attempts = att;
         callback();
     });
 }

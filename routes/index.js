@@ -7,6 +7,7 @@ const userManager = require("../util/userManager");
 const logger = require("../logger.js");
 
 const Challenge = require("../models/challenge.js");
+const Attempt = require("../models/challenge_attempt.js");
 const Category = require("../models/challenge_category.js");
 const Message = require("../models/message.js");
 
@@ -84,6 +85,25 @@ router.post("/compile", cas.checkLoggedIn("You have been logged out. Refresh pag
             try {
                 // Try to parse the results and return them
                 let parsed = JSON.parse(body);
+
+                if (Array.isArray(parsed)) {
+                    let passedAll = true;
+                    for (let index = 0; index < parsed.length; index++) {
+                        let testCase = parsed[index];
+                        logger.debug(testCase.passed);
+                        if (testCase.passed === "false" || testCase.passed === false) {
+                            passedAll = false;
+                            break;
+                        }
+                    }
+
+                    Attempt.newAttempt(
+                        req.body.challenge,
+                        userManager.getUser(req.session),
+                        passedAll
+                    );
+                }
+
                 res.json(parsed);
             } catch (err) {
                 logger.error("Error parsing json from compiler. Json: ", body, err);

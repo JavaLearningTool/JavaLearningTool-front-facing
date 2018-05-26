@@ -7,6 +7,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const adminDiv = document.getElementById("admin");
+console.log("Number of attempts: " + window.adminAttempts.length);
+console.log(window.adminAttempts);
+
+// Run this only if on main admin page
 if (adminDiv) {
     let findTab = () => {
         const hrefParts = window.location.href.split("/");
@@ -34,6 +38,7 @@ if (adminDiv) {
             messages={window.adminMessages}
             categories={window.adminCategories}
             challenges={window.adminChallenges}
+            attempts={window.adminAttempts}
             selected={findTab()}
             changeTab={pickTab}
         />,
