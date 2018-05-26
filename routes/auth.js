@@ -13,7 +13,7 @@ const admins = process.env.ADMIN_IDS.split(",");
 function getServiceString(protocol, host, redirect) {
     let service = protocol + "://" + host + "/auth/authenticate";
     if (redirect !== undefined) {
-        service += "/" + redirect;
+        service += "/?redirect=" + redirect;
     }
 
     service = encodeURIComponent(service);
@@ -23,15 +23,15 @@ function getServiceString(protocol, host, redirect) {
 router.get("/login/:redirect?", function(req, res, next) {
     if (process.env.DEV === "true") {
         logger.warn("DEV set to true.");
-        res.redirect("/auth/authenticate/" + encodeURIComponent(req.params.redirect));
+        res.redirect("/auth/authenticate/?redirect=" + encodeURIComponent(req.query.redirect));
         return;
     }
 
-    let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
+    let service = getServiceString(req.protocol, req.get("host"), req.query.redirect);
     res.redirect("https://login.gatech.edu/cas/login?service=" + service);
 });
 
-router.get("/authenticate/:redirect?", function(req, res, next) {
+router.get("/authenticate", function(req, res, next) {
     let authCallback = (err, user) => {
         if (err) {
             res.json("Failed to authenticate");
@@ -43,10 +43,11 @@ router.get("/authenticate/:redirect?", function(req, res, next) {
             req.session.admin = true;
         }
 
-        res.redirect("/" + (req.params.redirect === undefined ? "" : req.params.redirect));
+        logger.debug(req.query.redirect);
+        res.redirect(req.query.redirect === undefined ? "/" : req.query.redirect);
     };
 
-    let service = getServiceString(req.protocol, req.get("host"), req.params.redirect);
+    let service = getServiceString(req.protocol, req.get("host"), req.query.redirect);
 
     // If in development just log in as admin
     if (process.env.DEV === "true") {

@@ -7,8 +7,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const adminDiv = document.getElementById("admin");
-console.log("Number of attempts: " + window.adminAttempts.length);
-console.log(window.adminAttempts);
+if (window.adminAttempts) {
+    console.log("Number of attempts: " + window.adminAttempts.length);
+    console.log(window.adminAttempts);
+}
 
 // Run this only if on main admin page
 if (adminDiv) {

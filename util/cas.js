@@ -22,7 +22,7 @@ module.exports.bounce = function(redirect) {
             // Session has already been logged in and authenticated
             next();
         } else {
-            res.redirect("/auth/login" + (redirect === undefined ? req.url : redirect));
+            res.redirect("/auth/login/?redirect=" + (redirect === undefined ? req.url : redirect));
         }
     };
 };
