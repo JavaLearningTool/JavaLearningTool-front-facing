@@ -23,6 +23,8 @@ if (adminDiv) {
             selectedNum = 2;
         } else if (selected === "Messages") {
             selectedNum = 3;
+        } else if (selected === "Attempts") {
+            selectedNum = 4;
         }
 
         return selectedNum;

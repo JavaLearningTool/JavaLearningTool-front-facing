@@ -4,6 +4,7 @@ import React from "react";
 import Category from "./Category";
 import Challenge from "./Challenge";
 import Message from "./Message";
+import Attempt from "./Attempt";
 
 class Admin extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class Admin extends React.Component {
             categories: props.categories,
             challenges: props.challenges,
             messages: props.messages,
+            attempts: props.attempts,
             stateShown: props.selected,
             changeTab: props.changeTab
         };
@@ -46,6 +48,12 @@ class Admin extends React.Component {
                             <h3>Messages</h3>
                         </li>
                         <li
+                            className={this.state.stateShown === 4 ? "active" : ""}
+                            onClick={() => this.onClick("Attempts")}
+                        >
+                            <h3>Attempts</h3>
+                        </li>
+                        <li
                             onClick={() => {
                                 window.pull();
                             }}
@@ -65,6 +73,7 @@ class Admin extends React.Component {
                         shown={this.state.stateShown === 2}
                     />
                     <Message messages={this.state.messages} shown={this.state.stateShown === 3} />
+                    <Attempt attempts={this.state.attempts} shown={this.state.stateShown === 4} />
                 </div>
             </div>
         );

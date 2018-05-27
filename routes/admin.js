@@ -43,7 +43,7 @@ function routeMain(req, res, next) {
                 attempts,
                 removeHeader: true,
                 title: "Admin",
-                styles: ["adminStyle"],
+                styles: ["react-table", "adminStyle"],
                 scripts: ["adminBundle"],
                 forwardLocals: true
             });
