@@ -1,13 +1,25 @@
 const cas = require("../util/cas");
 
-module.exports.getUser = session => {
+const getUser = session => {
     return session[cas.sessionCasName];
 };
+module.exports.getUser = getUser;
 
-module.exports.loggedIn = session => {
+const loggedIn = session => {
     return session[cas.sessionCasName] !== undefined;
 };
+module.exports.loggedIn = loggedIn;
 
-module.exports.isAdmin = session => {
+const isAdmin = session => {
     return session.admin;
 };
+module.exports.isAdmin = isAdmin;
+
+const sessionInfoFiller = (req, res, next) => {
+    if (req.session) {
+        res.locals.loggedIn = loggedIn(req.session);
+        res.locals.user = getUser(req.session);
+    }
+    next();
+};
+module.exports.sessionInfoFiller = sessionInfoFiller;

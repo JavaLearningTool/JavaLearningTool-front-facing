@@ -21,6 +21,10 @@ function getServiceString(protocol, host, redirect) {
 }
 
 router.get("/login/:redirect?", function(req, res, next) {
+    if (req.query.redirect === undefined) {
+        req.query.redirect = "/";
+    }
+
     if (process.env.DEV === "true") {
         logger.warn("DEV set to true.");
         res.redirect("/auth/authenticate/?redirect=" + encodeURIComponent(req.query.redirect));

@@ -8,6 +8,7 @@ const logger = require("./logger.js");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const userManager = require("./util/userManager");
 const MongoStore = require("connect-mongo")(session);
 
 const index = require("./routes/index");
@@ -94,6 +95,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public/prod")));
 app.use("/javadocs", express.static(path.join(__dirname, "public/javadocs")));
 
+app.use(userManager.sessionInfoFiller);
 app.use("/", index);
 app.use("/admin", admin);
 app.use("/auth", auth);
