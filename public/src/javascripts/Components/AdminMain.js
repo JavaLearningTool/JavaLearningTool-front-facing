@@ -53,13 +53,13 @@ class Admin extends React.Component {
                         >
                             <h3>Attempts</h3>
                         </li>
-                        <li
+                        {/* <li
                             onClick={() => {
                                 window.pull();
                             }}
                         >
                             <h3>Pull</h3>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="main">
