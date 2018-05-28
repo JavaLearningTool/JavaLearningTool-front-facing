@@ -76,7 +76,7 @@ router.get("/tab/:selected", routeMain);
 
 router.post("/pull", function(req, res, next) {
     try {
-        execSync("bash ./scripts/pull.sh");
+        execSync("bash ../scripts/pull.sh");
     } catch (err) {
         logger.error("Error pulling", err);
         res.json({ error: err });
