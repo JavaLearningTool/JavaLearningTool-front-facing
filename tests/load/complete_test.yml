@@ -35,5 +35,5 @@ scenarios:
           json:
             challenge: "HelloWorld"
             className: "Test"
-            code: "public class Test { public static void main(String[] args) throws Exception { System.out.println(\"Hello World\"); } }"
+            code: "public class Test { public static void main(String[] args) throws Exception { for(;;); } }"
               
