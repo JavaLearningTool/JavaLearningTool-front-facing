@@ -1,0 +1,39 @@
+config:
+  target: 'http://nova.cc.gatech.edu'
+  http:
+    pool: 50
+  phases:
+    - duration: 30
+      arrivalRate: 1
+    - duration: 90
+      arrivalRate: 1
+      rampTo: 5
+    - duration: 90
+      arrivalRate: 5            
+scenarios:
+  - name: "Normal Usage"
+    weight: 95
+    flow:
+      - get:
+          url: "/search"
+      - get:
+          url: "/challenge/HelloWorld"
+  - name: "Expensive Usage"
+    weight: 4
+    flow:
+      - post:
+          url: "/testCompile"
+          json:
+            challenge: "HelloWorld"
+            className: "Test"
+            code: "public class Test { public static void main(String[] args) throws Exception { System.out.println(\"Hello World\"); } }"
+  - name: "Infinite Loop"
+    weight: 1
+    flow:
+      - post:
+          url: "/testCompile"
+          json:
+            challenge: "HelloWorld"
+            className: "Test"
+            code: "public class Test { public static void main(String[] args) throws Exception { System.out.println(\"Hello World\"); } }"
+              

@@ -41,6 +41,42 @@ router.get("/", async function(req, res, next) {
 });
 
 /**
+ * Route made for load testing compilation
+ */
+router.post("/testCompile", function(req, res, next) {
+    request.post(
+        {
+            url: "http://" + process.env.COMPILER_ROUTE + ":8080",
+            method: "POST",
+            form: {
+                src: req.body.code,
+                challenge: req.body.challenge,
+                className: req.body.className
+            }
+        },
+        function(error, response, body) {
+            // Callback function that handles results
+            if (error) {
+                logger.error("Error communicating with compiler route. ", error);
+                res.json({ error: compilationErrorMessage });
+                return;
+            }
+
+            logger.debug(body);
+            try {
+                // Try to parse the results and return them
+                let parsed = JSON.parse(body);
+                res.json(parsed);
+            } catch (err) {
+                res.status(500);
+                logger.error("Error parsing json from compiler. Json: ", body, err);
+                res.json({ error: compilationErrorMessage });
+            }
+        }
+    );
+});
+
+/**
  * Route for making compile posts
  *
  * Takes in user code, challenge name, and class name in the body of the post

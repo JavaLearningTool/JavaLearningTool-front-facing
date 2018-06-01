@@ -1,0 +1,20 @@
+All virtual users finished
+Summary report @ 22:41:44(-0400) 2018-05-31
+  Scenarios launched:  764
+  Scenarios completed: 764
+  Requests completed:  2912
+  RPS sent: 13.79
+  Request latency:
+    min: 11.6
+    max: 8939
+    median: 23.9
+    p95: 103.9
+    p99: 3326.6
+  Scenario counts:
+    Normal Usage: 716 (93.717%)
+    Expensive Usage: 36 (4.712%)
+    Infinite Loop: 12 (1.571%)
+  Codes:
+    200: 989
+    302: 1432
+    509: 491

@@ -1,0 +1,24 @@
+config:
+  target: 'http://nova.cc.gatech.edu'
+  http:
+    pool: 50
+  phases:
+    - duration: 60
+      arrivalRate: 1
+    - duration: 120
+      arrivalRate: 1
+      rampTo: 7
+      rampTo: 10
+    - duration: 600
+      arrivalRate: 7
+scenarios:
+  - name: "Basic website traversal"
+    flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/search"
+      - get:
+          url: "/challenge/HelloWorld"
+
+              
