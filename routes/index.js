@@ -68,9 +68,7 @@ router.post("/testCompile", function(req, res, next) {
                 let parsed = JSON.parse(body);
                 res.json(parsed);
             } catch (err) {
-                res.status(500);
-                logger.error("Error parsing json from compiler. Json: ", body, err);
-                res.json({ error: compilationErrorMessage });
+                res.json(body);
             }
         }
     );
