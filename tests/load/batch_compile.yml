@@ -1,0 +1,16 @@
+config:
+  target: 'http://nova.cc.gatech.edu'
+  # target: 'http://localhost'
+  phases:
+    - duration: 1
+      arrivalCount: 5
+scenarios:
+  - name: "Compile"
+    flow:
+      - post:
+          url: "/testCompile"
+          json:
+            challenge: "HelloWorld"
+            className: "Test"
+            code: "public class Test { public static void main(String[] args) throws Exception { System.out.println(\"Hello World\"); } }"
+              
