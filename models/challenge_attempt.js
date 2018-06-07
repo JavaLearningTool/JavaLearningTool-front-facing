@@ -1,14 +1,16 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+// Need Challenge Schema for finding all non-completed challenges
+const Challenge = require("../models/challenge.js");
 
 /**
  * Create Schema for Challenge attempts
  */
-var challengeAttemptSchema = new Schema({
+const challengeAttemptSchema = new Schema({
     challenge: { type: String, ref: "challenge", required: true },
     user: { type: String, required: true },
     passed: { type: Boolean, required: true },
-    reason: { type: String },
     timestamp: { type: Date, default: Date.now }
 });
 
@@ -44,16 +46,25 @@ challengeAttemptSchema.statics.findWithIds = function(ids, cb) {
 };
 
 /**
+ * Returns a list of challenges completed by a user
+ *
+ * @param {String} user the user to find all completed challenges of
+ * @param {function} cb callback function when results are received
+ */
+challengeAttemptSchema.statics.completedChallenges = function(user, cb) {
+    return this.find({ user: user, passed: true }, cb).distinct("challenge");
+};
+
+/**
  * Creates a new Attempt document and adds it to the database
  *
  * @param {String} challenge
  * @param {String} user
  * @param {Boolean} passed
- * @param {String} reason
  * @param {function} cb callback function when Category is saved
  */
-challengeAttemptSchema.statics.newAttempt = function(challenge, user, passed, reason, cb) {
-    let newCat = this({ challenge, user, passed, reason });
+challengeAttemptSchema.statics.newAttempt = function(challenge, user, passed, cb) {
+    let newCat = this({ challenge, user, passed });
     return newCat.save(cb);
 };
 
