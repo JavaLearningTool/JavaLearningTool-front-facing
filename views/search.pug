@@ -2,28 +2,37 @@ extends layout
 
 block content
 
-    div.flex-container
+    div(class="flex-container search")
         div.search-container
             h1 Search Challenges
 
             form#categoryForm(class="pure-form pure-form-stacked")
                 fieldset
-                    label(for="name") Name:
-                    input#name(type="text", name="name" placeholder="any name")
+                    div.form-row
+                        label(for="name") Name:
+                        input#name(type="text", name="name" placeholder="challenge name")
                     
-                    label Categories:
-                    div(class="pure-button-group" role="group")
-                        - for (let i = 0; i < categories.length; i++) { let category = categories[i];
-                            div(class="pure-button" onClick="categoryClick(\"" + category._id + "\", this)")= category.title
-                        - }
+                    div.form-row
+                        label Categories:
+                        div(class="pure-button-group" role="group")
+                            - for (let i = 0; i < categories.length; i++) { let category = categories[i];
+                                div(class="pure-button" onClick="categoryClick(\"" + category._id + "\", this)")= category.title
+                            - }
                     
-                    label(for="difficulty") Difficulty: 
-                    select#difficulty(name="difficulty")
-                        option(value="0" selected="selected") Any
-                        option(value="1") Very easy
-                        option(value="2") Easy
-                        option(value="3") Intermediate
-                        option(value="4") Advanced
-                        option(value="5") Challenging
+                    div.form-row
+                        label(for="difficulty") Difficulty: 
+                        select#difficulty(name="difficulty")
+                            option(value="0" selected="selected") Any
+                            option(value="1") Very easy
+                            option(value="2") Easy
+                            option(value="3") Intermediate
+                            option(value="4") Advanced
+                            option(value="5") Challenging
                     
-                    div(class="pure-button button-success", onClick="runSearch()") Search
+                    div.form-row
+                        label(for="showPassed")
+                            input(id="showPassed" type="checkbox")
+                            span Show challenges I've already passed
+                    
+                    div.form-row
+                        div(class="pure-button button-success", onClick="runSearch()") Search

@@ -555,6 +555,9 @@ a {
     .card:hover.non-hover {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); }
 
+.form-row {
+  margin: 10px 0; }
+
 .home-container {
   margin: 0 auto;
   width: 80%;
@@ -711,6 +714,9 @@ pre.resultField {
     border-radius: 0; }
   .challengeDesc div ul li {
     margin: 6px 0; }
+
+.search {
+  margin: 0 auto; }
 
 .search-container {
   padding: 30px 30px; }

@@ -26,6 +26,7 @@ window.onload = function() {
 window.runSearch = function() {
     let name = document.getElementById("name").value;
     let difficulty = document.getElementById("difficulty").value;
+    let showPassed = document.getElementById("showPassed").checked;
 
     let empty = true;
     let queryString = "?criteria=anything";
@@ -55,6 +56,17 @@ window.runSearch = function() {
         }
 
         queryString += "categories=" + JSON.stringify(categories);
+    }
+
+    if (showPassed) {
+        if (empty === false) {
+            queryString += "&";
+        } else {
+            empty = false;
+            queryString = "?";
+        }
+
+        queryString += "showPassed=true";
     }
 
     window.location.href = encodeURI("/search" + queryString);

@@ -200,7 +200,7 @@ router.get("/challenge/:path", async function(req, res, next) {
  * This would mean the user is searching for challenges that contain the word Hello
  * in the title
  */
-router.get("/search", async function(req, res, next) {
+router.get("/search", cas.bounce("/search"), async function(req, res, next) {
     logger.debug(req.query);
 
     let errorHappened = false;
@@ -209,6 +209,7 @@ router.get("/search", async function(req, res, next) {
     let name = req.query.name;
     let difficulty = req.query.difficulty;
     let categories = req.query.categories;
+    let showPassed = req.query.showPassed;
 
     // If they are all undefined then no query was made and we want to go to search page
     // not search results page
@@ -216,6 +217,7 @@ router.get("/search", async function(req, res, next) {
         name === undefined &&
         difficulty === undefined &&
         categories === undefined &&
+        showPassed === undefined &&
         req.query.criteria == undefined
     ) {
         next();
@@ -242,9 +244,10 @@ router.get("/search", async function(req, res, next) {
             }
 
             // get categories that were searched for and challenges that matched query from database
-            let [responseCategories, challenges] = await Promise.all([
+            let [responseCategories, challenges, passedChallenges] = await Promise.all([
                 Category.findWithIds(criteria.categories),
-                Challenge.findWithCriteria(criteria)
+                Challenge.findWithCriteria(criteria),
+                Attempt.completedChallenges(userManager.getUser(req.session))
             ]);
 
             // Render the search results page
@@ -252,6 +255,8 @@ router.get("/search", async function(req, res, next) {
                 title: "Search Results",
                 challenges,
                 categories: responseCategories,
+                passedChallenges,
+                showPassed,
                 criteria: renderCriteria,
                 styles: ["mainStyle"],
                 scripts: ["searchBundle"]
@@ -270,7 +275,7 @@ router.get("/search", async function(req, res, next) {
 /**
  * Route for entering search criteria
  */
-router.get("/search", async function(req, res, next) {
+router.get("/search", cas.bounce("/search"), async function(req, res, next) {
     try {
         // Retrieve all categories from db
         let categories = await Category.findAll();

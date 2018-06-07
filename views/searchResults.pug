@@ -6,6 +6,12 @@ block content
     div.search-results-container
         div
             span.bold= "Searching for "
+            - if (!criteria.name && !criteria.difficulty && categories.length === 0) {
+                span= "All "
+            - }
+            - if (!showPassed) {
+                span= "challenges I haven't passed."
+            - }
             - if (criteria.name) {
                 span.search-criteria-label= " Name: "
                     a(href="/search?name=" + criteria.name)
@@ -23,12 +29,15 @@ block content
                         a(href="/search?categories=[\"" + cat._id + "\"]")
                             span(class="search-criteria listed-category")= cat.title
             - }
-            - if (!criteria.name && !criteria.difficulty && categories.length === 0) {
-                span= "All"
-            - }
         div
-            each chall in challenges
-                +challenge(chall, "window.location.href=\"/challenge/" + chall.testFile + "\"")
-            - if (challenges.length <= 0) {
+            - var count = 0;
+            - for (var i = 0; i < challenges.length; i++) { var chall = challenges[i];
+                - if (showPassed || passedChallenges.indexOf(chall.testFile) < 0) {
+                    +challenge(chall, "window.location.href=\"/challenge/" + chall.testFile + "\"")
+                    - count++;
+                - }
+            - }
+            
+            - if (count <= 0) {
                 p= "No results found."
             - }

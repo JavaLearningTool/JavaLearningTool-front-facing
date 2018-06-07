@@ -555,6 +555,9 @@ a {
     .card:hover.non-hover {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); }
 
+.form-row {
+  margin: 10px 0; }
+
 .admin-container {
   width: 100%; }
 
