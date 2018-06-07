@@ -2,34 +2,4 @@ extends layout
 
 block content
 
-    div(class="flex-container" id="admin")
-        div.admin-container
-            h1 Categories
-
-            div.category-list
-                ul.categories
-                - for (let i = 0; i < categories.length; i++) {
-                    li.categoryLI
-                        a(href="/admin/category/" + categories[i]._id)= categories[i].title
-                - }
-
-            div.button-container
-                div(class="pure-button button-success", onClick="addCategory()") Add Category
-                div(class="pure-button button-success" onClick="addChallenge()") Add Challenge
-                div(class="pure-button button-success" onClick="addMessage()") Add Message
-  
-        div.admin-container
-            h1 Challenges
-            ul.challenges
-            - for (let i = 0; i < challenges.length; i++) {
-                li
-                    a(class="challenge-anchor" href="/admin/challenge/" + challenges[i]._id)= challenges[i].name
-            - }
-
-        div.admin-container
-            h1 Messages
-            ul.messages
-            - for (let i = 0; i < messages.length; i++) {
-                li
-                    a(class="challenge-anchor" href="/admin/message/" + messages[i]._id)= messages[i].title
-            - }
+    div(class="flex-container" id="admin")= "Loading..."
