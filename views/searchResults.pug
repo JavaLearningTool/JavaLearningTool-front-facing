@@ -14,19 +14,19 @@ block content
             - }
             - if (criteria.name) {
                 span.search-criteria-label= " Name: "
-                    a(href="/search?name=" + criteria.name)
+                    a(href="/search?name=" + criteria.name + "&showPassed=true")
                         span(class="search-criteria listed-category")= criteria.name
             - }
             - let diff = ['Very easy', 'Easy', 'Intermediate', 'Advanced', 'Challenging'];
             - if (criteria.difficulty) {
                 span.search-criteria-label= " Difficulty: "
-                    a(href="/search?difficulty=" + criteria.difficulty)                
+                    a(href="/search?difficulty=" + criteria.difficulty + "&showPassed=true")                
                         span(class="search-criteria listed-category")= diff[criteria.difficulty - 1]
             - }
             - if (categories.length !== 0) {
                 span.search-criteria-label= " Categories: "
                     each cat in categories
-                        a(href="/search?categories=[\"" + cat._id + "\"]")
+                        a(href="/search?categories=[\"" + cat._id + "\"]" + "&showPassed=true")
                             span(class="search-criteria listed-category")= cat.title
             - }
         div
