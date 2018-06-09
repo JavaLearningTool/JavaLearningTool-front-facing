@@ -1,5 +1,6 @@
 import React from "react";
 
+// Used to map difficulty value to a String
 const diff = ["Very easy", "Easy", "Intermediate", "Advanced", "Challenging"];
 
 class Challenge extends React.Component {
@@ -29,11 +30,9 @@ class Challenge extends React.Component {
     render() {
         let challenges = [];
         let categories = [];
-        let selectedCategory = this.state.categories[
-            this.state.categorySelected
-        ];
+        let selectedCategory = this.state.categories[this.state.categorySelected];
 
-        // Just return if the challenge doesn't fall under the selected category
+        // Create challenges contents. Filter out challenges based on which category is selected
         this.state.challenges.forEach((challenge, index) => {
             if (selectedCategory !== undefined) {
                 let foundCat = false;
@@ -43,19 +42,19 @@ class Challenge extends React.Component {
                     }
                 });
 
+                // Skip this challenge if it doesn't fall under the selected category
                 if (!foundCat) {
                     return;
                 }
             }
 
+            // If the challenge falls under selected category go ahead and add it to be rendered
             challenges.push(
                 <li className="categoryLI" key={index}>
                     <a href={"/admin/challenge/" + challenge._id}>
                         <div className="admin-row flat card">
                             <div className="title">{challenge.name}</div>
-                            <div className="description">
-                                {challenge.description}
-                            </div>
+                            <div className="description">{challenge.description}</div>
                             <div className="difficulty">
                                 Difficulty: {diff[challenge.difficulty - 1]}
                             </div>
@@ -65,6 +64,7 @@ class Challenge extends React.Component {
             );
         });
 
+        // Create category drop down contents
         this.state.categories.forEach((category, index) => {
             categories.push(
                 <li className="pure-menu-item" key={index}>
@@ -79,10 +79,7 @@ class Challenge extends React.Component {
         });
 
         return (
-            <div
-                className="category-list"
-                style={this.state.shown ? {} : { display: "none" }}
-            >
+            <div className="category-list" style={this.state.shown ? {} : { display: "none" }}>
                 <h1>Challenges</h1>
                 <a href="/admin/new_challenge">
                     <div className="card new-admin-card">
@@ -95,9 +92,7 @@ class Challenge extends React.Component {
                             <span className="pure-menu-link header">
                                 {this.state.categorySelected === -1
                                     ? "Category"
-                                    : this.state.categories[
-                                          this.state.categorySelected
-                                      ].title}
+                                    : this.state.categories[this.state.categorySelected].title}
                             </span>
                             <ul className="pure-menu-children">{categories}</ul>
                         </li>
@@ -108,6 +103,11 @@ class Challenge extends React.Component {
         );
     }
 
+    /**
+     * Called whenever a category is selected from the drop down
+     *
+     * @param {Number} index
+     */
     categoryClicked(index) {
         if (this.state.categories[index]._id === -1) {
             index = -1;

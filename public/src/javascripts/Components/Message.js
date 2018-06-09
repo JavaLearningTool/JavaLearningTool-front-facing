@@ -1,10 +1,12 @@
 import React from "react";
 
+// Used to map difficulty value to a String
 const diff = ["Very easy", "Easy", "Intermediate", "Advanced", "Challenging"];
 
 function Message(props) {
     let messages = [];
 
+    // Create message list contents
     props.messages.forEach((message, index) => {
         messages.push(
             <li className="categoryLI" key={index}>
@@ -23,10 +25,7 @@ function Message(props) {
     });
 
     return (
-        <div
-            className="category-list"
-            style={props.shown ? {} : { display: "none" }}
-        >
+        <div className="category-list" style={props.shown ? {} : { display: "none" }}>
             <h1>Message</h1>
             <a href="/admin/new_message">
                 <div className="card new-admin-card">

@@ -19,6 +19,13 @@ class Admin extends React.Component {
         };
     }
 
+    /**
+     * Changes which tab to show
+     *
+     * Known values: Category, Challenges, Messages, Attempts
+     *
+     * @param {String} nextSelected the next tab to show
+     */
     changeTabState(nextSelected) {
         this.setState({ stateShown: nextSelected });
     }
@@ -79,6 +86,11 @@ class Admin extends React.Component {
         );
     }
 
+    /**
+     * Handles when a tab is clicked on
+     *
+     * @param {String} which The name of the tab that was clicked on
+     */
     onClick(which) {
         history.pushState(null, "", "/admin/tab/" + which);
         this.state.changeTab();
