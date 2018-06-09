@@ -55,6 +55,12 @@ function Attempt(props) {
                 }}
                 data={props.attempts}
                 columns={columns}
+                defaultSorted={[
+                    {
+                        id: "timestamp",
+                        desc: true
+                    }
+                ]}
             />
         </div>
     );
