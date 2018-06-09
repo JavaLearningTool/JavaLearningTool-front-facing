@@ -38,9 +38,10 @@ function Attempt(props) {
             id: "timestamp",
             Header: "Time",
             filterAll: true,
-            accessor: attempt => {
-                let date = new Date(attempt.timestamp);
-                return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+            accessor: "timestamp",
+            Cell: props => {
+                const date = new Date(props.value);
+                return <span>{date.toLocaleTimeString() + " " + date.toLocaleDateString()}</span>;
             }
         }
     ];
