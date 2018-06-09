@@ -7,8 +7,6 @@ class Challenge extends React.Component {
     constructor(props) {
         super(props);
 
-        props.categories.push({ title: "None", _id: -1 });
-
         this.state = {
             challenges: props.challenges,
             categories: props.categories,
@@ -64,8 +62,7 @@ class Challenge extends React.Component {
             );
         });
 
-        // Create category drop down contents
-        this.state.categories.forEach((category, index) => {
+        const categoryAdder = (category, index) => {
             categories.push(
                 <li className="pure-menu-item" key={index}>
                     <div
@@ -76,7 +73,12 @@ class Challenge extends React.Component {
                     </div>
                 </li>
             );
-        });
+        };
+
+        categoryAdder({ title: "None", _id: -1 }, -1);
+
+        // Create category drop down contents
+        this.state.categories.forEach(categoryAdder);
 
         return (
             <div className="category-list" style={this.state.shown ? {} : { display: "none" }}>
@@ -109,7 +111,7 @@ class Challenge extends React.Component {
      * @param {Number} index
      */
     categoryClicked(index) {
-        if (this.state.categories[index]._id === -1) {
+        if (this.state.categories[index] === undefined) {
             index = -1;
         }
 
