@@ -1,0 +1,5 @@
+div.codeEditor
+    div(class="codeEditorHeader flex-container")
+        span.saving= "No changes made"
+        div(id="resetTextButton" class="pure-button button-success" onclick="resetText();")= "Reset to default"
+    include codeMirror.pug

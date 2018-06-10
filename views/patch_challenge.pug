@@ -40,7 +40,7 @@ block content
                             option(value="5" selected=(challenge.difficulty === 5)) Challenging
 
                         label(for="code_area") Default Code:
-                        include textEditor.pug
+                        include codeMirror.pug
                         
                         div(class="pure-button button-success", onClick="patchChallenge(\"" + challenge._id + "\")") Save Changes
                         div(class="pure-button button-danger", onClick="deleteChallenge(\"" + challenge._id + "\")") Delete Challenge

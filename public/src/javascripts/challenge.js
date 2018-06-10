@@ -3,7 +3,6 @@
 import { setInterval } from "timers";
 
 let shouldSave = false;
-let codeMirror;
 let changeSpan;
 
 function store(path, value) {
@@ -23,10 +22,19 @@ function load(path) {
 
 window.onload = function() {
     changeSpan = document.getElementsByClassName("saving")[0];
+};
 
+window.onCodeMirrorLoad = () => {
+    // Loads saved code into CodeMirror
+    let savedText = load(window.challengePath + "_save");
+    if (savedText) {
+        document.codeMirror.getDoc().setValue(savedText);
+    }
+
+    // Periodically saves code in CodeMirror
     setInterval(() => {
         if (shouldSave) {
-            if (!store(window.challengePath + "_save", codeMirror.getValue())) {
+            if (!store(window.challengePath + "_save", document.codeMirror.getValue())) {
                 changeSpan.innerHTML = "Saving not supported in this browser.";
             } else {
                 shouldSave = false;
@@ -44,19 +52,11 @@ window.onload = function() {
         });
     }
 
+    // Take note when a change has happened
     document.codeMirror.on("change", cm => {
-        codeMirror = cm;
         shouldSave = true;
-
         changeSpan.innerHTML = "Saving ...";
     });
-};
-
-window.onCodeMirrorLoad = cm => {
-    let savedText = load(window.challengePath + "_save");
-    if (savedText) {
-        cm.getDoc().setValue(savedText);
-    }
 };
 
 let compileButton;
@@ -74,4 +74,8 @@ window.window.codeCompilationEnded = () => {
         /(?:^|\s)pure-button-disabled(?!\S)/g,
         ""
     );
+};
+
+window.resetText = () => {
+    document.codeMirror.getDoc().setValue(window.challengeDefaultText);
 };

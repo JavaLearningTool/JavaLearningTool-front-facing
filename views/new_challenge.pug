@@ -36,6 +36,6 @@ block content
                         //- text editor wants a challenge object with a default text
                         - let challenge = {}; challenge.defaultText = "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
                         label(for="code_area") Default Code:
-                        include textEditor.pug
+                        include codeMirror.pug
                         
                         div(class="pure-button button-success", onClick="putChallenge()") Add

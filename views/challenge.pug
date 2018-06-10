@@ -17,11 +17,9 @@ block content
                 span= diff[challenge.difficulty - 1]
             div!= challenge.descriptionHtml
 
-        div.code-mirror-container
-            include textEditor.pug
-            div.saving-container
-                span.saving
-            <br>
-            div(id="compile-button" class="pure-button" onclick="compileCode()")
-                | Run Test
+        div.CodeMirror-container
+            include codeEditor.pug
+        <br>
+        div(id="compile-button" class="pure-button" onclick="compileCode()")
+            | Run Test
         include testResults.pug

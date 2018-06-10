@@ -39,9 +39,7 @@ class TestResults extends React.Component {
 
         if (item.parts !== undefined) {
             item.parts.forEach((part, partIndex) => {
-                let label = this.replaceQuotes(
-                    this.replaceNewLines(part.label)
-                );
+                let label = this.replaceQuotes(this.replaceNewLines(part.label));
                 let message = this.replaceQuotes(part.message);
                 if (part.multiLine === "false") {
                     message = this.replaceNewLines(message);
@@ -69,10 +67,7 @@ class TestResults extends React.Component {
         }
 
         let infoLabel = (
-            <p className="resultLabel">
-                {" "}
-                {this.replaceNewLines(this.replaceQuotes(item.info))}{" "}
-            </p>
+            <p className="resultLabel"> {this.replaceNewLines(this.replaceQuotes(item.info))} </p>
         );
 
         let body = (
@@ -84,10 +79,7 @@ class TestResults extends React.Component {
 
         return (
             <div
-                className={
-                    "testResult drop-down-container " +
-                    (item.dropped ? "dropped" : "")
-                }
+                className={"testResult drop-down-container " + (item.dropped ? "dropped" : "")}
                 key={"result" + index}
                 onClick={e => {
                     this.dropDownClicked(index);
@@ -95,12 +87,7 @@ class TestResults extends React.Component {
             >
                 <div className="drop-down-header">
                     <div className="headerResultArea">
-                        <p
-                            className={
-                                "passedLabel " +
-                                (passed ? "success" : "failure")
-                            }
-                        >
+                        <p className={"passedLabel " + (passed ? "success" : "failure")}>
                             {passFailLabel}
                         </p>
                         {infoLabel}
