@@ -20,12 +20,7 @@ const Category = require("./models/challenge_category.js");
 const Challenge = require("./models/challenge.js");
 
 if (process.env.MONGO_ROUTE) {
-    mongoose.connect(
-        "mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool",
-        {
-            useMongoClient: true
-        }
-    );
+    mongoose.connect("mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool");
 } else {
     mongoose.connect(
         "mongodb://" + "localhost/JavaLearningTool",
