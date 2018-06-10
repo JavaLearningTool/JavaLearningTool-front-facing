@@ -20,13 +20,19 @@ const Category = require("./models/challenge_category.js");
 const Challenge = require("./models/challenge.js");
 
 if (process.env.MONGO_ROUTE) {
-    mongoose.connect("mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool", {
-        useMongoClient: true
-    });
+    mongoose.connect(
+        "mongodb://" + process.env.MONGO_ROUTE + "/JavaLearningTool",
+        {
+            useMongoClient: true
+        }
+    );
 } else {
-    mongoose.connect("mongodb://" + "localhost/JavaLearningTool", {
-        useMongoClient: true
-    });
+    mongoose.connect(
+        "mongodb://" + "localhost/JavaLearningTool",
+        {
+            useMongoClient: true
+        }
+    );
 }
 
 mongoose.Promise = Promise;
@@ -103,17 +109,26 @@ app.use("/auth", auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error("404 Not Found");
+    let err = new Error("404 Not Found.");
     err.status = 404;
+
     next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-    logger.error("An error occurred: " + err);
+    // Add URL to error
+    let fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+    err.url = fullUrl;
 
-    // set locals, only providing error in development
-    res.locals.message = err.message;
+    logger.error("An error occurred: " + err + " " + JSON.stringify(err));
+
+    let shouldShowError =
+        process.env.LOGS === "dev" || err.status === 404 || userManager.isAdmin(req.session);
+
+    // set locals, only showing error in development or for 404
+    res.locals.message = shouldShowError ? err.message : "We're sorry, an error has occurred.";
+
     res.locals.error = process.env.LOGS === "dev" ? err : {};
 
     // render the error page
