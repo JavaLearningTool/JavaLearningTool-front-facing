@@ -3,14 +3,13 @@
 import axios from "axios";
 import categories from "./categoryHandler";
 import Admin from "./Components/AdminMain";
+
+import CodeEditor from "./Components/CodeEditor";
+
 import React from "react";
 import ReactDOM from "react-dom";
 
 const adminDiv = document.getElementById("admin");
-if (window.adminAttempts) {
-    console.log("Number of attempts: " + window.adminAttempts.length);
-    console.log(window.adminAttempts);
-}
 
 // Run this only if on main admin page
 if (adminDiv) {
@@ -52,6 +51,23 @@ if (adminDiv) {
     window.onpopstate = pickTab;
 }
 
+// If we need an editor, render it here
+const editorDiv = document.getElementsByClassName("codeEditor")[0];
+
+if (editorDiv) {
+    let defaultClass = {
+        name: "Test",
+        defaultText:
+            "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
+    };
+    let component = ReactDOM.render(
+        <CodeEditor allowNewClasses={true} classes={[defaultClass]} handleSaving={false} />,
+        editorDiv
+    );
+    component.setupCodeMirror();
+}
+
+// Setup functions for various buttons to call
 window.pull = function() {
     axios
         .post("/admin/pull")
@@ -64,10 +80,12 @@ window.pull = function() {
         });
 };
 
+// When you click on add category button in main admin route
 window.addCategory = function() {
     window.location.href = "/admin/new_category";
 };
 
+// When you create the category
 window.putCategory = function() {
     let title = document.getElementById("title").value;
     let description = document.getElementById("description").value;
@@ -83,6 +101,7 @@ window.putCategory = function() {
         });
 };
 
+// When you remove a category
 window.removeCategory = function(id) {
     axios
         .delete("/admin/category/" + id)
@@ -95,6 +114,7 @@ window.removeCategory = function(id) {
         });
 };
 
+// When you update a category
 window.patchCategory = function(id) {
     let title = document.getElementById("title").value;
     let description = document.getElementById("description").value;
@@ -111,10 +131,15 @@ window.patchCategory = function(id) {
         });
 };
 
+// When you click on the new challenge button in main admin route
 window.addChallenge = function() {
     window.location.href = "/admin/new_challenge";
 };
 
+// Gets the code editor for creating the classes of this file
+function getChallengeCodeEditor() {}
+
+// When you create a new challenge
 window.putChallenge = function() {
     let name = document.getElementById("name").value;
     let description = document.getElementById("description").value;
@@ -142,6 +167,7 @@ window.putChallenge = function() {
         });
 };
 
+// When you update a challenge
 window.patchChallenge = function(id) {
     let name = document.getElementById("name").value;
     let description = document.getElementById("description").value;
@@ -169,6 +195,7 @@ window.patchChallenge = function(id) {
         });
 };
 
+// When you delete a challenge
 window.deleteChallenge = function(id) {
     axios
         .delete("/admin/challenge/" + id)
@@ -181,10 +208,12 @@ window.deleteChallenge = function(id) {
         });
 };
 
+// When you click on the add Message button in main admin route
 window.addMessage = function() {
     window.location.href = "/admin/new_message";
 };
 
+// Converts the links in a message from a String to a list of links
 function convertLinks(links) {
     let retLinks = [];
     links = links.split(";");
@@ -203,6 +232,7 @@ function convertLinks(links) {
     return retLinks;
 }
 
+// When you create a new message
 window.putMessage = function() {
     let title = document.getElementById("title").value;
     let body = document.getElementById("body").value;
@@ -227,6 +257,7 @@ window.putMessage = function() {
         });
 };
 
+// When you update a message
 window.patchMessage = function(id) {
     let title = document.getElementById("title").value;
     let body = document.getElementById("body").value;
@@ -251,6 +282,7 @@ window.patchMessage = function(id) {
         });
 };
 
+// When you remove a message
 window.removeMessage = function(id) {
     axios
         .delete("/admin/message/" + id)

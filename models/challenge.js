@@ -15,9 +15,10 @@ var challengeSchema = new Schema({
     descriptionHtml: { type: String, default: "Error" },
     categories: [{ type: Schema.Types.ObjectId, ref: "challenge_category" }],
     difficulty: { type: Number, min: 1, max: 5 },
-    defaultText: { type: String, required: true },
     testFile: { type: String, required: true },
-    className: { type: String, default: "Test" }
+    classes: [
+        { name: { type: String, required: true }, defaultText: { type: String, required: true } }
+    ]
 });
 
 // Index the name so it can be searched for
@@ -117,9 +118,13 @@ challengeSchema.statics.newChallenge = function(
         descriptionHtml: md.render(description),
         categories,
         difficulty,
-        defaultText,
         testFile,
-        className
+        classes: [
+            {
+                name: className,
+                defaultText
+            }
+        ]
     });
 
     newChall.save(cb);

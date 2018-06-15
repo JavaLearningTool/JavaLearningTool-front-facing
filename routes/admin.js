@@ -118,7 +118,7 @@ router.get("/new_challenge", function(req, res, next) {
             codeBox: true,
             removeHeader: true,
             styles: ["codemirror", "adminStyle"],
-            scripts: ["adminBundle", "codemirror", "clike"],
+            scripts: ["codemirror", "clike", "adminBundle"],
             categories
         });
     });
@@ -179,7 +179,7 @@ router.get("/challenge/:id", function(req, res, next) {
             codeBox: true,
             removeHeader: true,
             styles: ["codemirror", "adminStyle"],
-            scripts: ["adminBundle", "codemirror", "clike"],
+            scripts: ["codemirror", "clike", "adminBundle"],
             challenge,
             categories
         });

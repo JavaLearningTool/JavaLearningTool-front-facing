@@ -37,6 +37,11 @@ html
             window.adminCategories = !{JSON.stringify(categories)};
             window.adminAttempts = !{JSON.stringify(attempts)};
     - }
+
+    - if (challenge && challenge.classes) {
+        script.
+            window.classes = !{JSON.stringify(challenge.classes)};
+    - }
     
     - if (scripts) {
         - for (let i = 0; i < scripts.length; i++) {
@@ -45,32 +50,12 @@ html
     -}
 
     - if (codeBox) {
-      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/edit/matchbrackets.min.js")
-      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldcode.min.js")
-      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.js")
-      script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/brace-fold.min.js")
-      script.
-        (function() {
-            document.codeMirror = CodeMirror.fromTextArea(document.getElementById("code_area"), {
-                lineNumbers: true,
-                mode: "text/x-java",
-                matchBrackets: true,
-                indentWithTabs: false,
-                indentUnit: 4,
-                tabSize: 4,
-                tabMode: "spaces",
-                smartIndent: true,
-                autofocus: true,
-                matchBrackets: true,
-                foldGutter: true,
-                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-            });
-            window.challengePath = "!{challenge.testFile}";
-            window.className = "!{challenge.className}";
-            window.challengeDefaultText = !{JSON.stringify(challenge.defaultText)};
-            console.log("Path: " + window.challengePath);
-
-            window.onCodeMirrorLoad();
-
-        })();
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/edit/matchbrackets.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldcode.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/brace-fold.min.js")
+        - if (challenge) {
+            script.
+                window.challengePath = "!{challenge.testFile}";
+        -}
     - }

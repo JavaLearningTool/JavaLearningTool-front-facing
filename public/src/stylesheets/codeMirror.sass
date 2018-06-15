@@ -4,10 +4,49 @@
     background-color: $grey-area-background
 
 .codeEditorHeader
-    padding: 10px
+    background-color: $grey-area-background
     border-bottom: 1px solid $grey-area-border
     justify-content: space-between
     align-items: center
+
+.leftSide
+    display: flex
+    align-items: center
+
+.fileNav
+    display: flex
+    align-items: center
+    padding-right: 10px
+    margin-left: 40px 
+
+.classTab
+    box-sizing: border-box
+    padding: 10px 20px
+    border-right: 1px solid $grey-area-border
+    border-left: 1px solid $grey-area-border
+    cursor: pointer
+    display: inline-block
+
+    &:hover, &.selected
+        background-color: $grey-area-hover
+
+    &:hover
+        .destroy-class
+            visibility: visible
+
+.destroy-class
+    color: $font-white
+    font-weight: 1000
+    visibility: hidden
+    margin-left: 15px
+    padding: 4px
+
+.new-class-namer
+    display: flex
+    align-items: center
+
+.create-class-button
+    margin-left: 5px
 
 .CodeMirror
     height: auto
@@ -15,6 +54,7 @@
 .CodeMirror-gutters
     background: $grey-area-background
     border-right: 1px solid $grey-area-border
+    width: 40px
 
 .CodeMirror-scroll
     min-height: 200px

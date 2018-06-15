@@ -549,7 +549,7 @@ a {
   background-color: white;
   transition: .3s; }
   .card.flat {
-    box-shadow: 0 0 0 0 transparent; }
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); }
     .card:hover.non-hover {
@@ -659,17 +659,54 @@ a {
   background-color: #f5f5f5; }
 
 .codeEditorHeader {
-  padding: 10px;
+  background-color: #f5f5f5;
   border-bottom: 1px solid #ccc;
   justify-content: space-between;
   align-items: center; }
+
+.leftSide {
+  display: flex;
+  align-items: center; }
+
+.fileNav {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  margin-left: 40px; }
+
+.classTab {
+  box-sizing: border-box;
+  padding: 10px 20px;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  cursor: pointer;
+  display: inline-block; }
+  .classTab:hover, .classTab.selected {
+    background-color: #ccc; }
+  .classTab:hover .destroy-class {
+    visibility: visible; }
+
+.destroy-class {
+  color: white;
+  font-weight: 1000;
+  visibility: hidden;
+  margin-left: 15px;
+  padding: 4px; }
+
+.new-class-namer {
+  display: flex;
+  align-items: center; }
+
+.create-class-button {
+  margin-left: 5px; }
 
 .CodeMirror {
   height: auto; }
 
 .CodeMirror-gutters {
   background: #f5f5f5;
-  border-right: 1px solid #ccc; }
+  border-right: 1px solid #ccc;
+  width: 40px; }
 
 .CodeMirror-scroll {
   min-height: 200px; }
