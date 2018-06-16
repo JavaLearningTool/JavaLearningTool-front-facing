@@ -1,7 +1,7 @@
 "use strict";
 import { setInterval } from "timers";
 
-export class CodeEditorController {
+export default class CodeEditorController {
     /**
      * Constructs the CodeEditorController
      *
@@ -87,7 +87,6 @@ export class CodeEditorController {
                 this.createNewClassDoc(classes[i]);
             }
 
-            console.log("Beg");
             // Show the initial class
             this.showClass(0);
         }
@@ -98,7 +97,6 @@ export class CodeEditorController {
         this.classes.push(newClass);
 
         this.createNewClassDoc(newClass);
-        console.log("new");
         this.showClass(this.classes.length - 1);
     }
 
@@ -113,7 +111,6 @@ export class CodeEditorController {
     }
 
     showClass(index) {
-        console.log(this.classes, this.classIndex);
         // All classes are deleted
         if (index < 0) {
             // Put a new empty doc there
@@ -187,7 +184,7 @@ export class CodeEditorController {
     /**
      * Resets the text of this codeMirror to its default
      */
-    resetText(index) {
-        this.codeMirror.getDoc().setValue(this.classes[index].defaultText);
+    resetText() {
+        this.codeMirror.getDoc().setValue(this.classes[this.classIndex].defaultText);
     }
 }

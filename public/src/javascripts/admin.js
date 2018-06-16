@@ -53,18 +53,28 @@ if (adminDiv) {
 
 // If we need an editor, render it here
 const editorDiv = document.getElementsByClassName("codeEditor")[0];
+let codeEditor;
 
 if (editorDiv) {
-    let defaultClass = {
-        name: "Test",
-        defaultText:
-            "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
-    };
-    let component = ReactDOM.render(
-        <CodeEditor allowNewClasses={true} classes={[defaultClass]} handleSaving={false} />,
+    let classes = [];
+
+    if (window.classes && window.classes.length > 0) {
+        classes = window.classes;
+    } else {
+        classes = [
+            {
+                name: "Test",
+                defaultText:
+                    "public class Test {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}"
+            }
+        ];
+    }
+
+    codeEditor = ReactDOM.render(
+        <CodeEditor allowNewClasses={true} classes={classes} handleSaving={false} />,
         editorDiv
     );
-    component.setupCodeMirror();
+    codeEditor.setupCodeMirror();
 }
 
 // Setup functions for various buttons to call
@@ -136,17 +146,16 @@ window.addChallenge = function() {
     window.location.href = "/admin/new_challenge";
 };
 
-// Gets the code editor for creating the classes of this file
-function getChallengeCodeEditor() {}
-
 // When you create a new challenge
 window.putChallenge = function() {
     let name = document.getElementById("name").value;
     let description = document.getElementById("description").value;
     let difficulty = document.getElementById("difficulty").value;
     let testFile = document.getElementById("test_file").value;
-    let className = document.getElementById("className").value;
-    let defaultText = document.codeMirror.getValue();
+    let classes = [];
+    codeEditor.getClasses().forEach(element => {
+        classes.push({ name: element.name, defaultText: element.doc.getValue() });
+    });
 
     axios
         .post("/admin/challenge", {
@@ -154,9 +163,8 @@ window.putChallenge = function() {
             description,
             categories,
             difficulty,
-            defaultText,
             testFile,
-            className
+            classes
         })
         .then(function(res) {
             window.location.href = "/admin/tab/Challenges";
@@ -172,9 +180,12 @@ window.patchChallenge = function(id) {
     let name = document.getElementById("name").value;
     let description = document.getElementById("description").value;
     let difficulty = document.getElementById("difficulty").value;
-    let defaultText = document.codeMirror.getValue();
-    let className = document.getElementById("className").value;
     let testFile = document.getElementById("test_file").value;
+
+    let classes = [];
+    codeEditor.getClasses().forEach(element => {
+        classes.push({ name: element.name, defaultText: element.doc.getValue() });
+    });
 
     axios
         .patch("/admin/challenge/" + id, {
@@ -182,9 +193,8 @@ window.patchChallenge = function(id) {
             description,
             categories,
             difficulty,
-            defaultText,
             testFile,
-            className
+            classes
         })
         .then(function(res) {
             window.location.href = "/admin/tab/Challenges";

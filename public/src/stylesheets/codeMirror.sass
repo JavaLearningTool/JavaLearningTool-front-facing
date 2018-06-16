@@ -19,13 +19,18 @@
     padding-right: 10px
     margin-left: 40px 
 
+    .plus-button
+        margin-left: 10px
+
 .classTab
     box-sizing: border-box
     padding: 10px 20px
     border-right: 1px solid $grey-area-border
-    border-left: 1px solid $grey-area-border
     cursor: pointer
     display: inline-block
+
+    &:first-child
+        border-left: 1px solid $grey-area-border
 
     &:hover, &.selected
         background-color: $grey-area-hover

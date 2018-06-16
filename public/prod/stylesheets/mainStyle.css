@@ -729,14 +729,17 @@ pre.resultField {
   align-items: center;
   padding-right: 10px;
   margin-left: 40px; }
+  .fileNav .plus-button {
+    margin-left: 10px; }
 
 .classTab {
   box-sizing: border-box;
   padding: 10px 20px;
   border-right: 1px solid #ccc;
-  border-left: 1px solid #ccc;
   cursor: pointer;
   display: inline-block; }
+  .classTab:first-child {
+    border-left: 1px solid #ccc; }
   .classTab:hover, .classTab.selected {
     background-color: #ccc; }
   .classTab:hover .destroy-class {

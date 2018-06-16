@@ -1,7 +1,7 @@
 "use strict";
 
 import React from "react";
-import { CodeEditorController } from "../codeEditorController";
+import CodeEditorController from "../codeEditorController";
 
 class CodeEditor extends React.Component {
     constructor(props) {
@@ -13,18 +13,18 @@ class CodeEditor extends React.Component {
     }
 
     render() {
-        let leftItemBar = [];
+        let fileNavContents = [];
 
         // Add all of the classes to the file nav
         this.state.editor.classes.forEach((cls, index) => {
-            leftItemBar.push(this.renderClassTab(cls, index));
+            fileNavContents.push(this.renderClassTab(cls, index));
         });
 
         // Only if we allow creating new classes
         if (this.props.allowNewClasses) {
             // Naming the new class after pressing add
             if (this.state.namingNewClass) {
-                leftItemBar.push(
+                fileNavContents.push(
                     <div key="name-class" className="new-class-namer">
                         <input type="text" id="classNameDiv" placeholder="class name" />
                         <div
@@ -37,9 +37,9 @@ class CodeEditor extends React.Component {
                 );
             } else {
                 // Add button
-                leftItemBar.push(
+                fileNavContents.push(
                     <div
-                        className="pure-button pure-button-primary"
+                        className="pure-button pure-button-primary plus-button"
                         key="add-class"
                         onClick={this.promptClassName.bind(this)}
                     >
@@ -58,13 +58,13 @@ class CodeEditor extends React.Component {
             <div>
                 <div className="codeEditorHeader flex-container">
                     <div className="leftSide">
-                        <div className="fileNav">{leftItemBar}</div>
+                        <div className="fileNav">{fileNavContents}</div>
                         {savedLabel}
                     </div>
                     <div
                         id="resetTextButton"
                         className="pure-button button-success"
-                        onClick={this.state.editor.resetText}
+                        onClick={this.state.editor.resetText.bind(this.state.editor)}
                     >
                         "Reset to default"
                     </div>
@@ -88,7 +88,6 @@ class CodeEditor extends React.Component {
     }
 
     deleteClass(index, event) {
-        console.log(event);
         event.stopPropagation();
         this.state.editor.deleteClass(index);
 
@@ -102,9 +101,12 @@ class CodeEditor extends React.Component {
     }
 
     selectClass(index) {
-        console.log("Noooo");
         this.state.editor.showClass(index);
         this.setState({ editor: this.state.editor });
+    }
+
+    getClasses() {
+        return this.state.editor.classes;
     }
 
     // ========================================================================

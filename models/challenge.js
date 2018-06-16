@@ -107,9 +107,8 @@ challengeSchema.statics.newChallenge = function(
     description,
     categories,
     difficulty,
-    defaultText,
     testFile,
-    className,
+    classes,
     cb
 ) {
     let newChall = this({
@@ -119,12 +118,7 @@ challengeSchema.statics.newChallenge = function(
         categories,
         difficulty,
         testFile,
-        classes: [
-            {
-                name: className,
-                defaultText
-            }
-        ]
+        classes
     });
 
     newChall.save(cb);

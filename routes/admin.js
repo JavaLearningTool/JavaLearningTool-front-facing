@@ -235,9 +235,8 @@ router.post("/challenge", function(req, res, next) {
             req.body.description,
             req.body.categories,
             req.body.difficulty,
-            req.body.defaultText,
             req.body.testFile,
-            req.body.className,
+            req.body.classes,
             function(err) {
                 if (err) {
                     logger.error("Error in route /admin/challenge saving challenge. ", err);
