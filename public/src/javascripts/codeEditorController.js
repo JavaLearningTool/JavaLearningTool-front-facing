@@ -21,15 +21,15 @@ export default class CodeEditorController {
         this.classIndex = 0;
 
         this.challengePath = challengePath;
-
         this.handleSaving = options.handleSaving === undefined ? true : false;
-        if (this.handleSaving) {
-            this.shouldSave = false;
-            this.changeSpan = document.getElementsByClassName("saving")[0];
-        }
     }
 
+    /**
+     * Captures all of the necessary html elements and does other general setup
+     * for the CodeEditor. Call this after the TextArea is already rendered
+     */
     loadCodeMirror() {
+        // Create the code mirror
         this.codeMirror = CodeMirror.fromTextArea(document.getElementById("code_area"), {
             lineNumbers: true,
             mode: "text/x-java",
@@ -45,8 +45,32 @@ export default class CodeEditorController {
             gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         });
 
+        // Signal to the window that the code mirror is loaded
         if (window.codeMirrorLoad) {
             window.onCodeMirrorLoad();
+        }
+
+        // If we have the classes, loop through each one and set up their
+        // CodeMirror docs
+        if (this.classes && this.classes[0]) {
+            // First class should use existing doc, no need to create another one
+            this.classes[0].doc = this.codeMirror.getDoc();
+            this.classes[0].doc.setValue(this.classes[0].defaultText);
+            this.load(0);
+
+            // All of the other classes will need to create new docs
+            for (let i = 1; i < this.classes.length; i++) {
+                this.createNewClassDoc(i);
+            }
+
+            // Show the initial class
+            this.showClass(0);
+        }
+
+        if (this.handleSaving) {
+            this.shouldSave = false;
+            // Capture the save label
+            this.changeSpan = document.getElementsByClassName("saving")[0];
         }
 
         // Take note when a change has happened
@@ -78,38 +102,49 @@ export default class CodeEditorController {
                 }
             });
         }
-
-        if (this.classes && this.classes[0]) {
-            // Initialize docs
-            this.classes[0].doc = this.codeMirror.getDoc();
-            this.classes[0].doc.setValue(this.classes[0].defaultText);
-            for (let i = 1; i < this.classes.length; i++) {
-                this.createNewClassDoc(classes[i]);
-            }
-
-            // Show the initial class
-            this.showClass(0);
-        }
     }
 
+    /**
+     * Creates and tracks a new class for the editor.
+     * Also shows the new class.
+     *
+     * @param {String} name name of the class
+     */
     createNewClass(name) {
         let newClass = { name, defaultText: "" };
         this.classes.push(newClass);
 
-        this.createNewClassDoc(newClass);
+        // Get a doc for the class
+        this.createNewClassDoc(this.classes.length - 1);
+
+        // Go ahead and show the class
         this.showClass(this.classes.length - 1);
     }
 
-    createNewClassDoc(cls) {
+    /**
+     * Creates a new CodeMirror Doc for this class to use
+     *
+     * @param {Number} index which class to create a doc for
+     */
+    createNewClassDoc(index) {
+        let cls = this.classes[index];
         if (this.classes.length === 1) {
             // First class to be made, use doc that's there
             cls.doc = this.codeMirror.getDoc();
         } else {
             // Must make new doc
-            cls.doc = CodeMirror.Doc(cls.defaultText || "", "text/x-java");
+            let savedText = this.load(index);
+            cls.doc = CodeMirror.Doc(savedText || cls.defaultText || "", "text/x-java");
         }
     }
 
+    /**
+     * Switches the CodeMirrors doc to the doc of the class to show.
+     *
+     * If there are no classes left, pass in an index < 0. This will create a
+     * new Doc and leave it there for the next class created to use
+     * @param {Number} index which class to show
+     */
     showClass(index) {
         // All classes are deleted
         if (index < 0) {
@@ -125,13 +160,17 @@ export default class CodeEditorController {
             let savedText = this.load();
             if (savedText) {
                 cls.doc.setValue(savedText);
-                cls.hasLoaded = true;
             }
         }
 
         this.codeMirror.swapDoc(cls.doc);
     }
 
+    /**
+     * Removes the class at index from the editor
+     *
+     * @param {Number} index
+     */
     deleteClass(index) {
         this.classes.splice(index, 1);
         if (this.classIndex >= this.classes.length) {
@@ -142,16 +181,15 @@ export default class CodeEditorController {
     }
 
     /**
-     * Stores value at path in local storage
-     *
-     * @param {String} path
-     * @param {String} value
+     * Stores all classes in windows local storage
      */
     store() {
         if (window.localStorage) {
-            let path = this.getClassStorePath();
-            let value = this.codeMirror.getValue();
-            window.localStorage.setItem(path, value);
+            for (let i = 0; i < this.classes.length; i++) {
+                let path = this.getClassStorePath(i);
+                let value = this.classes[i].doc.getValue();
+                window.localStorage.setItem(path, value);
+            }
             return true;
         } else {
             return false;
@@ -161,23 +199,31 @@ export default class CodeEditorController {
     /**
      * Loads value from path in local storage
      *
-     * @param {String} path
+     * @param {Number} index index class to load. Defaults to currently shown class
      */
-    load() {
+    load(index) {
+        index = index !== undefined ? index : this.classIndex;
+        this.classes[index].hasLoaded = true;
+
         if (window.localStorage) {
-            let path = this.getClassStorePath();
+            let path = this.getClassStorePath(index);
             return window.localStorage.getItem(path);
         }
     }
 
-    getClassStorePath() {
-        let cls = this.classes[this.classIndex];
+    /**
+     * What name to use for local storage
+     *
+     * @param {Number} index which class to get the path of
+     */
+    getClassStorePath(index) {
+        let cls = this.classes[index];
 
         // Backwards compatibility for when there weren't multiple classes allowed
         if (this.classes.length === 1) {
             return this.challengePath + "_save";
         } else {
-            return this.challengePath + "_" + cls.className + "_save";
+            return this.challengePath + "_" + cls.name + "_save";
         }
     }
 

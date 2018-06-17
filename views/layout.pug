@@ -38,9 +38,14 @@ html
             window.adminAttempts = !{JSON.stringify(attempts)};
     - }
 
-    - if (challenge && challenge.classes) {
+    - if (challenge) {
         script.
-            window.classes = !{JSON.stringify(challenge.classes)};
+            window.challengePath = "!{challenge.testFile}";
+
+        - if (challenge.classes) {
+            script.
+                window.classes = !{JSON.stringify(challenge.classes)};
+        - }
     - }
     
     - if (scripts) {
@@ -54,8 +59,4 @@ html
         script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldcode.min.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/foldgutter.min.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/fold/brace-fold.min.js")
-        - if (challenge) {
-            script.
-                window.challengePath = "!{challenge.testFile}";
-        -}
     - }

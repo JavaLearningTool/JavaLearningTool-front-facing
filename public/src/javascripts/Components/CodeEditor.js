@@ -7,12 +7,16 @@ class CodeEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.state.editor = new CodeEditorController("", this.props.classes, {
+        this.state.editor = new CodeEditorController(this.props.challengePath, this.props.classes, {
             handleSaving: props.handleSaving
         });
     }
 
+    /**
+     * React calls this to render the element
+     */
     render() {
+        // Holds all of the contents of the file nav
         let fileNavContents = [];
 
         // Add all of the classes to the file nav
@@ -22,8 +26,8 @@ class CodeEditor extends React.Component {
 
         // Only if we allow creating new classes
         if (this.props.allowNewClasses) {
-            // Naming the new class after pressing add
             if (this.state.namingNewClass) {
+                // Adds input for name of class if naming a new class
                 fileNavContents.push(
                     <div key="name-class" className="new-class-namer">
                         <input type="text" id="classNameDiv" placeholder="class name" />
@@ -36,7 +40,7 @@ class CodeEditor extends React.Component {
                     </div>
                 );
             } else {
-                // Add button
+                // Puts an add button in the file nav to add new classes
                 fileNavContents.push(
                     <div
                         className="pure-button pure-button-primary plus-button"
@@ -49,6 +53,7 @@ class CodeEditor extends React.Component {
             }
         }
 
+        // Create a label for broadcasting that changes are saved
         let savedLabel;
         if (this.state.editor.handleSaving) {
             savedLabel = <span className="saving">"No changes made"</span>;
@@ -74,10 +79,16 @@ class CodeEditor extends React.Component {
         );
     }
 
+    /**
+     * Tells the CodeMirrorController to setup the CodeMirror
+     */
     setupCodeMirror() {
         this.state.editor.loadCodeMirror();
     }
 
+    /**
+     * Adds a new class
+     */
     createClass() {
         let name = document.getElementById("classNameDiv").value;
         this.state.editor.createNewClass(name);
@@ -87,6 +98,12 @@ class CodeEditor extends React.Component {
         });
     }
 
+    /**
+     * Deletes a class
+     *
+     * @param {Number} index index of the class to delete
+     * @param {object} event The click event
+     */
     deleteClass(index, event) {
         event.stopPropagation();
         this.state.editor.deleteClass(index);
@@ -96,23 +113,47 @@ class CodeEditor extends React.Component {
         });
     }
 
+    /**
+     * Changes the file nav to show an input to for the name of the new class
+     */
     promptClassName() {
         this.setState({ namingNewClass: true });
     }
 
+    /**
+     * Switches which class is currently being edited and shown
+     *
+     * @param {Number} index the index of the class to show
+     */
     selectClass(index) {
         this.state.editor.showClass(index);
         this.setState({ editor: this.state.editor });
     }
 
+    /**
+     * Returns all of the classes this CodeEditor has
+     */
     getClasses() {
         return this.state.editor.classes;
+    }
+
+    /**
+     * Returns the challenge path
+     */
+    getChallengePath() {
+        return this.state.editor.challengePath;
     }
 
     // ========================================================================
     // Renderers
     // ========================================================================
 
+    /**
+     * Renders the tab for a class in the file nav
+     *
+     * @param {object} cls the class to render
+     * @param {Number} index which index this class is
+     */
     renderClassTab(cls, index) {
         let destroyButton;
         if (this.props.allowNewClasses) {

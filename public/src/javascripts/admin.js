@@ -51,7 +51,7 @@ if (adminDiv) {
     window.onpopstate = pickTab;
 }
 
-// If we need an editor, render it here
+// If there is codeEditor handle rendering it here
 const editorDiv = document.getElementsByClassName("codeEditor")[0];
 let codeEditor;
 
@@ -59,8 +59,10 @@ if (editorDiv) {
     let classes = [];
 
     if (window.classes && window.classes.length > 0) {
+        // If this challenge already has classes associated with it
         classes = window.classes;
     } else {
+        // Default class if none exist already
         classes = [
             {
                 name: "Test",

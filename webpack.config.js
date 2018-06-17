@@ -16,9 +16,8 @@ const extractMainCss = new ExtractTextPlugin({
 
 const config = {
     entry: {
-        challenge: SRC_DIR + "/javascripts/challenge.js",
-        testResults: [
-            SRC_DIR + "/javascripts/testResultsWidget.js",
+        challenge: [
+            SRC_DIR + "/javascripts/challenge.js",
             SRC_DIR + "/stylesheets/_mainBundle.sass"
         ],
         admin: [SRC_DIR + "/javascripts/admin.js", SRC_DIR + "/stylesheets/_adminBundle.sass"],

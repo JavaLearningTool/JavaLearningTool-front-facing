@@ -84,16 +84,37 @@ router.post("/compile", cas.checkLoggedIn("You have been logged out. Refresh pag
     res,
     next
 ) {
-    logger.debug("SRC Code: " + req.body.code);
+    logger.debug("SRC Code: " + JSON.stringify(req.body.classes));
     logger.debug("User compiling: " + userManager.getUser(req.session));
 
     // Debug results for when testing on device that can't properly run the compiler
     // res.json([
-    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" },
-    //     { passed: "false", expected: "Hello W\\n", actual: "Hello World\\n", timeout:"true", time:"32", input:"1, 2, 3"  },
-    //     { passed: "true", expected: "Hello World\\n", actual: "Hello World\\n", timeout:"false", time:"32", input:"1, 2, 3" }
+    //     {
+    //         passed: "true",
+    //         expected: "Hello World\\n",
+    //         actual: "Hello World\\n",
+    //         timeout: "false",
+    //         time: "32",
+    //         input: "1, 2, 3"
+    //     },
+    //     {
+    //         passed: "false",
+    //         expected: "Hello W\\n",
+    //         actual: "Hello World\\n",
+    //         timeout: "true",
+    //         time: "32",
+    //         input: "1, 2, 3"
+    //     },
+    //     {
+    //         passed: "true",
+    //         expected: "Hello World\\n",
+    //         actual: "Hello World\\n",
+    //         timeout: "false",
+    //         time: "32",
+    //         input: "1, 2, 3"
+    //     }
     // ]);
-
+    //
     // return;
 
     // Make a request to the compiler route and pass in user code, challenge name, and class name
@@ -102,9 +123,8 @@ router.post("/compile", cas.checkLoggedIn("You have been logged out. Refresh pag
             url: "http://" + process.env.COMPILER_ROUTE + ":8080",
             method: "POST",
             form: {
-                src: req.body.code,
-                challenge: req.body.challenge,
-                className: req.body.className
+                classes: req.body.classes,
+                challenge: req.body.challenge
             }
         },
         function(error, response, body) {
@@ -179,7 +199,7 @@ router.get("/challenge/:path", async function(req, res, next) {
             title: challenge.name,
             codeBox: true,
             styles: ["codemirror", "mainStyle"],
-            scripts: ["codemirror", "clike", "challengeBundle", "testResultsBundle"]
+            scripts: ["codemirror", "clike", "challengeBundle"]
         });
     } catch (err) {
         if (err) {
