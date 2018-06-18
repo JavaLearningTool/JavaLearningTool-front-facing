@@ -21,7 +21,7 @@ export default class CodeEditorController {
         this.classIndex = 0;
 
         this.challengePath = challengePath;
-        this.handleSaving = options.handleSaving === undefined ? true : false;
+        this.handleSaving = options.handleSaving === undefined ? true : options.handleSaving;
     }
 
     /**
@@ -55,8 +55,8 @@ export default class CodeEditorController {
         if (this.classes && this.classes[0]) {
             // First class should use existing doc, no need to create another one
             this.classes[0].doc = this.codeMirror.getDoc();
-            this.classes[0].doc.setValue(this.classes[0].defaultText);
-            this.load(0);
+            let savedText = this.load(0);
+            this.classes[0].doc.setValue(savedText || cls.defaultText || "", "text/x-java");
 
             // All of the other classes will need to create new docs
             for (let i = 1; i < this.classes.length; i++) {

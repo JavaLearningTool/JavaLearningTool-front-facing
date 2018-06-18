@@ -15,7 +15,11 @@ let resultsComponent;
 if (editorDiv) {
     // Creates editor component
     editor = ReactDOM.render(
-        <CodeEditor challengePath={window.challengePath} classes={window.classes} />,
+        <CodeEditor
+            challengePath={window.challengePath}
+            classes={window.classes}
+            handleSaving={true}
+        />,
         editorDiv
     );
     // After creating the component tell it to setup the codeMirror
