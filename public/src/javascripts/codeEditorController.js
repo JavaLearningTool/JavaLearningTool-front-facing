@@ -56,7 +56,10 @@ export default class CodeEditorController {
             // First class should use existing doc, no need to create another one
             this.classes[0].doc = this.codeMirror.getDoc();
             let savedText = this.load(0);
-            this.classes[0].doc.setValue(savedText || cls.defaultText || "", "text/x-java");
+            this.classes[0].doc.setValue(
+                savedText || this.classes[0].defaultText || "",
+                "text/x-java"
+            );
 
             // All of the other classes will need to create new docs
             for (let i = 1; i < this.classes.length; i++) {
