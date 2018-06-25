@@ -19,7 +19,7 @@ function breakToNewLine(str) {
     return str.replace(/\<br\>/g, "\n");
 }
 
-router.get("/*", cas.bounce("/admin"), function(req, res, next) {
+router.get("/*", cas.bounce(), function(req, res, next) {
     if (userManager.isAdmin(req.session)) {
         next();
     } else {
