@@ -23,7 +23,6 @@ function getServiceString(protocol, host, redirect) {
         service += "/?redirect=" + redirect;
     }
 
-    service = encodeURIComponent(service);
     return service;
 }
 
@@ -38,7 +37,7 @@ router.get("/login/:redirect?", function(req, res, next) {
     if (process.env.DEV === "true") {
         // If in dev, don't redirect to gatech cas
         logger.warn("DEV set to true.");
-        res.redirect("/auth/authenticate/?redirect=" + encodeURIComponent(req.query.redirect));
+        res.redirect("/auth/authenticate/?redirect=" + req.query.redirect);
         return;
     }
 
@@ -66,6 +65,8 @@ router.get("/authenticate", function(req, res, next) {
         if (admins.indexOf(user) >= 0) {
             req.session.admin = true;
         }
+
+        let temp = decodeURI(req.query.redirect);
 
         // Redirect to the desired route
         res.redirect(
