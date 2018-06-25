@@ -69,5 +69,5 @@ window.runSearch = function() {
         queryString += "showPassed=true";
     }
 
-    window.location.href = encodeURI("/search" + queryString);
+    window.location.href = "/search" + queryString;
 };
