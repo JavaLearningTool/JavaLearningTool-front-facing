@@ -11,17 +11,21 @@ module.exports.sessionCasName = SESSION_CAS_NAME;
  * If no route is specified it defaults to the route from the original url.
  */
 module.exports.bounce = function(redirect) {
-    if (redirect.charAt(0) === "/") {
-        redirect = redirect.substr(1, redirect.length);
-    }
-    redirect = encodeURIComponent(redirect);
-    redirect = "/" + redirect;
-
     return (req, res, next) => {
         if (userManager.loggedIn(req.session)) {
             // Session has already been logged in and authenticated
             next();
         } else {
+            if (!redirect) {
+                redirect = req.originalUrl;
+            }
+
+            if (redirect.charAt(0) === "/") {
+                redirect = redirect.substr(1, redirect.length);
+            }
+            redirect = encodeURIComponent(redirect);
+            redirect = "/" + redirect;
+
             res.redirect("/auth/login/?redirect=" + (redirect === undefined ? req.url : redirect));
         }
     };

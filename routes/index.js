@@ -220,7 +220,7 @@ router.get("/challenge/:path", async function(req, res, next) {
  * This would mean the user is searching for challenges that contain the word Hello
  * in the title
  */
-router.get("/search", cas.bounce("/search"), async function(req, res, next) {
+router.get("/search", cas.bounce(), async function(req, res, next) {
     logger.debug(req.query);
 
     let errorHappened = false;
