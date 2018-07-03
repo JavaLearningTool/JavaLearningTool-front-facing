@@ -23,6 +23,9 @@ module.exports.bounce = function(redirect) {
             if (redirect.charAt(0) === "/") {
                 redirect = redirect.substr(1, redirect.length);
             }
+
+            // Browser likes to encode stuff. Don't want to double encode
+            redirect = decodeURIComponent(redirect);
             redirect = encodeURIComponent(redirect);
             redirect = "/" + redirect;
 
