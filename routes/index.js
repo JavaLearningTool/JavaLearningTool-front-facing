@@ -198,8 +198,8 @@ router.get("/challenge/:path", async function(req, res, next) {
             challenge,
             title: challenge.name,
             codeBox: true,
-            styles: ["codemirror", "mainStyle"],
-            scripts: ["codemirror", "clike", "challengeBundle"]
+            styles: ["mainStyle"],
+            scripts: ["challengeBundle"]
         });
     } catch (err) {
         if (err) {

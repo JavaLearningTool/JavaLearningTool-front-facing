@@ -117,8 +117,8 @@ router.get("/new_challenge", function(req, res, next) {
             title: "Admin",
             codeBox: true,
             removeHeader: true,
-            styles: ["codemirror", "adminStyle"],
-            scripts: ["codemirror", "clike", "adminBundle"],
+            styles: ["adminStyle"],
+            scripts: ["adminBundle"],
             categories
         });
     });
@@ -178,8 +178,8 @@ router.get("/challenge/:id", function(req, res, next) {
             title: challenge.name,
             codeBox: true,
             removeHeader: true,
-            styles: ["codemirror", "adminStyle"],
-            scripts: ["codemirror", "clike", "adminBundle"],
+            styles: ["adminStyle"],
+            scripts: ["adminBundle"],
             challenge,
             categories
         });

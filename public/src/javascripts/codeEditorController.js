@@ -40,10 +40,33 @@ export default class CodeEditorController {
             tabMode: "spaces",
             smartIndent: true,
             autofocus: true,
-            matchBrackets: true,
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            matchBrackets: true, // matchbrackets.js
+            autoCloseBrackets: true, // closebrackets.js
+            foldGutter: true, // foldgutter.js
+            fold: {
+                comment: true, // foldcomment.js
+                brace: true // foldbrace.js
+            },
+            keyMap: "sublime",
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            showTrailingSpace: true, // trailingspace.js
+            styleSelectedText: true, // mark-selection.js
+            highlightSelectionMatches: true, // match-highlighter.js
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            hintOptions: { hint: CodeMirror.hint.anyword }, // anyword-hint.js
+            showCursorWhenSelecting: true
         });
+
+        // Hint options on key up
+        this.codeMirror.on(
+            "keyup",
+            function(cm, event) {
+                // cm.state.completionActive Enables keyboard navigation in autocomplete list
+                if (!cm.state.completionActive && this.shouldTryToAutocomplete(event.keyCode)) {
+                    CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
+                }
+            }.bind(this)
+        );
 
         // Signal to the window that the code mirror is loaded
         if (window.codeMirrorLoad) {
@@ -235,5 +258,14 @@ export default class CodeEditorController {
      */
     resetText() {
         this.codeMirror.getDoc().setValue(this.classes[this.classIndex].defaultText);
+    }
+
+    /**
+     * Determines if code mirror should try to autocomplete
+     * @param {int} keycode
+     */
+    shouldTryToAutocomplete(keycode) {
+        let char = String.fromCharCode(event.keyCode);
+        return /[a-zA-Z0-9]/.test(char);
     }
 }
