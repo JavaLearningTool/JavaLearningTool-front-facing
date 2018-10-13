@@ -295,7 +295,7 @@ async function routeSearch(req, res, next, name, difficulty, categories, showPas
  * Takes the category's id as part of the url.
  *
  * Example path: /category/12345
- * This serve the client with a web page that has all of the challenges of category
+ * This would serve the client with a web page that has all of the challenges of category
  * 12345.
  */
 router.get("/category/:id", cas.bounce(), async function(req, res, next) {
