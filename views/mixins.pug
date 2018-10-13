@@ -5,7 +5,7 @@ mixin challenge(challenge, onclick)
         p= "Difficulty: " + diff[challenge.difficulty - 1]
 
 mixin category(category)
-    div(class="card category-container" onclick="window.location.href=\"/search?categories=[\\\"" + category._id + "\\\"]&showPassed=true\"")
+    div(class="card category-container" onclick="window.location.href=\"/category/" + category._id + "\"" )
         h2= category.title
         p= category.description
 

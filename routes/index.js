@@ -41,7 +41,8 @@ router.get("/", async function(req, res, next) {
 });
 
 /**
- * Route made for load testing compilation
+ * Route made for load testing compilation.
+ * DON'T USE FOR PRODUCTION
  */
 router.post("/testCompile", function(req, res, next) {
     request.post(
@@ -88,6 +89,7 @@ router.post("/compile", cas.checkLoggedIn("You have been logged out. Refresh pag
     logger.debug("User compiling: " + userManager.getUser(req.session));
 
     // Debug results for when testing on device that can't properly run the compiler
+    //
     // res.json([
     //     {
     //         passed: "true",
@@ -212,33 +214,28 @@ router.get("/challenge/:path", async function(req, res, next) {
 });
 
 /**
- * Route for showing search results. This is used to search for challenges
+ * Used by search route and category route to display the appropriate challenges.
+ * If this is changed much in the future, maybe consider making categories its
+ * own logic for displaying challenges.
  *
- * Takes in search parameters as part of the url.
- *
- * Example path: /search?name=Hello
- * This would mean the user is searching for challenges that contain the word Hello
- * in the title
+ * @param req express request
+ * @param res express response
+ * @param next express next
+ * @param {String} name Optional name of the challenge to search for
+ * @param {String} difficulty Optional difficulty of the challenge to search for
+ * @param {Array} categories Optional array of category ids to search for
+ * @param {String|Boolean} showPassed boolean for whether or not to show already passed challenges
+ * @param {String} criteria if criteria is "Anything" then show all challenges
  */
-router.get("/search", cas.bounce(), async function(req, res, next) {
-    logger.debug(req.query);
-
-    let errorHappened = false;
-
-    // Get search parameters from query
-    let name = req.query.name;
-    let difficulty = req.query.difficulty;
-    let categories = req.query.categories;
-    let showPassed = req.query.showPassed;
-
+async function routeSearch(req, res, next, name, difficulty, categories, showPassed, criteria) {
     // If they are all undefined then no query was made and we want to go to search page
     // not search results page
     if (
         name === undefined &&
         difficulty === undefined &&
         categories === undefined &&
-        showPassed === undefined &&
-        req.query.criteria == undefined
+        criteria === undefined &&
+        showPassed === undefined
     ) {
         next();
     } else {
@@ -259,8 +256,8 @@ router.get("/search", cas.bounce(), async function(req, res, next) {
                 renderCriteria.difficulty = difficulty;
             }
             if (categories !== undefined) {
-                criteria.categories = { $in: JSON.parse(categories) }; // Is it dangerous parcing this?
-                renderCriteria.categories = JSON.parse(categories);
+                criteria.categories = { $in: categories };
+                renderCriteria.categories = categories;
             }
 
             // get categories that were searched for and challenges that matched query from database
@@ -290,12 +287,50 @@ router.get("/search", cas.bounce(), async function(req, res, next) {
             }
         }
     }
+}
+
+/**
+ * Route for searching for the challenges of a category.
+ *
+ * Takes the category's id as part of the url.
+ *
+ * Example path: /category/12345
+ * This serve the client with a web page that has all of the challenges of category
+ * 12345.
+ */
+router.get("/category/:id", cas.bounce(), async function(req, res, next) {
+    routeSearch(req, res, next, undefined, undefined, [req.params.id], true, undefined);
+});
+
+/**
+ * Route for showing search results. This is used to search for challenges
+ *
+ * Takes in search parameters as part of the url.
+ *
+ * Example path: /search?name=Hello
+ * This would mean the user is searching for challenges that contain the word Hello
+ * in the title
+ */
+router.get("/search", cas.bounce(), async function(req, res, next) {
+    logger.debug(req.query);
+
+    // Get search parameters from query
+    let name = req.query.name;
+    let difficulty = req.query.difficulty;
+    let categories = undefined;
+    if (req.query.categories) {
+        categories = JSON.parse(req.query.categories);
+    }
+    let showPassed = req.query.showPassed;
+    let criteria = req.query.criteria;
+
+    routeSearch(req, res, next, name, difficulty, categories, showPassed, criteria);
 });
 
 /**
  * Route for entering search criteria
  */
-router.get("/search", cas.bounce("/search"), async function(req, res, next) {
+router.get("/search", cas.bounce(), async function(req, res, next) {
     try {
         // Retrieve all categories from db
         let categories = await Category.findAll();

@@ -789,8 +789,8 @@ eval("/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_r
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/crschriever/Documents/Personal/JavaLearningTool/JavaLearningTool-front-facing/public/src/javascripts/admin.js */65);
-module.exports = __webpack_require__(/*! /home/crschriever/Documents/Personal/JavaLearningTool/JavaLearningTool-front-facing/public/src/stylesheets/_adminBundle.sass */81);
+__webpack_require__(/*! /home/crschriever/Documents/Projects/JavaLearningTool/JavaLearningTool-front-facing/public/src/javascripts/admin.js */65);
+module.exports = __webpack_require__(/*! /home/crschriever/Documents/Projects/JavaLearningTool/JavaLearningTool-front-facing/public/src/stylesheets/_adminBundle.sass */81);
 
 
 /***/ }),
