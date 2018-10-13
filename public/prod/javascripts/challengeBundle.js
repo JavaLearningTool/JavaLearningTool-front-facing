@@ -753,8 +753,8 @@ eval("/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, 
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/crschriever/Documents/Personal/JavaLearningTool/JavaLearningTool-front-facing/public/src/javascripts/challenge.js */61);
-module.exports = __webpack_require__(/*! /home/crschriever/Documents/Personal/JavaLearningTool/JavaLearningTool-front-facing/public/src/stylesheets/_mainBundle.sass */63);
+__webpack_require__(/*! /home/crschriever/Documents/Projects/JavaLearningTool/JavaLearningTool-front-facing/public/src/javascripts/challenge.js */61);
+module.exports = __webpack_require__(/*! /home/crschriever/Documents/Projects/JavaLearningTool/JavaLearningTool-front-facing/public/src/stylesheets/_mainBundle.sass */63);
 
 
 /***/ }),
