@@ -31,3 +31,10 @@ docker exec javalearningtool_mongo_1 mongodump --db JavaLearningTool --out /tmp/
 ```
 docker exec javalearningtool_mongo_1 mongorestore --db JavaLearningTool /tmp/backup/JavaLearningTool
 ```
+
+# Testing
+## Load Test
+Need to install artillery.
+```
+artillery run tests/load/complete_test.yml
+```

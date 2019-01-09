@@ -15,9 +15,7 @@ scenarios:
     weight: 95
     flow:
       - get:
-          url: "/search"
-      - get:
-          url: "/challenge/HelloWorld"
+          url: "/"
   - name: "Expensive Usage"
     weight: 4
     flow:
