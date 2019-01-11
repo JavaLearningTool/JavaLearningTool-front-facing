@@ -7,11 +7,13 @@ module.exports.sessionCasName = SESSION_CAS_NAME;
 /**
  * Check if the user is logged in. If not then redirect to the log in flow.
  *
- * @param {String} redirect the route to return to once logging in is finished.
+ * @param {String} redirectRoute the route to return to once logging in is finished.
  * If no route is specified it defaults to the route from the original url.
  */
-module.exports.bounce = function(redirect) {
+module.exports.bounce = function(redirectRoute) {
     return (req, res, next) => {
+        let redirect = redirectRoute;
+
         if (userManager.loggedIn(req.session)) {
             // Session has already been logged in and authenticated
             next();
