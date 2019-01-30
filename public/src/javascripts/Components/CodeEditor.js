@@ -71,7 +71,7 @@ class CodeEditor extends React.Component {
                         className="pure-button button-success"
                         onClick={this.state.editor.resetText.bind(this.state.editor)}
                     >
-                        "Reset to default"
+                        Reset to default
                     </div>
                 </div>
                 <textarea id="code_area" name="code" col="30" rows="10" />
